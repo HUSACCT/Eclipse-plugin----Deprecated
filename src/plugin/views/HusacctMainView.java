@@ -25,19 +25,16 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
 public class HusacctMainView extends ViewPart {	
-		JInternalFrame jif;
-		Frame frame;
 		ServiceProvider sp = ServiceProvider.getInstance();
-		
 	public HusacctMainView() {
 		
 	}
 
 	@Override
-	public void createPartControl(Composite parent) {	
-		Composite composite = new Composite(parent, SWT.EMBEDDED);		
-		jif = sp.getValidateService().getBrowseViolationsGUI();
-		frame = SWT_AWT.new_Frame(composite);
+	public void createPartControl(Composite parent) {		
+		JInternalFrame jif = sp.getValidateService().getBrowseViolationsGUI();
+		Composite composite = new Composite(parent, SWT.EMBEDDED);	
+		Frame frame = SWT_AWT.new_Frame(composite);
 		BorderLayout bl = new BorderLayout();
 		frame.setLayout(bl);
 		frame.add(jif.getRootPane(), BorderLayout.CENTER);		
