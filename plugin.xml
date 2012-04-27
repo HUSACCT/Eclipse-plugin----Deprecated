@@ -11,7 +11,7 @@
             allowMultiple="false"
             category="HUSACCT_Plugin.HUSACCT"
             class="plugin.views.HusacctMainView"
-            icon="icons/sample.gif"
+            icon="icons/HU-icon.gif"
             id="plugin.views.HusacctMainView"
             name="HUSACCT plugin"
             restorable="true">
@@ -21,7 +21,7 @@
          point="org.eclipse.ui.perspectives">
       <perspective
             class="plugin.perspective.HusacctPersepectiveFactory"
-            icon="icons/sample.gif"
+            icon="icons/HU-icon.gif"
             id="HUSACCT_Plugin.HusacctPerspective"
             name="HUSACCT">
       </perspective>
