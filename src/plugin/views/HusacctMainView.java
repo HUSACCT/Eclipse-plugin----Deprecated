@@ -26,18 +26,20 @@ import org.eclipse.ui.part.ViewPart;
 
 public class HusacctMainView extends ViewPart {	
 		ServiceProvider sp = ServiceProvider.getInstance();
+		Frame frame;
 	public HusacctMainView() {
 		
 	}
 
 	@Override
-	public void createPartControl(Composite parent) {		
-		JInternalFrame jif = sp.getValidateService().getBrowseViolationsGUI();
+	public void createPartControl(Composite parent) {	
 		Composite composite = new Composite(parent, SWT.EMBEDDED);	
 		Frame frame = SWT_AWT.new_Frame(composite);
 		BorderLayout bl = new BorderLayout();
 		frame.setLayout(bl);
-		frame.add(jif.getRootPane(), BorderLayout.CENTER);		
+		JInternalFrame jif = sp.getValidateService().getBrowseViolationsGUI();
+		frame.add(jif.getRootPane(), BorderLayout.CENTER);	
+		
 		String[] columnNames = {"Action"}; 
         Object[][] data = {
         {"Open Project"},
