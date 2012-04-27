@@ -2,6 +2,8 @@ package plugin.views;
 
 import husacct.Main;
 import husacct.ServiceProvider;
+import husacct.control.presentation.MainGui;
+import husacct.control.task.MainController;
 
 import java.awt.BorderLayout;
 import java.awt.Button;
@@ -26,14 +28,14 @@ public class HusacctMainView extends ViewPart {
 		JInternalFrame jif;
 		Frame frame;
 		ServiceProvider sp = ServiceProvider.getInstance();
+		
 	public HusacctMainView() {
 		
 	}
 
 	@Override
 	public void createPartControl(Composite parent) {	
-		Composite composite = new Composite(parent, SWT.EMBEDDED);
-		
+		Composite composite = new Composite(parent, SWT.EMBEDDED);		
 		jif = sp.getValidateService().getBrowseViolationsGUI();
 		frame = SWT_AWT.new_Frame(composite);
 		BorderLayout bl = new BorderLayout();
@@ -46,30 +48,25 @@ public class HusacctMainView extends ViewPart {
         {"Analyse"},
         {"Check Conformance"},
         {"Test"}
-        };
- 
+        }; 
         final JTable table = new JTable(data, columnNames);
         table.setPreferredScrollableViewportSize(new Dimension(200, 200));
         table.setFillsViewportHeight(true);
+        
         table.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-               // printDebugData(table);
             	int i = table.getSelectedRow();
             	if (i == 1){
-            		System.out.println("JAAA");
-            		JInternalFrame jif2 = new JInternalFrame();
-            		jif2 = sp.getValidateService().getBrowseViolationsGUI();
-            		frame.add(jif2.getRootPane(), BorderLayout.CENTER);
+            		
             	}            	
             }
         });
         frame.add(table, BorderLayout.LINE_START);
-       	parent.setParent(composite);		
+       	parent.setParent(composite);	
 	}
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
 
 	}
 
