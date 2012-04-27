@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="HUSACCT_Plugin.HUSACCT"
+            name="HUSACCT">
+      </category>
+      <view
+            allowMultiple="false"
+            category="HUSACCT_Plugin.HUSACCT"
+            class="plugin.views.HusacctMainView"
+            icon="icons/sample.gif"
+            id="plugin.views.HusacctMainView"
+            name="HUSACCT plugin"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="plugin.perspective.HusacctPersepectiveFactory"
+            icon="icons/sample.gif"
+            id="HUSACCT_Plugin.HusacctPerspective"
+            name="HUSACCT">
+      </perspective>
+   </extension>
+
+</plugin>
