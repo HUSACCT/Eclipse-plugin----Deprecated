@@ -26,5 +26,36 @@
             name="HUSACCT">
       </perspective>
    </extension>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            description="This is HUSACCT action set"
+            id="HUSACCT-Plugin.workbenchActionSet"
+            label="HUSACCT ActionSet"
+            visible="true">
+         <menu
+               icon="icons/HU-icon.gif"
+               id="HUSACCT-Plugin.workbenchMenu"
+               label="HUSACCT Plugin Manager"
+               path="additions">
+            <separator
+                  name="additions">
+            </separator>
+            <groupMarker
+                  name="content">
+            </groupMarker>
+         </menu>
+         <action
+               class="plugin.actions.OpenHusacctViewActionDelegate"
+               icon="icons/HU-icon.gif"
+               id="HUSACCT-Plugin.openHusacctView"
+               label="Open HUSACCT View"
+               menubarPath="HUSACCT-Plugin.workbenchMenu/content"
+               style="push"
+               toolbarPath="Normal/additions"
+               tooltip="Open the HUSACCT View">
+         </action>
+      </actionSet>
+   </extension>
 
 </plugin>
