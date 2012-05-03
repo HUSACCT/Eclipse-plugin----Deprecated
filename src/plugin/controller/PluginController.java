@@ -6,4 +6,5 @@ import husacct.ServiceProvider;
 import husacct.control.task.StateController;
 
 public class PluginController {
+	
 }

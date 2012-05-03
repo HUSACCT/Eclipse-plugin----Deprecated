@@ -24,7 +24,7 @@ import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 import plugin.ActionDelegate;
-//import plugin.views.internalframes.JInternalHusacctMainScreen;
+import plugin.views.internalframes.JInternalHusacctMainScreen;
 
 public class HusacctMainView extends ViewPart {	
 	
@@ -33,6 +33,7 @@ public class HusacctMainView extends ViewPart {
 	private StateController stateController;
 	private JInternalFrame JInternalFrameValidate;
  	private JInternalFrame JInternalFrameDefine;
+ 	private JInternalFrame currentFrame = null;
  	private String currentScreen = "";
  
  	private Frame frame;
@@ -53,7 +54,7 @@ public class HusacctMainView extends ViewPart {
 		composite = new Composite(parent, SWT.EMBEDDED);	
 		frame = SWT_AWT.new_Frame(composite);
 		frame.setLayout(new BorderLayout());
-		//frame.add(new JInternalHusacctMainScreen().getRootPane(), BorderLayout.CENTER);
+		//changeScreen(new JInternalHusacctMainScreen());
 	}
 	
 	private void creatButtons(){
@@ -98,7 +99,6 @@ public class HusacctMainView extends ViewPart {
         }
     });  
 	panel.add(buttonValidate);
-	
 	frame.add(panel, BorderLayout.PAGE_START);	
 	}
 	
@@ -106,11 +106,17 @@ public class HusacctMainView extends ViewPart {
 		stateController = new StateController();
 		serviceProvider = ServiceProvider.getInstance();
 		JInternalFrameValidate = serviceProvider.getValidateService().getBrowseViolationsGUI();
+		JInternalFrameValidate.setVisible(true);
 		JInternalFrameDefine = serviceProvider.getDefineService().getDefinedGUI();
+		JInternalFrameDefine.setVisible(true);
 	}
 
-	private void changeScreen(JInternalFrame jif){
-		frame.add(jif.getRootPane(), BorderLayout.CENTER);
+	private void changeScreen(JInternalFrame jInternalFrame){
+		if(currentFrame != null){
+			frame.remove(currentFrame.getRootPane());
+		}
+		currentFrame = jInternalFrame;
+		frame.add(jInternalFrame.getRootPane(), BorderLayout.CENTER);
 		frame.validate();
 		frame.repaint();
 	}
@@ -142,7 +148,7 @@ public class HusacctMainView extends ViewPart {
 			//serviceProvider.getValidateService().checkConformance();
 			//if(!currentScreen.equals("validate")){
 				changeScreen(JInternalFrameValidate);
-				//currentScreen = "validate";
+			//	currentScreen = "validate";
 			//}	
 		//}
 	}
