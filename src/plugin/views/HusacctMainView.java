@@ -1,41 +1,23 @@
 package plugin.views;
 
-
-import husacct.ServiceProvider;
-import husacct.control.task.StateController;
-
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Frame;
-import java.awt.Label;
-import java.awt.Menu;
-import java.awt.MenuBar;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
-import javax.swing.JTable;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
-import plugin.ActionDelegate;
+import plugin.controller.PluginController;
 import plugin.views.internalframes.JInternalHusacctMainScreen;
 
 public class HusacctMainView extends ViewPart {	
 	
-	private ActionDelegate actionDelegate;
-	private ServiceProvider serviceProvider;
-	private StateController stateController;
-	private JInternalFrame JInternalFrameValidate;
- 	private JInternalFrame JInternalFrameDefine;
  	private JInternalFrame currentFrame = null;
- 	private String currentScreen = "";
- 
+ 	private PluginController pluginController;
  	private Frame frame;
  	private Composite composite;
 	
@@ -44,7 +26,7 @@ public class HusacctMainView extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		createInternalFrames();
+		pluginController = new PluginController(this);
 		createFrame(parent);
 		creatButtons();
 		parent.setParent(composite);	
@@ -54,7 +36,7 @@ public class HusacctMainView extends ViewPart {
 		composite = new Composite(parent, SWT.EMBEDDED);	
 		frame = SWT_AWT.new_Frame(composite);
 		frame.setLayout(new BorderLayout());
-		//changeScreen(new JInternalHusacctMainScreen());
+		changeScreen(new JInternalHusacctMainScreen());
 	}
 	
 	private void creatButtons(){
@@ -65,7 +47,7 @@ public class HusacctMainView extends ViewPart {
 	buttonSelectSource.addActionListener(new ActionListener() {		 
         public void actionPerformed(ActionEvent e)
         {
-        	selectSource();
+        	pluginController.selectSource();
         }
     }); 	
 	panel.add(buttonSelectSource);
@@ -75,7 +57,7 @@ public class HusacctMainView extends ViewPart {
 	buttonDefine.addActionListener(new ActionListener() {		 
         public void actionPerformed(ActionEvent e)
         {
-        	define();
+        	pluginController.define();
         }
     });  
 	panel.add(buttonDefine);
@@ -85,7 +67,7 @@ public class HusacctMainView extends ViewPart {
 	buttonImportArchitecture.addActionListener(new ActionListener() {		 
         public void actionPerformed(ActionEvent e)
         {
-        	importArchitecture();
+        	pluginController.importArchitecture();
         }
     });  
 	panel.add(buttonImportArchitecture);
@@ -95,62 +77,21 @@ public class HusacctMainView extends ViewPart {
 	buttonValidate.addActionListener(new ActionListener() {		 
         public void actionPerformed(ActionEvent e)
         {
-        	validate();
+        	pluginController.validate();
         }
     });  
 	panel.add(buttonValidate);
 	frame.add(panel, BorderLayout.PAGE_START);	
 	}
-	
-	private void createInternalFrames(){
-		stateController = new StateController();
-		serviceProvider = ServiceProvider.getInstance();
-		JInternalFrameValidate = serviceProvider.getValidateService().getBrowseViolationsGUI();
-		JInternalFrameValidate.setVisible(true);
-		JInternalFrameDefine = serviceProvider.getDefineService().getDefinedGUI();
-		JInternalFrameDefine.setVisible(true);
-	}
 
-	private void changeScreen(JInternalFrame jInternalFrame){
+	public void changeScreen(JInternalFrame jInternalFrame){
 		if(currentFrame != null){
 			frame.remove(currentFrame.getRootPane());
 		}
 		currentFrame = jInternalFrame;
-		frame.add(jInternalFrame.getRootPane(), BorderLayout.CENTER);
+		frame.add(currentFrame.getRootPane(), BorderLayout.CENTER);
 		frame.validate();
 		frame.repaint();
-	}
-	
-	private void selectSource(){
-		//actionDelegate.run();
-		//actionDelegate.test();
-		//serviceProvider.getDefineService().createApplication( "Test application", new String[]{"C:\\Users\\Tim\\workspace\\ViewTests\\src"}, "java", "1.0");
-		//stateController.setState(1);
-	}
-	
-	private void importArchitecture(){
-		
-	}
-	
-	private void define(){
-		//if(stateController.getState() >= 0){
-			//if(!currentScreen.equals("define")){
-				changeScreen(JInternalFrameDefine);
-				//currentScreen = "define";
-			//}
-		//}
-	}
-	
-	private void validate(){
-		//stateController.checkState();
-		//if(stateController.getState() >= 0){
-			//serviceProvider.getAnalyseService().analyseApplication();
-			//serviceProvider.getValidateService().checkConformance();
-			//if(!currentScreen.equals("validate")){
-				changeScreen(JInternalFrameValidate);
-			//	currentScreen = "validate";
-			//}	
-		//}
 	}
 	
 	@Override
