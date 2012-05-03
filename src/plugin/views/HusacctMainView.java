@@ -5,29 +5,38 @@ import husacct.ServiceProvider;
 import husacct.control.task.StateController;
 
 import java.awt.BorderLayout;
+import java.awt.Button;
 import java.awt.Frame;
+import java.awt.Label;
+import java.awt.Menu;
+import java.awt.MenuBar;
+import java.awt.Panel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
 import javax.swing.JTable;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
-//import plugin.ActionDelegate;
-
+import plugin.ActionDelegate;
+//import plugin.views.internalframes.JInternalHusacctMainScreen;
 
 public class HusacctMainView extends ViewPart {	
 	
-	//ActionDelegate actionDelegate;
-	ServiceProvider serviceProvider = ServiceProvider.getInstance();
-	StateController stateController = new StateController();
-	JInternalFrame JInternalFrameValidate;
- 	JInternalFrame JInternalFrameDefine;
- 	String currentScreen = "";
+	private ActionDelegate actionDelegate;
+	private ServiceProvider serviceProvider;
+	private StateController stateController;
+	private JInternalFrame JInternalFrameValidate;
+ 	private JInternalFrame JInternalFrameDefine;
+ 	private String currentScreen = "";
  
- 	Frame frame;
- 	Composite composite;
+ 	private Frame frame;
+ 	private Composite composite;
 	
 	public HusacctMainView() {
 	}
@@ -36,49 +45,66 @@ public class HusacctMainView extends ViewPart {
 	public void createPartControl(Composite parent) {
 		createInternalFrames();
 		createFrame(parent);
-		createTable();
+		creatButtons();
 		parent.setParent(composite);	
 	}
 	
 	private void createFrame(Composite parent){
 		composite = new Composite(parent, SWT.EMBEDDED);	
 		frame = SWT_AWT.new_Frame(composite);
-		BorderLayout borderLayout = new BorderLayout();
-		frame.setLayout(borderLayout);
+		frame.setLayout(new BorderLayout());
+		//frame.add(new JInternalHusacctMainScreen().getRootPane(), BorderLayout.CENTER);
 	}
 	
-	private void createTable(){
-		String[] columnNames = {"Actions"}; 
-		Object[][] data = {
-				{"Select Source"},
-				{"Define Architecture"},
-				{"Import Architecture"},
-				{"Validate"},
-		}; 
-		final JTable jTable = new JTable(data, columnNames);
-		jTable.setSize(500,500);
-		jTable.setFillsViewportHeight(true);
-		jTable.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				int column = jTable.getSelectedRow();
-				if (column == 0){ //Select source
-					selectSource();
-				}
-				else if(column == 1){//Define Architecture
-					define();			
-				}
-				else if(column == 2){//Import Architecture   
-					importArchitecture();
-				}
-				else if(column == 3){//Validate 
-					validate();					
-				}
-			}
-		});
-		frame.add(jTable, BorderLayout.LINE_START);
+	private void creatButtons(){
+	Panel panel = new Panel();	
+	
+	//SelectSource
+	Button buttonSelectSource = new Button("Select Source");
+	buttonSelectSource.addActionListener(new ActionListener() {		 
+        public void actionPerformed(ActionEvent e)
+        {
+        	selectSource();
+        }
+    }); 	
+	panel.add(buttonSelectSource);
+	
+	//Define
+	Button buttonDefine = new Button("Define");
+	buttonDefine.addActionListener(new ActionListener() {		 
+        public void actionPerformed(ActionEvent e)
+        {
+        	define();
+        }
+    });  
+	panel.add(buttonDefine);
+	
+	//Define
+	Button buttonImportArchitecture = new Button("Import Architecture");
+	buttonImportArchitecture.addActionListener(new ActionListener() {		 
+        public void actionPerformed(ActionEvent e)
+        {
+        	importArchitecture();
+        }
+    });  
+	panel.add(buttonImportArchitecture);
+	
+	//Validate
+	Button buttonValidate = new Button("Validate");
+	buttonValidate.addActionListener(new ActionListener() {		 
+        public void actionPerformed(ActionEvent e)
+        {
+        	validate();
+        }
+    });  
+	panel.add(buttonValidate);
+	
+	frame.add(panel, BorderLayout.PAGE_START);	
 	}
 	
 	private void createInternalFrames(){
+		stateController = new StateController();
+		serviceProvider = ServiceProvider.getInstance();
 		JInternalFrameValidate = serviceProvider.getValidateService().getBrowseViolationsGUI();
 		JInternalFrameDefine = serviceProvider.getDefineService().getDefinedGUI();
 	}
@@ -92,8 +118,8 @@ public class HusacctMainView extends ViewPart {
 	private void selectSource(){
 		//actionDelegate.run();
 		//actionDelegate.test();
-		serviceProvider.getDefineService().createApplication( "Test application", new String[]{"C:\\Users\\Tim\\workspace\\ViewTests\\src"}, "java", "1.0");
-		stateController.setState(1);
+		//serviceProvider.getDefineService().createApplication( "Test application", new String[]{"C:\\Users\\Tim\\workspace\\ViewTests\\src"}, "java", "1.0");
+		//stateController.setState(1);
 	}
 	
 	private void importArchitecture(){
@@ -101,24 +127,24 @@ public class HusacctMainView extends ViewPart {
 	}
 	
 	private void define(){
-		if(stateController.getState() >= 1){
-			if(!currentScreen.equals("define")){
+		//if(stateController.getState() >= 0){
+			//if(!currentScreen.equals("define")){
 				changeScreen(JInternalFrameDefine);
-				currentScreen = "define";
-			}
-		}
+				//currentScreen = "define";
+			//}
+		//}
 	}
 	
 	private void validate(){
-		stateController.checkState();
-		if(stateController.getState() >= 4){
-			serviceProvider.getAnalyseService().analyseApplication();
-			serviceProvider.getValidateService().checkConformance();
-			if(!currentScreen.equals("validate")){
+		//stateController.checkState();
+		//if(stateController.getState() >= 0){
+			//serviceProvider.getAnalyseService().analyseApplication();
+			//serviceProvider.getValidateService().checkConformance();
+			//if(!currentScreen.equals("validate")){
 				changeScreen(JInternalFrameValidate);
-				currentScreen = "validate";
-			}	
-		}
+				//currentScreen = "validate";
+			//}	
+		//}
 	}
 	
 	@Override

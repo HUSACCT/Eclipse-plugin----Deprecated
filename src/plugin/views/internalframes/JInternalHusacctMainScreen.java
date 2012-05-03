@@ -27,11 +27,5 @@ public class JInternalHusacctMainScreen extends JInternalFrame {
 		    setIconifiable(true);
 		    setTitle("Husacct");
 		   setVisible(true);
-	}
-
-		
-	
-	
-	
-	
+	}	
 }
