@@ -3,6 +3,7 @@ package plugin.controller;
 import javax.swing.JInternalFrame;
 
 import plugin.views.HusacctMainView;
+import plugin.views.internalframes.JInternalHusacctSelectSource;
 
 import husacct.ServiceProvider;
 import husacct.control.task.StateController;
@@ -27,10 +28,11 @@ public class PluginController {
  	
 	public void selectSource(){
 		//serviceProvider.getDefineService().createApplication( "Test application", new String[]{"C:\\Users\\Tim\\workspace\\ViewTests\\src"}, "java", "1.0");
-		stateController.setState(1);
+		hussactMainView.changeScreen(new JInternalHusacctSelectSource());
 	}
  	
 	public void define(){
+		stateController.checkState();
 		if(stateController.getState() >= 1){
 			if(!currentFrame.equals("define")){
 				hussactMainView.changeScreen(JInternalFrameDefine);
