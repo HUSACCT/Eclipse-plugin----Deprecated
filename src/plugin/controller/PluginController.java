@@ -14,6 +14,7 @@ public class PluginController {
 	private StateController stateController;
 	private JInternalFrame JInternalFrameValidate;
  	private JInternalFrame JInternalFrameDefine;
+ 	private JInternalFrame JInternalSelectSource;
  	private String currentFrame = "";
  	
  	public PluginController(HusacctMainView hussactMainView){
@@ -24,11 +25,15 @@ public class PluginController {
 		JInternalFrameValidate.setVisible(true);
 		JInternalFrameDefine = serviceProvider.getDefineService().getDefinedGUI();
 		JInternalFrameDefine.setVisible(true);
+		JInternalSelectSource = new JInternalHusacctSelectSource();
  	}
  	
 	public void selectSource(){
-		//serviceProvider.getDefineService().createApplication( "Test application", new String[]{"C:\\Users\\Tim\\workspace\\ViewTests\\src"}, "java", "1.0");
-		hussactMainView.changeScreen(new JInternalHusacctSelectSource());
+		serviceProvider.getDefineService().createApplication( "Test application", new String[]{"C:\\Users\\Tim\\workspace\\ViewTests\\src"}, "java", "1.0");
+		if(!currentFrame.equals("selectSource")){
+			hussactMainView.changeScreen(JInternalSelectSource);
+			currentFrame = "selectSource";
+		}
 	}
  	
 	public void define(){
@@ -48,13 +53,13 @@ public class PluginController {
 	
 	public void validate(){
 		stateController.checkState();
-		if(stateController.getState() >= 1){
+		if(stateController.getState() >= 4){
 			serviceProvider.getAnalyseService().analyseApplication();
 			serviceProvider.getValidateService().checkConformance();
 			if(!currentFrame.equals("validate")){
 				hussactMainView.changeScreen(JInternalFrameValidate);
 				currentFrame = "validate";
-			}	
+			}
 		}
 	}
 }

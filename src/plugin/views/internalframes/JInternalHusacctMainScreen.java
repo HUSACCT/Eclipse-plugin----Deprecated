@@ -1,24 +1,27 @@
 package plugin.views.internalframes;
 
-import java.awt.BorderLayout;
-import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 
 public class JInternalHusacctMainScreen extends JInternalFrame {
 
-	private JLabel text = new JLabel("Dit is de HUSACCT Eclipse plugin");
-	
-	private Image Background; 
-	
-
-	public JInternalHusacctMainScreen(){
-
-		// getContentPane().add(new JLabel("test"), BorderLayout.CENTER);
-		 getContentPane().add(text);
-		 
+	public JInternalHusacctMainScreen() {
+		
+		BufferedImage myPicture;
+		try {
+			myPicture = ImageIO.read(new File("C:\\husacct.png"));
+			JLabel picLabel = new JLabel(new ImageIcon( myPicture ));
+			getContentPane().add(picLabel);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	 
 		    setBounds(50, 50, 200, 200);
 		    setResizable(true);
 		    setClosable(true);
