@@ -23,6 +23,7 @@ public class JInternalHusacctSelectSource extends JInternalFrame {
 	private JTextField txtJava;
 	private JTextField txtVersion;
 	private JTextField txtSource;
+	private String path;
 	private PluginController pluginController;
 		   
 		   
@@ -127,7 +128,8 @@ public class JInternalHusacctSelectSource extends JInternalFrame {
 		jFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		jFileChooser.setAcceptAllFileFilterUsed(false);
 		if (jFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { 
-			txtSource.setText(jFileChooser.getCurrentDirectory() + "");
+			txtSource.setText(jFileChooser.getSelectedFile().getAbsolutePath());
+			path = jFileChooser.getSelectedFile().getAbsolutePath();
 		}
 		else {
 			System.out.println("No Selection when choosing ");
@@ -136,7 +138,7 @@ public class JInternalHusacctSelectSource extends JInternalFrame {
 	
 	public void save(){
 		if(!txtSource.getText().equals("") && !txtVersion.getText().equals("")){
-			pluginController.sourceSelected(new String[]{txtSource.getText()}, txtVersion.getText());
+			pluginController.sourceSelected(new String[]{path}, txtVersion.getText());
 		}
 		else{
 			//TODO popup met message van niet ingevuld

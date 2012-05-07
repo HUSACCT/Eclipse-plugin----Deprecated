@@ -1,9 +1,17 @@
 package plugin.controller;
 
+import java.io.IOException;
+
 import javax.swing.JInternalFrame;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+import org.eclipse.core.runtime.FileLocator;
+
+import plugin.Activator;
 import plugin.views.HusacctMainView;
 import plugin.views.internalframes.JInternalHusacctImportArchitecture;
 import plugin.views.internalframes.JInternalHusacctSelectSource;
+import husacct.Main;
 import husacct.ServiceProvider;
 import husacct.control.task.StateController;
 
@@ -19,9 +27,26 @@ public class PluginController {
  	
  	public PluginController(HusacctMainView hussactMainView){
  		this.hussactMainView = hussactMainView;
+ 		initializeLogger();
+ 		serviceProvider = ServiceProvider.getInstance();
  		stateController = new StateController();
-		serviceProvider = ServiceProvider.getInstance();
-		JInternalFrameValidate = serviceProvider.getValidateService().getBrowseViolationsGUI();
+ 		initializeFrames();
+ 	}
+ 	
+ 	private void initializeLogger(){
+ 		try {
+			String loggerFile = FileLocator.toFileURL(Activator.getDefault().getBundle().getEntry("husacct.properties")).getPath();
+			PropertyConfigurator.configure(loggerFile);
+			Logger logger = Logger.getLogger(Main.class);
+			logger.debug("Starting HUSACCT");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+ 		
+ 	}
+ 	
+ 	private void initializeFrames(){
+ 		JInternalFrameValidate = serviceProvider.getValidateService().getBrowseViolationsGUI();
 		JInternalFrameValidate.setVisible(true);
 		JInternalFrameDefine = serviceProvider.getDefineService().getDefinedGUI();
 		JInternalFrameDefine.setVisible(true);
@@ -63,10 +88,13 @@ public class PluginController {
 	}
 	
 	public void sourceSelected(String[] sources, String version){
-		serviceProvider.getDefineService().createApplication( "Eclipse plugin", sources, "java", version);
+		System.out.println("Selecting source");
+		serviceProvider.getDefineService().createApplication( "Eclipseplugin", sources, "Java", version);		
+		System.out.println("Analyzing source");
+		serviceProvider.getAnalyseService().analyseApplication();
 	}
 
 	public void importArchitecture() {
-		//TODO can be implemented as soon as Define team creates the import architecture command
+		System.out.println(stateController.getState());
 	}
 }
