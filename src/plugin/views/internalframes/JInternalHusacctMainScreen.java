@@ -7,13 +7,12 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-
 import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.jface.resource.ImageDescriptor;
 
 import plugin.Activator;
 
 public class JInternalHusacctMainScreen extends JInternalFrame {
+	private static final long serialVersionUID = 1L;
 
 	public JInternalHusacctMainScreen() {
 		BufferedImage myPicture;
@@ -27,12 +26,12 @@ public class JInternalHusacctMainScreen extends JInternalFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	 
-		    setBounds(50, 50, 200, 200);
-		    setResizable(true);
-		    setClosable(true);
-		    setMaximizable(true);
-		    setIconifiable(true);
-		    setTitle("Husacct");
-		   setVisible(true);
+		setBounds(50, 50, 200, 200);
+		setResizable(true);
+		setClosable(true);
+		setMaximizable(true);
+		setIconifiable(true);
+		setTitle("Husacct");
+		setVisible(true);
 	}	
 }

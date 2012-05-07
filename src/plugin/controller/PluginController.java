@@ -1,11 +1,9 @@
 package plugin.controller;
 
 import javax.swing.JInternalFrame;
-
 import plugin.views.HusacctMainView;
 import plugin.views.internalframes.JInternalHusacctImportArchitecture;
 import plugin.views.internalframes.JInternalHusacctSelectSource;
-
 import husacct.ServiceProvider;
 import husacct.control.task.StateController;
 
@@ -27,36 +25,32 @@ public class PluginController {
 		JInternalFrameValidate.setVisible(true);
 		JInternalFrameDefine = serviceProvider.getDefineService().getDefinedGUI();
 		JInternalFrameDefine.setVisible(true);
-		JInternalSelectSource = new JInternalHusacctSelectSource();
-		JInternalImportArchitecture = new JInternalHusacctImportArchitecture();
+		JInternalSelectSource = new JInternalHusacctSelectSource(this);
+		JInternalImportArchitecture = new JInternalHusacctImportArchitecture(this);
  	}
  	
-	public void selectSource(){
-		serviceProvider.getDefineService().createApplication( "Test application", new String[]{"C:\\Users\\Tim\\workspace\\ViewTests\\src"}, "java", "1.0");
+	public void showSelectSourceFrame(){
 		if(!currentFrame.equals("selectSource")){
 			hussactMainView.changeScreen(JInternalSelectSource);
 			currentFrame = "selectSource";
 		}
 	}
  	
-	public void define(){
-		stateController.checkState();
-		if(stateController.getState() >= 1){
-			if(!currentFrame.equals("define")){
-				hussactMainView.changeScreen(JInternalFrameDefine);
-				currentFrame = "define";
-			}
+	public void showDefineFrame(){
+		if(!currentFrame.equals("define")){
+			hussactMainView.changeScreen(JInternalFrameDefine);
+			currentFrame = "define";
 		}
 	}
 	
-	public void importArchitecture(){
+	public void showImportArchitectureFrame(){
 		if(!currentFrame.equals("importArchitecture")){
 			hussactMainView.changeScreen(JInternalImportArchitecture);
 			currentFrame = "importArchitecture";
 		}
 	}
 	
-	public void validate(){
+	public void showValidateFrame(){
 		stateController.checkState();
 		if(stateController.getState() >= 4){
 			serviceProvider.getAnalyseService().analyseApplication();
@@ -66,5 +60,13 @@ public class PluginController {
 				currentFrame = "validate";
 			}
 		}
+	}
+	
+	public void sourceSelected(String[] sources, String version){
+		serviceProvider.getDefineService().createApplication( "Eclipse plugin", sources, "java", version);
+	}
+
+	public void importArchitecture() {
+		//TODO can be implemented as soon as Define team creates the import architecture command
 	}
 }

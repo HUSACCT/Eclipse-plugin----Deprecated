@@ -47,7 +47,7 @@ public class HusacctMainView extends ViewPart {
 	buttonSelectSource.addActionListener(new ActionListener() {		 
         public void actionPerformed(ActionEvent e)
         {
-        	pluginController.selectSource();
+        	pluginController.showSelectSourceFrame();
         }
     }); 	
 	panel.add(buttonSelectSource);
@@ -57,7 +57,7 @@ public class HusacctMainView extends ViewPart {
 	buttonDefine.addActionListener(new ActionListener() {		 
         public void actionPerformed(ActionEvent e)
         {
-        	pluginController.define();
+        	pluginController.showDefineFrame();
         }
     });  
 	panel.add(buttonDefine);
@@ -67,7 +67,7 @@ public class HusacctMainView extends ViewPart {
 	buttonImportArchitecture.addActionListener(new ActionListener() {		 
         public void actionPerformed(ActionEvent e)
         {
-        	pluginController.importArchitecture();
+        	pluginController.showImportArchitectureFrame();
         }
     });  
 	panel.add(buttonImportArchitecture);
@@ -77,7 +77,7 @@ public class HusacctMainView extends ViewPart {
 	buttonValidate.addActionListener(new ActionListener() {		 
         public void actionPerformed(ActionEvent e)
         {
-        	pluginController.validate();
+        	pluginController.showValidateFrame();
         }
     });  
 	panel.add(buttonValidate);
