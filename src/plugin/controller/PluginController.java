@@ -3,6 +3,7 @@ package plugin.controller;
 import javax.swing.JInternalFrame;
 
 import plugin.views.HusacctMainView;
+import plugin.views.internalframes.JInternalHusacctImportArchitecture;
 import plugin.views.internalframes.JInternalHusacctSelectSource;
 
 import husacct.ServiceProvider;
@@ -15,6 +16,7 @@ public class PluginController {
 	private JInternalFrame JInternalFrameValidate;
  	private JInternalFrame JInternalFrameDefine;
  	private JInternalFrame JInternalSelectSource;
+ 	private JInternalFrame JInternalImportArchitecture;
  	private String currentFrame = "";
  	
  	public PluginController(HusacctMainView hussactMainView){
@@ -26,6 +28,7 @@ public class PluginController {
 		JInternalFrameDefine = serviceProvider.getDefineService().getDefinedGUI();
 		JInternalFrameDefine.setVisible(true);
 		JInternalSelectSource = new JInternalHusacctSelectSource();
+		JInternalImportArchitecture = new JInternalHusacctImportArchitecture();
  	}
  	
 	public void selectSource(){
@@ -47,8 +50,10 @@ public class PluginController {
 	}
 	
 	public void importArchitecture(){
-		//TODO 
-		//This is for a later iteration
+		if(!currentFrame.equals("importArchitecture")){
+			hussactMainView.changeScreen(JInternalImportArchitecture);
+			currentFrame = "importArchitecture";
+		}
 	}
 	
 	public void validate(){
