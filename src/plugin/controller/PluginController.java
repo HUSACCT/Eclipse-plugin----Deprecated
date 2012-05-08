@@ -36,7 +36,7 @@ public class PluginController {
  		serviceProvider = ServiceProvider.getInstance();
  		logger.info("Starting StateController");
  		stateController = new StateController();
- 		logger.info("InitializeFrames");
+ 		logger.info("Initialize Frames");
  		initializeFrames();
  	}
  	
@@ -63,6 +63,7 @@ public class PluginController {
  	
 	public void showSelectSourceFrame(){
 		if(!currentFrame.equals("selectSource")){
+			logger.info("changing screeen to SelectSource");
 			hussactMainView.changeScreen(JInternalSelectSource);
 			currentFrame = "selectSource";
 		}
@@ -70,6 +71,7 @@ public class PluginController {
  	
 	public void showDefineFrame(){
 		if(!currentFrame.equals("define")){
+			logger.info("changing screeen to Define");
 			hussactMainView.changeScreen(JInternalFrameDefine);
 			currentFrame = "define";
 		}
@@ -77,6 +79,7 @@ public class PluginController {
 	
 	public void showImportArchitectureFrame(){
 		if(!currentFrame.equals("importArchitecture")){
+			logger.info("changing screen to ImportArchitecture");
 			hussactMainView.changeScreen(JInternalImportArchitecture);
 			currentFrame = "importArchitecture";
 		}
@@ -84,6 +87,7 @@ public class PluginController {
 	
 	public void showExportArchitectureFrame() {
 		if(!currentFrame.equals("exportArchitecture")){
+			logger.info("changing screen to ExportArchitecture");
 			hussactMainView.changeScreen(JInternalExportArchitecture);
 			currentFrame = "exportArchitecture";
 		}
@@ -92,9 +96,12 @@ public class PluginController {
 	
 	public void showValidateFrame(){
 		stateController.checkState();
+		logger.info("checking the state. State = " + stateController.getState());
 		if(stateController.getState() >= 4){
+			logger.info("starting the conformance check");
 			serviceProvider.getValidateService().checkConformance();
 			if(!currentFrame.equals("validate")){
+				logger.info("chainging screen to Validate");
 				hussactMainView.changeScreen(JInternalFrameValidate);
 				currentFrame = "validate";
 			}
@@ -109,6 +116,7 @@ public class PluginController {
 	}
 	
 	public void importLogicalArchitecture(File file){
+		logger.info("importing architecture");
 		HashMap<String, Object> resourceData = new HashMap<String, Object>();
 		resourceData.put("file", file);
 		IResource xmlResource = ResourceFactory.get("xml");
@@ -116,18 +124,19 @@ public class PluginController {
 			Document doc = xmlResource.load(resourceData);	
 			Element logicalData = doc.getRootElement();
 			System.out.println(logicalData);
-			ServiceProvider.getInstance().getDefineService().loadLogicalArchitectureData(logicalData);
+			serviceProvider.getDefineService().loadLogicalArchitectureData(logicalData);
 		} catch (Exception e) {
 			logger.debug("Unable to import logical architecture: " + e.getMessage());
 		}
 	}
 	
 	public void exportLogicalArchitecture(File file){
+		logger.info("exporting architecture");
 		HashMap<String, Object> resourceData = new HashMap<String, Object>();
 		resourceData.put("file", file);
 		IResource xmlResource = ResourceFactory.get("xml");
 		try {
-			Element logicalData = ServiceProvider.getInstance().getDefineService().getLogicalArchitectureData();
+			Element logicalData = serviceProvider.getDefineService().getLogicalArchitectureData();
 			Document doc = new Document(logicalData);
 			xmlResource.save(doc, resourceData);
 		} catch (Exception e) {
