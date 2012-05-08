@@ -141,7 +141,6 @@ public class JInternalHusacctSelectSource extends JInternalFrame {
 			pluginController.sourceSelected(new String[]{path}, txtVersion.getText());
 		}
 		else{
-			//TODO popup met message van niet ingevuld
 			System.out.println("No Selection when saving");
 		}
 	}

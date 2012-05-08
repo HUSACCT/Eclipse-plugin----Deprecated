@@ -1,12 +1,9 @@
 package plugin.controller;
 
-import java.io.IOException;
-
 import javax.swing.JInternalFrame;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.core.runtime.FileLocator;
-
 import plugin.Activator;
 import plugin.views.HusacctMainView;
 import plugin.views.internalframes.JInternalHusacctImportArchitecture;
@@ -24,12 +21,16 @@ public class PluginController {
  	private JInternalFrame JInternalSelectSource;
  	private JInternalFrame JInternalImportArchitecture;
  	private String currentFrame = "";
+ 	private Logger logger;
  	
  	public PluginController(HusacctMainView hussactMainView){
  		this.hussactMainView = hussactMainView;
  		initializeLogger();
+ 		logger.info("starting ServiceProvider");
  		serviceProvider = ServiceProvider.getInstance();
+ 		logger.info("starting StateController");
  		stateController = new StateController();
+ 		logger.info("initializeFrames");
  		initializeFrames();
  	}
  	
@@ -37,12 +38,11 @@ public class PluginController {
  		try {
 			String loggerFile = FileLocator.toFileURL(Activator.getDefault().getBundle().getEntry("husacct.properties")).getPath();
 			PropertyConfigurator.configure(loggerFile);
-			Logger logger = Logger.getLogger(Main.class);
-			logger.debug("Starting HUSACCT");
+			logger = Logger.getLogger(Main.class);
+			logger.info("Starting HUSACCT");
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
- 		
+		} 		
  	}
  	
  	private void initializeFrames(){
@@ -78,7 +78,6 @@ public class PluginController {
 	public void showValidateFrame(){
 		stateController.checkState();
 		if(stateController.getState() >= 4){
-			serviceProvider.getAnalyseService().analyseApplication();
 			serviceProvider.getValidateService().checkConformance();
 			if(!currentFrame.equals("validate")){
 				hussactMainView.changeScreen(JInternalFrameValidate);
@@ -88,13 +87,14 @@ public class PluginController {
 	}
 	
 	public void sourceSelected(String[] sources, String version){
-		System.out.println("Selecting source");
+		logger.info("Selecting source");
 		serviceProvider.getDefineService().createApplication( "Eclipseplugin", sources, "Java", version);		
-		System.out.println("Analyzing source");
+		logger.info("Analyzing source");
 		serviceProvider.getAnalyseService().analyseApplication();
 	}
 
 	public void importArchitecture() {
-		System.out.println(stateController.getState());
+		stateController.checkState();
+		logger.info(stateController.getState());
 	}
 }
