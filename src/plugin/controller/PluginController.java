@@ -1,9 +1,15 @@
 package plugin.controller;
 
+import java.io.File;
+import java.util.HashMap;
+
 import javax.swing.JInternalFrame;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.core.runtime.FileLocator;
+import org.jdom2.Document;
+import org.jdom2.Element;
+
 import plugin.Activator;
 import plugin.views.HusacctMainView;
 import plugin.views.internalframes.JInternalHusacctImportArchitecture;
@@ -11,6 +17,8 @@ import plugin.views.internalframes.JInternalHusacctSelectSource;
 import husacct.Main;
 import husacct.ServiceProvider;
 import husacct.control.task.StateController;
+import husacct.control.task.resources.IResource;
+import husacct.control.task.resources.ResourceFactory;
 
 public class PluginController {
 	private HusacctMainView hussactMainView;
@@ -89,9 +97,18 @@ public class PluginController {
 		logger.info("Analyzing source");
 		serviceProvider.getAnalyseService().analyseApplication();
 	}
-
-	public void importArchitecture() {
-		stateController.checkState();
-		logger.info(stateController.getState());
+	
+	public void importLogicalArchitecture(File file){
+		HashMap<String, Object> resourceData = new HashMap<String, Object>();
+		resourceData.put("file", file);
+		IResource xmlResource = ResourceFactory.get("xml");
+		try {
+			Document doc = xmlResource.load(resourceData);	
+			Element logicalData = doc.getRootElement();
+			System.out.println(logicalData);
+			ServiceProvider.getInstance().getDefineService().loadLogicalArchitectureData(logicalData);
+		} catch (Exception e) {
+			logger.debug("Unable to import logical architecture: " + e.getMessage());
+		}
 	}
 }

@@ -23,6 +23,7 @@ public class JInternalHusacctImportArchitecture extends JInternalFrame {
 	private JPanel jPanel = new JPanel();
 	private JTextField textfieldProgramSource;
 	private PluginController pluginController;
+	private File file = null;
 		   		   
 	public JInternalHusacctImportArchitecture(PluginController pluginController) {		
 		this.pluginController = pluginController;
@@ -92,7 +93,8 @@ public class JInternalHusacctImportArchitecture extends JInternalFrame {
 		jFileChooser.setFileFilter(new TypeOfFile());  
 		jFileChooser.setAcceptAllFileFilterUsed(false); 
 		if (jFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { 
-			textfieldProgramSource.setText(jFileChooser.getCurrentDirectory() + "\\" + jFileChooser.getSelectedFile().getName());
+			textfieldProgramSource.setText(jFileChooser.getSelectedFile().getName());
+			file = jFileChooser.getSelectedFile();
 		}
 		else {
 			System.out.println("No Selection ");
@@ -100,7 +102,9 @@ public class JInternalHusacctImportArchitecture extends JInternalFrame {
 	}
 	
 	private void importFile(){
-		  pluginController.importArchitecture();
+		if(file != null){
+			pluginController.importLogicalArchitecture(file);
+		}		  
 	}
   
 	class TypeOfFile extends FileFilter  
