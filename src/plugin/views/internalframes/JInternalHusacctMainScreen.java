@@ -8,24 +8,24 @@ import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import org.eclipse.core.runtime.FileLocator;
-
 import plugin.Activator;
 
 public class JInternalHusacctMainScreen extends JInternalFrame {
 	private static final long serialVersionUID = 1L;
 
 	public JInternalHusacctMainScreen() {
-		BufferedImage myPicture;
+		BufferedImage bufferedImage;
+		
 		try {
 			final String husacctpng = FileLocator.toFileURL(Activator.getDefault().getBundle().getEntry("icons/husacct.png")).getPath();
-			myPicture = ImageIO.read(new File(husacctpng));
-			JLabel picLabel = new JLabel(new ImageIcon( myPicture ));
-			getContentPane().add(picLabel);
+			bufferedImage = ImageIO.read(new File(husacctpng));
+			JLabel pictureLabel = new JLabel(new ImageIcon(bufferedImage));
+			getContentPane().add(pictureLabel);
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	 
+		}
+		
 		setBounds(50, 50, 200, 200);
 		setResizable(true);
 		setClosable(true);

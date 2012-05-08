@@ -28,7 +28,7 @@ public class HusacctMainView extends ViewPart {
 	public void createPartControl(Composite parent) {
 		pluginController = new PluginController(this);
 		createFrame(parent);
-		creatButtons();
+		createButtons();
 		parent.setParent(composite);	
 	}
 	
@@ -39,7 +39,7 @@ public class HusacctMainView extends ViewPart {
 		changeScreen(new JInternalHusacctMainScreen());
 	}
 	
-	private void creatButtons(){
+	private void createButtons(){
 	Panel panel = new Panel();	
 	
 	//SelectSource
@@ -62,7 +62,7 @@ public class HusacctMainView extends ViewPart {
     });  
 	panel.add(buttonDefine);
 	
-	//Define
+	//Import architecture
 	Button buttonImportArchitecture = new Button("Import Architecture");
 	buttonImportArchitecture.addActionListener(new ActionListener() {		 
         public void actionPerformed(ActionEvent e)
@@ -83,7 +83,7 @@ public class HusacctMainView extends ViewPart {
 	panel.add(buttonValidate);
 	frame.add(panel, BorderLayout.PAGE_START);	
 	}
-
+	
 	public void changeScreen(JInternalFrame jInternalFrame){
 		if(currentFrame != null){
 			frame.remove(currentFrame.getRootPane());

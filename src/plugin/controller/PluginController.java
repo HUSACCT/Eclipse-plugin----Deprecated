@@ -16,21 +16,18 @@ public class PluginController {
 	private HusacctMainView hussactMainView;
 	private ServiceProvider serviceProvider;
 	private StateController stateController;
-	private JInternalFrame JInternalFrameValidate;
- 	private JInternalFrame JInternalFrameDefine;
- 	private JInternalFrame JInternalSelectSource;
- 	private JInternalFrame JInternalImportArchitecture;
+	private JInternalFrame JInternalFrameValidate, JInternalFrameDefine, JInternalSelectSource, JInternalImportArchitecture;
  	private String currentFrame = "";
  	private Logger logger;
  	
  	public PluginController(HusacctMainView hussactMainView){
  		this.hussactMainView = hussactMainView;
  		initializeLogger();
- 		logger.info("starting ServiceProvider");
+ 		logger.info("Starting ServiceProvider");
  		serviceProvider = ServiceProvider.getInstance();
- 		logger.info("starting StateController");
+ 		logger.info("Starting StateController");
  		stateController = new StateController();
- 		logger.info("initializeFrames");
+ 		logger.info("InitializeFrames");
  		initializeFrames();
  	}
  	
