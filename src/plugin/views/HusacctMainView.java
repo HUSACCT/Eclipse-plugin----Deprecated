@@ -72,6 +72,16 @@ public class HusacctMainView extends ViewPart {
     });  
 	panel.add(buttonImportArchitecture);
 	
+	//Export architecture
+	Button buttonExportArchitecture = new Button("Export Architecture");
+	buttonExportArchitecture.addActionListener(new ActionListener() {		 
+        public void actionPerformed(ActionEvent e)
+        {
+        	pluginController.showExportArchitectureFrame();
+        }
+    });  
+	panel.add(buttonExportArchitecture);
+	
 	//Validate
 	Button buttonValidate = new Button("Validate");
 	buttonValidate.addActionListener(new ActionListener() {		 

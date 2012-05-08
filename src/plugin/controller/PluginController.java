@@ -12,6 +12,7 @@ import org.jdom2.Element;
 
 import plugin.Activator;
 import plugin.views.HusacctMainView;
+import plugin.views.internalframes.JInternalHusacctExportArchitecture;
 import plugin.views.internalframes.JInternalHusacctImportArchitecture;
 import plugin.views.internalframes.JInternalHusacctSelectSource;
 import husacct.Main;
@@ -24,7 +25,7 @@ public class PluginController {
 	private HusacctMainView hussactMainView;
 	private ServiceProvider serviceProvider;
 	private StateController stateController;
-	private JInternalFrame JInternalFrameValidate, JInternalFrameDefine, JInternalSelectSource, JInternalImportArchitecture;
+	private JInternalFrame JInternalFrameValidate, JInternalFrameDefine, JInternalSelectSource, JInternalImportArchitecture, JInternalExportArchitecture;
  	private String currentFrame = "";
  	private Logger logger;
  	
@@ -57,6 +58,7 @@ public class PluginController {
 		JInternalFrameDefine.setVisible(true);
 		JInternalSelectSource = new JInternalHusacctSelectSource(this);
 		JInternalImportArchitecture = new JInternalHusacctImportArchitecture(this);
+		JInternalExportArchitecture = new JInternalHusacctExportArchitecture(this);
  	}
  	
 	public void showSelectSourceFrame(){
@@ -78,6 +80,14 @@ public class PluginController {
 			hussactMainView.changeScreen(JInternalImportArchitecture);
 			currentFrame = "importArchitecture";
 		}
+	}
+	
+	public void showExportArchitectureFrame() {
+		if(!currentFrame.equals("exportArchitecture")){
+			hussactMainView.changeScreen(JInternalExportArchitecture);
+			currentFrame = "exportArchitecture";
+		}
+		
 	}
 	
 	public void showValidateFrame(){
@@ -111,4 +121,19 @@ public class PluginController {
 			logger.debug("Unable to import logical architecture: " + e.getMessage());
 		}
 	}
+	
+	public void exportLogicalArchitecture(File file){
+		HashMap<String, Object> resourceData = new HashMap<String, Object>();
+		resourceData.put("file", file);
+		IResource xmlResource = ResourceFactory.get("xml");
+		try {
+			Element logicalData = ServiceProvider.getInstance().getDefineService().getLogicalArchitectureData();
+			Document doc = new Document(logicalData);
+			xmlResource.save(doc, resourceData);
+		} catch (Exception e) {
+			logger.debug("Unable to export logical architecture: " + e.getMessage());
+		}
+	}
+
+	
 }
