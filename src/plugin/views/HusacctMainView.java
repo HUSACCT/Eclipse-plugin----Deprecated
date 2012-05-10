@@ -11,13 +11,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
-import plugin.controller.PluginController;
 import plugin.views.internalframes.JInternalHusacctMainScreen;
 
 public class HusacctMainView extends ViewPart {	
 	
  	private JInternalFrame currentFrame = null;
- 	private PluginController pluginController;
  	private Frame frame;
  	private Composite composite;
 	
@@ -26,7 +24,6 @@ public class HusacctMainView extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		pluginController = PluginController.getInstance();
 		createFrame(parent);
 		createButtons();
 		parent.setParent(composite);	

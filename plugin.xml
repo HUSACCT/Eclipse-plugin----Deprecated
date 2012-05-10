@@ -65,7 +65,7 @@
             </groupMarker>
          </menu>
          <action
-               class="plugin.actions.OpenHusacctViewActionDelegate"
+               class="plugin.actions.OpenHusacctPerspectiveActionDelegate"
                icon="icons/HU-icon.gif"
                id="HUSACCT-Plugin.openHusacctView"
                label="Open HUSACCT View"

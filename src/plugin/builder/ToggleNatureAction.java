@@ -15,18 +15,15 @@ import plugin.controller.PluginController;
 public class ToggleNatureAction implements IObjectActionDelegate    {
 
 	private ISelection selection;
-	private PluginController pluginController;
 	
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
 	 */
-	public void run(IAction action) {
-		System.out.println("Project path determined");
-		
+	public void run(IAction action) {		
 		if (selection instanceof IStructuredSelection) {
-			for (Iterator it = ((IStructuredSelection) selection).iterator(); it.hasNext();) {
+			for (Iterator<?> it = ((IStructuredSelection) selection).iterator(); it.hasNext();) {
 				Object element = it.next();
 				IProject project = null;
 				if (element instanceof IProject) {
@@ -67,12 +64,8 @@ public class ToggleNatureAction implements IObjectActionDelegate    {
 	 *            to have sample nature added or removed
 	 */
 	private void toggleNature(IProject project) {
-
 			IPath projectPath = project.getLocation();
-			System.out.println(projectPath);
-
-		//	pluginController.sourceSelected(new String[]{projectPath.toString()}, "1.0");
-		//Hier moet de aanroep!!!!!!!!!!!!!!!!!!!	
+			PluginController.getInstance().sourceSelected(projectPath.toString(), "1.0");
 	}
 	
 }
