@@ -6,7 +6,8 @@ Bundle-Version: 0.1
 Bundle-Activator: plugin.Activator
 Bundle-Vendor: Groep 1 HUSACCT Project
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: lib/antlr-3.2.jar,

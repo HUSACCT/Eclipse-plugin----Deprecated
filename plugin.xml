@@ -57,5 +57,56 @@
          </action>
       </actionSet>
    </extension>
+   <extension
+         id="analyseBuilder"
+         name="Analyse Project Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            hasNature="true">
+         <run
+               class="plugin.builder.AnalyseBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="AnalyseNature"
+         name="Analyse Project Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="plugin.builder.AnalyseNature">
+         </run>
+      </runtime>
+      <builder
+            id="HUSACCT_Plugin.analyseBuilder">
+      </builder>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            id="HUSACCT_Plugin.contribution1"
+            nameFilter="*"
+            objectClass="org.eclipse.core.resources.IProject">
+         <action
+               class="plugin.builder.ToggleNatureAction"
+               enablesFor="+"
+               id="HUSACCT_Plugin.addRemoveNatureAction"
+               label="HUSACCT - Analyse Project"
+               menubarPath="additions">
+         </action>
+      </objectContribution>
+   </extension>
+   <extension
+         id="xmlProblem"
+         name="XML Problem"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+      <persistent
+            value="true">
+      </persistent>
+   </extension>
 
 </plugin>
