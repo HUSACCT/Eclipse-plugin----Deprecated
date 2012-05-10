@@ -125,17 +125,11 @@ public class JInternalHusacctSelectSource extends JInternalFrame {
 			textfieldSource.setText(jFileChooser.getSelectedFile().getAbsolutePath());
 			pathString = jFileChooser.getSelectedFile().getAbsolutePath();
 		}
-		else {
-			System.out.println("No Selection when choosing ");
-		}
 	}
 	
 	public void saveSourceLocation(){
 		if(!textfieldSource.getText().equals("") && !textfieldVersion.getText().equals("")){
-			pluginController.sourceSelected(new String[]{pathString}, textfieldVersion.getText());
-		}
-		else{
-		 //TODO
+			pluginController.sourceSelected(pathString, textfieldVersion.getText());
 		}
 	}
 }

@@ -26,7 +26,7 @@ public class HusacctMainView extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		pluginController = new PluginController(this);
+		pluginController = PluginController.getInstance();
 		createFrame(parent);
 		createButtons();
 		parent.setParent(composite);	
@@ -47,7 +47,6 @@ public class HusacctMainView extends ViewPart {
 	buttonSelectSource.addActionListener(new ActionListener() {		 
         public void actionPerformed(ActionEvent e)
         {
-        	pluginController.showSelectSourceFrame();
         }
     }); 	
 	panel.add(buttonSelectSource);
@@ -57,7 +56,6 @@ public class HusacctMainView extends ViewPart {
 	buttonDefine.addActionListener(new ActionListener() {		 
         public void actionPerformed(ActionEvent e)
         {
-        	pluginController.showDefineFrame();
         }
     });  
 	panel.add(buttonDefine);
@@ -67,7 +65,6 @@ public class HusacctMainView extends ViewPart {
 	buttonImportArchitecture.addActionListener(new ActionListener() {		 
         public void actionPerformed(ActionEvent e)
         {
-        	pluginController.showImportArchitectureFrame();
         }
     });  
 	panel.add(buttonImportArchitecture);
@@ -77,7 +74,6 @@ public class HusacctMainView extends ViewPart {
 	buttonExportArchitecture.addActionListener(new ActionListener() {		 
         public void actionPerformed(ActionEvent e)
         {
-        	pluginController.showExportArchitectureFrame();
         }
     });  
 	panel.add(buttonExportArchitecture);
@@ -87,7 +83,6 @@ public class HusacctMainView extends ViewPart {
 	buttonValidate.addActionListener(new ActionListener() {		 
         public void actionPerformed(ActionEvent e)
         {
-        	pluginController.showValidateFrame();
         }
     });  
 	panel.add(buttonValidate);
