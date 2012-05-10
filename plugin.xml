@@ -16,11 +16,30 @@
             name="HUSACCT plugin"
             restorable="true">
       </view>
+      <view
+            allowMultiple="false"
+            category="HUSACCT_Plugin.HUSACCT"
+            class="plugin.views.DefineView"
+            icon="icons/HU-icon.gif"
+            id="plugin.views.DefineView"
+            name="Define"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
+            category="HUSACCT_Plugin.HUSACCT"
+            class="plugin.views.ValidateView"
+            icon="icons/HU-icon.gif"
+            id="plugin.views.ValidateView"
+            name="Validate"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
             class="plugin.perspective.HusacctPersepectiveFactory"
+            fixed="true"
             icon="icons/HU-icon.gif"
             id="HUSACCT_Plugin.HusacctPerspective"
             name="HUSACCT">
