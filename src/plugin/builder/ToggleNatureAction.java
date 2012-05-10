@@ -22,7 +22,7 @@ public class ToggleNatureAction implements IObjectActionDelegate {
 	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
 	 */
 	public void run(IAction action) {
-		System.out.println("Ja hoor, het knoptje is ingedrukt! Stefan ook weer blij");
+		System.out.println("Ja hoor, het knopje is ingedrukt! Stefan ook weer blij");
 //		if (selection instanceof IStructuredSelection) {
 //			for (Iterator it = ((IStructuredSelection) selection).iterator(); it
 //					.hasNext();) {
