@@ -1,6 +1,8 @@
 package plugin.controller;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.swing.JInternalFrame;
@@ -15,6 +17,8 @@ import org.jdom2.Element;
 import plugin.Activator;
 import husacct.Main;
 import husacct.ServiceProvider;
+import husacct.common.dto.ModuleDTO;
+import husacct.common.dto.ViolationDTO;
 import husacct.control.task.resources.IResource;
 import husacct.control.task.resources.ResourceFactory;
 
@@ -117,5 +121,22 @@ public class PluginController {
 		} catch (Exception e) {
 			logger.debug("Unable to export logical architecture: " + e.getMessage());
 		}
-	}	
+	}
+	
+	public ArrayList<ViolationDTO> getViolations(){
+		ArrayList<ViolationDTO> violationArrayList = new ArrayList<ViolationDTO>();
+		ModuleDTO[] moduleList;
+		moduleList = serviceProvider.getDefineService().getRootModules();
+		
+		//Setting all violation per module in a ArrayList
+		for(ModuleDTO mdtoFrom : moduleList){
+			for(ModuleDTO mdtoTo: moduleList){
+				if(mdtoFrom != mdtoTo){
+					violationArrayList.addAll(Arrays.asList(serviceProvider.getValidateService().getViolationsByLogicalPath(mdtoFrom.logicalPath, mdtoTo.logicalPath)));
+				}
+			}
+		}
+		return violationArrayList;
+		
+	}
 }
