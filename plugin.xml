@@ -10,15 +10,6 @@
       <view
             allowMultiple="false"
             category="HUSACCT_Plugin.HUSACCT"
-            class="plugin.views.HusacctMainView"
-            icon="icons/HU-icon.gif"
-            id="plugin.views.HusacctMainView"
-            name="HUSACCT plugin"
-            restorable="true">
-      </view>
-      <view
-            allowMultiple="false"
-            category="HUSACCT_Plugin.HUSACCT"
             class="plugin.views.DefineView"
             icon="icons/HU-icon.gif"
             id="plugin.views.DefineView"
@@ -32,6 +23,14 @@
             icon="icons/HU-icon.gif"
             id="plugin.views.ValidateView"
             name="Validate"
+            restorable="true">
+      </view>
+      <view
+            category="HUSACCT_Plugin.HUSACCT"
+            class="plugin.views.LogicalArchitectureView"
+            icon="icons/HU-icon.gif"
+            id="plugin.views.LogicalArchitectureView"
+            name="LogicalArchitecture"
             restorable="true">
       </view>
    </extension>

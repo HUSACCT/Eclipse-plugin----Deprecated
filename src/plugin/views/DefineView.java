@@ -39,15 +39,6 @@ public class DefineView extends ViewPart {
 	private void createButtons(Frame frame){
 		Panel panel = new Panel();	
 		
-		Button buttonSelectSource = new Button("SelectSource");
-		buttonSelectSource.addActionListener(new ActionListener() {		 
-	        public void actionPerformed(ActionEvent e)
-	        {
-	        	selectSource();
-	        }
-	    }); 	
-		panel.add(buttonSelectSource);
-		
 		Button buttonImport = new Button("Import Architecture");
 		buttonImport.addActionListener(new ActionListener() {		 
 	        public void actionPerformed(ActionEvent e)
@@ -67,17 +58,6 @@ public class DefineView extends ViewPart {
 		panel.add(buttonExport);
 		
 		frame.add(panel, BorderLayout.PAGE_START);
-	}
-	
-	private void selectSource(){
-		JFileChooser jFileChooser = new JFileChooser(); 
-		jFileChooser.setCurrentDirectory(new java.io.File("."));
-		jFileChooser.setDialogTitle("Select Source Location");
-		jFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		jFileChooser.setAcceptAllFileFilterUsed(false);
-		if (jFileChooser.showOpenDialog(pluginController.getDefineFrame().getRootPane()) == JFileChooser.APPROVE_OPTION) { 
-			pluginController.sourceSelected(jFileChooser.getSelectedFile().getAbsolutePath(), "1.0");
-		}			
 	}
 	
 	private void importArchitecture(){

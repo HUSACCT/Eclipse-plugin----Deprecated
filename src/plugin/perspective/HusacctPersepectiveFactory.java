@@ -12,6 +12,7 @@ public class HusacctPersepectiveFactory implements IPerspectiveFactory {
 		myLayout.addView("org.eclipse.jdt.ui.PackageExplorer", IPageLayout.LEFT, 0.20f, myLayout.getEditorArea());
 		IFolderLayout rightFolder = myLayout.createFolder("RIGHT", IPageLayout.RIGHT, 0.25f, myLayout.getEditorArea());
 		rightFolder.addView("plugin.views.DefineView");
-		rightFolder.addView("plugin.views.ValidateView");		
+		rightFolder.addView("plugin.views.ValidateView");	
+		rightFolder.addView("plugin.views.LogicalArchitectureView");
 	}
 }
