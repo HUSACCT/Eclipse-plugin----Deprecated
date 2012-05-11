@@ -6,30 +6,29 @@ import java.util.HashMap;
 import javax.swing.JInternalFrame;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IPath;
 import org.jdom2.Document;
 import org.jdom2.Element;
 
 import plugin.Activator;
 import husacct.Main;
 import husacct.ServiceProvider;
-import husacct.control.task.StateController;
 import husacct.control.task.resources.IResource;
 import husacct.control.task.resources.ResourceFactory;
 
 public class PluginController {
 	private ServiceProvider serviceProvider;
-	private StateController stateController;
-	private JInternalFrame JInternalFrameValidate, JInternalFrameDefine;
+	private JInternalFrame JInternalFrameValidate, JInternalFrameDefine, JInternalFrameAnalysedGraphics;
  	private Logger logger;
  	private static PluginController pluginController = null;
+ 	private IProject project;
  	
  	private PluginController(){
  		initializeLogger();
  		logger.info("Starting ServiceProvider");
  		serviceProvider = ServiceProvider.getInstance();
- 		logger.info("Starting StateController");
- 		stateController = new StateController();
  		logger.info("Initialize Frames");
  		initializeFrames();
  	}
@@ -67,14 +66,24 @@ public class PluginController {
  		return JInternalFrameValidate;
  	}
  	
+ 	public JInternalFrame getGraphicsAnalysedArchitecture(){
+ 		return JInternalFrameAnalysedGraphics;
+ 	}
+ 	
  	public void validate(){
- 		stateController.checkState();
- 		if(stateController.getState() >= StateController.MAPPED){
+ 		if(serviceProvider.getDefineService().isMapped()){
  			serviceProvider.getValidateService().checkConformance();
  		}
  	}
+ 	
+ 	public void projectSelected(IProject project){
+ 		this.project = project;
+ 		IPath projectPath = project.getLocation();
+ 		sourceSelected("eclipse plugin project" ,projectPath.toString(), "1.0");
+ 		logger.info(projectPath.makeRelative().toString());
+ 	}
 	
-	public void sourceSelected(String sources, String version){
+	public void sourceSelected(String projectName, String sources, String version){
 		logger.info("Selecting source");
 		serviceProvider.getDefineService().createApplication( "Eclipseplugin", new String[]{sources}, "Java", version);		
 		logger.info("Analyzing source");

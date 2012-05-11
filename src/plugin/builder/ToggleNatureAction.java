@@ -3,7 +3,6 @@ package plugin.builder;
 import java.util.Iterator;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -64,8 +63,6 @@ public class ToggleNatureAction implements IObjectActionDelegate    {
 	 *            to have sample nature added or removed
 	 */
 	private void toggleNature(IProject project) {
-			IPath projectPath = project.getLocation();
-			PluginController.getInstance().sourceSelected(projectPath.toString(), "1.0");
+			PluginController.getInstance().projectSelected(project);
 	}
-	
 }
