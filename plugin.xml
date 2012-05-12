@@ -27,10 +27,10 @@
       </view>
       <view
             category="HUSACCT_Plugin.HUSACCT"
-            class="plugin.views.GraphicsView"
+            class="plugin.views.GraphicsAnalysedArchitectureView"
             icon="icons/HU-icon.gif"
-            id="plugin.views.GraphicsView"
-            name="Graphics"
+            id="plugin.views.GraphicsAnalysedArchitectureView"
+            name="Graphics - Analysed Architecture"
             restorable="true">
       </view>
       <view
@@ -39,6 +39,14 @@
             icon="icons/HU-icon.gif"
             id="plugin.views.AnalyseView"
             name="Analyse"
+            restorable="true">
+      </view>
+      <view
+            category="HUSACCT_Plugin.HUSACCT"
+            class="plugin.views.GraphicsDefinedArchitectureView"
+            icon="icons/HU-icon.gif"
+            id="plugin.views.GraphicsDefinedArchitectureView"
+            name="Graphics - Defined Architecture"
             restorable="true">
       </view>
    </extension>
