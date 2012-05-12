@@ -2,6 +2,7 @@ package plugin.views;
 
 import java.awt.BorderLayout;
 import java.awt.Button;
+import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
@@ -39,6 +40,7 @@ public class DefineView extends ViewPart {
 	private void createButtons(Frame frame){
 		Panel panel = new Panel();	
 		
+		
 		Button buttonImport = new Button("Import Architecture");
 		buttonImport.addActionListener(new ActionListener() {		 
 	        public void actionPerformed(ActionEvent e)
@@ -56,6 +58,7 @@ public class DefineView extends ViewPart {
 	        }
 	    }); 	
 		panel.add(buttonExport);
+		panel.setBackground(Color.gray);
 		
 		frame.add(panel, BorderLayout.PAGE_START);
 	}
