@@ -7,7 +7,8 @@ Bundle-Activator: plugin.Activator
 Bundle-Vendor: Groep 1 HUSACCT Project
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.core.resources
+ org.eclipse.core.resources,
+ org.eclipse.ui.ide;bundle-version="3.6.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: lib/antlr-3.2.jar,
@@ -21,3 +22,5 @@ Bundle-ClassPath: lib/antlr-3.2.jar,
  lib/jhotdraw.jar,
  lib/log4j-1.2.16.jar,
  .
+Import-Package: org.eclipse.core.filesystem,
+ org.eclipse.ui.ide

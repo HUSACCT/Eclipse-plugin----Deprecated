@@ -16,10 +16,18 @@ import java.util.ArrayList;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
 
 import plugin.controller.PluginController;
@@ -56,9 +64,11 @@ public class ValidateView extends ViewPart {
 		
 		violationTable.addMouseListener(new MouseAdapter() {
 			  public void mouseClicked(MouseEvent e) {
-			      	System.out.println("(" + violationTable.getValueAt(violationTable.getSelectedRow(), 0) + ".java:" +violationTable.getValueAt(violationTable.getSelectedRow(), 2)+")");
-						//PlatformUI.getWorkbench().getBrowserSupport().createBrowser("1").openURL(new URL("(" + violationTable.getValueAt(violationTable.getSelectedRow(), 0) + ".java:" +violationTable.getValueAt(violationTable.getSelectedRow(), 2)+")"));
-			      	
+			      //System.out.println("(" + violationTable.getValueAt(violationTable.getSelectedRow(), 0) + ".java:" +violationTable.getValueAt(violationTable.getSelectedRow(), 2)+")");
+				  
+				  Path path = new Path("RichRail\\src\\views\\Display.java");
+				  IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+			      openEditor(file);	
 			  }
 			});
 
@@ -68,6 +78,25 @@ public class ValidateView extends ViewPart {
 		frame.repaint();
 		parent.setParent(composite);
 	}
+	
+	private void openEditor(IFile file) {
+		final IFile aFile = file;
+		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+		
+			public void run() {
+				IWorkbenchWindow dwindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+				IWorkbenchPage page = dwindow.getActivePage();
+				
+				if (page != null) {
+					try {
+						IDE.openEditor(page, aFile, true);
+					}catch (PartInitException pie) {
+						System.out.println("Unable to open the Editor");
+					}
+				}
+			}
+			});
+		}
 	
 	private void createButton(Frame frame){
 		Panel panel = new Panel();	
