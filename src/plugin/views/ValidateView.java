@@ -60,16 +60,7 @@ public class ValidateView extends ViewPart {
 		violationTable.addMouseListener(new MouseAdapter() {
 			  public void mouseClicked(MouseEvent e) {
 			      	System.out.println("(" + violationTable.getValueAt(violationTable.getSelectedRow(), 0) + ".java:" +violationTable.getValueAt(violationTable.getSelectedRow(), 2)+")");
-			      	try {
 						//PlatformUI.getWorkbench().getBrowserSupport().createBrowser("1").openURL(new URL("(" + violationTable.getValueAt(violationTable.getSelectedRow(), 0) + ".java:" +violationTable.getValueAt(violationTable.getSelectedRow(), 2)+")"));
-					} catch (PartInitException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (MalformedURLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-
 			  }
 			});
 
