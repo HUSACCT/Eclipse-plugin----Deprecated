@@ -22,7 +22,7 @@ import husacct.control.task.resources.ResourceFactory;
 
 public class PluginController {
 	private ServiceProvider serviceProvider;
-	private JInternalFrame JInternalFrameValidate, JInternalFrameDefine, JInternalFrameAnalysedGraphics, JInternalFrameDefinedGraphics;
+	private JInternalFrame JInternalFrameValidate, JInternalFrameDefine, JInternalFrameAnalysedGraphics, JInternalFrameDefinedGraphics, JInternalFrameAnalyse;
  	private Logger logger;
  	private static PluginController pluginController = null;
  	private IProject project;
@@ -57,12 +57,19 @@ public class PluginController {
  	private void initializeFrames(){
  		JInternalFrameValidate = serviceProvider.getValidateService().getBrowseViolationsGUI();
 		JInternalFrameValidate.setVisible(true);
+		
 		JInternalFrameDefine = serviceProvider.getDefineService().getDefinedGUI();
 		JInternalFrameDefine.setVisible(true);
+		
 		JInternalFrameAnalysedGraphics = serviceProvider.getGraphicsService().getAnalysedArchitectureGUI();
 		JInternalFrameAnalysedGraphics.setVisible(true);
+		
 		JInternalFrameDefinedGraphics = serviceProvider.getGraphicsService().getDefinedArchitectureGUI();
 		JInternalFrameDefinedGraphics.setVisible(true);
+		
+		JInternalFrameAnalyse = serviceProvider.getAnalyseService().getJInternalFrame();
+		JInternalFrameDefinedGraphics.setVisible(true);
+		
  	}
  	
  	public JInternalFrame getDefineFrame(){
@@ -79,6 +86,10 @@ public class PluginController {
  	
  	public JInternalFrame getGraphicsDefinedArchitecture(){
  		return JInternalFrameDefinedGraphics;
+ 	}
+ 	
+ 	public JInternalFrame getAnalyseFrame(){
+ 		return JInternalFrameAnalyse;
  	}
  	
  	public void validate(){

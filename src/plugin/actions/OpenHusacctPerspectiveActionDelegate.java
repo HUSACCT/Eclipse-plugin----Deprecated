@@ -11,8 +11,12 @@ import org.eclipse.ui.WorkbenchException;
 public class OpenHusacctPerspectiveActionDelegate implements IWorkbenchWindowActionDelegate {
 	
 		public void init(IWorkbenchWindow window) {
+			
         }
-        public void dispose() {}
+		
+        public void dispose() {
+        	
+        }
 
         public void run(IAction action) {
         	try {
@@ -20,8 +24,10 @@ public class OpenHusacctPerspectiveActionDelegate implements IWorkbenchWindowAct
 			} catch (WorkbenchException e) {
 				e.printStackTrace();
 			} 
-
         }
-        public void selectionChanged(IAction action, ISelection selection) {}
+        
+        public void selectionChanged(IAction action, ISelection selection) {
+        	
+        }
         
 }
