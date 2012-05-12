@@ -53,7 +53,7 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="plugin.perspective.HusacctPersepectiveFactory"
+            class="plugin.perspective.HusacctPerspectiveFactory"
             fixed="true"
             icon="icons/HU-icon.gif"
             id="HUSACCT_Plugin.HusacctPerspective"

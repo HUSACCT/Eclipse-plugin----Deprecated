@@ -7,7 +7,6 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
 
-
 public class OpenHusacctPerspectiveActionDelegate implements IWorkbenchWindowActionDelegate {
 	
 		public void init(IWorkbenchWindow window) {
@@ -29,5 +28,4 @@ public class OpenHusacctPerspectiveActionDelegate implements IWorkbenchWindowAct
         public void selectionChanged(IAction action, ISelection selection) {
         	
         }
-        
 }
