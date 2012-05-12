@@ -4,25 +4,22 @@ import husacct.common.dto.ViolationDTO;
 
 import java.awt.BorderLayout;
 import java.awt.Button;
+import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
+
 import org.eclipse.ui.part.ViewPart;
 
 import plugin.controller.PluginController;
@@ -61,6 +58,7 @@ public class ValidateView extends ViewPart {
 			  public void mouseClicked(MouseEvent e) {
 			      	System.out.println("(" + violationTable.getValueAt(violationTable.getSelectedRow(), 0) + ".java:" +violationTable.getValueAt(violationTable.getSelectedRow(), 2)+")");
 						//PlatformUI.getWorkbench().getBrowserSupport().createBrowser("1").openURL(new URL("(" + violationTable.getValueAt(violationTable.getSelectedRow(), 0) + ".java:" +violationTable.getValueAt(violationTable.getSelectedRow(), 2)+")"));
+			      	
 			  }
 			});
 
@@ -73,6 +71,7 @@ public class ValidateView extends ViewPart {
 	
 	private void createButton(Frame frame){
 		Panel panel = new Panel();	
+		panel.setBackground(Color.LIGHT_GRAY);
 		Button buttonValidate = new Button("Validate");
 		buttonValidate.addActionListener(new ActionListener() {		 
 	        public void actionPerformed(ActionEvent e)
