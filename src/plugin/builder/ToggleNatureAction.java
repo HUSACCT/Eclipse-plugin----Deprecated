@@ -8,6 +8,9 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.WorkbenchException;
+
 import plugin.controller.PluginController;
 
 
@@ -63,6 +66,11 @@ public class ToggleNatureAction implements IObjectActionDelegate    {
 	 *            to have sample nature added or removed
 	 */
 	private void toggleNature(IProject project) {
+			try {
+				PlatformUI.getWorkbench().showPerspective("HUSACCT_Plugin.HusacctPerspective",PlatformUI.getWorkbench().getActiveWorkbenchWindow());
+			} catch (WorkbenchException e) {
+				e.printStackTrace();
+			}
 			PluginController.getInstance().projectSelected(project);
 	}
 }

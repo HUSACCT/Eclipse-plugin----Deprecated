@@ -27,10 +27,10 @@
       </view>
       <view
             category="HUSACCT_Plugin.HUSACCT"
-            class="plugin.views.LogicalArchitectureView"
+            class="plugin.views.GraphicsView"
             icon="icons/HU-icon.gif"
-            id="plugin.views.LogicalArchitectureView"
-            name="LogicalArchitecture"
+            id="plugin.views.GraphicsView"
+            name="Graphics"
             restorable="true">
       </view>
    </extension>

@@ -24,7 +24,7 @@ import husacct.control.task.resources.ResourceFactory;
 
 public class PluginController {
 	private ServiceProvider serviceProvider;
-	private JInternalFrame JInternalFrameValidate, JInternalFrameDefine, JInternalFrameAnalysedGraphics;
+	private JInternalFrame JInternalFrameValidate, JInternalFrameDefine, JInternalFrameAnalysedGraphics, JInternalFrameDefinedGraphics;
  	private Logger logger;
  	private static PluginController pluginController = null;
  	private IProject project;
@@ -60,6 +60,10 @@ public class PluginController {
 		JInternalFrameValidate.setVisible(true);
 		JInternalFrameDefine = serviceProvider.getDefineService().getDefinedGUI();
 		JInternalFrameDefine.setVisible(true);
+		JInternalFrameAnalysedGraphics = serviceProvider.getGraphicsService().getAnalysedArchitectureGUI();
+		JInternalFrameAnalysedGraphics.setVisible(true);
+		JInternalFrameDefinedGraphics = serviceProvider.getGraphicsService().getDefinedArchitectureGUI();
+		JInternalFrameDefinedGraphics.setVisible(true);
  	}
  	
  	public JInternalFrame getDefineFrame(){
@@ -72,6 +76,10 @@ public class PluginController {
  	
  	public JInternalFrame getGraphicsAnalysedArchitecture(){
  		return JInternalFrameAnalysedGraphics;
+ 	}
+ 	
+ 	public JInternalFrame getGraphicsDefinedArchitecture(){
+ 		return JInternalFrameDefinedGraphics;
  	}
  	
  	public void validate(){

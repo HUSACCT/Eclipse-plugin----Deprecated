@@ -13,6 +13,6 @@ public class HusacctPersepectiveFactory implements IPerspectiveFactory {
 		IFolderLayout rightFolder = myLayout.createFolder("RIGHT", IPageLayout.RIGHT, 0.25f, myLayout.getEditorArea());
 		rightFolder.addView("plugin.views.DefineView");
 		rightFolder.addView("plugin.views.ValidateView");	
-		rightFolder.addView("plugin.views.LogicalArchitectureView");
+		rightFolder.addView("plugin.views.GraphicsView");
 	}
 }
