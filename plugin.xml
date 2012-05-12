@@ -86,7 +86,6 @@
                label="Open HUSACCT Perspective"
                menubarPath="HUSACCT-Plugin.workbenchMenu/content"
                style="push"
-               toolbarPath="Normal/additions"
                tooltip="Open the HUSACCT View">
          </action>
       </actionSet>
