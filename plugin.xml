@@ -33,6 +33,14 @@
             name="Graphics"
             restorable="true">
       </view>
+      <view
+            category="HUSACCT_Plugin.HUSACCT"
+            class="plugin.views.AnalyseView"
+            icon="icons/HU-icon.gif"
+            id="plugin.views.AnalyseView"
+            name="Analyse"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">

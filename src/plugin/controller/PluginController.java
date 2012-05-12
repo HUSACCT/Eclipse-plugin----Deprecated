@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-
 import javax.swing.JInternalFrame;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -13,7 +12,6 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.jdom2.Document;
 import org.jdom2.Element;
-
 import plugin.Activator;
 import husacct.Main;
 import husacct.ServiceProvider;
@@ -28,6 +26,7 @@ public class PluginController {
  	private Logger logger;
  	private static PluginController pluginController = null;
  	private IProject project;
+ 	private String projectName;
  	
  	private PluginController(){
  		initializeLogger();
@@ -94,6 +93,17 @@ public class PluginController {
  		sourceSelected("eclipse plugin project" ,projectPath.toString(), "1.0");
  		logger.info(projectPath.makeRelative().toString());
  	}
+ 	
+ 	public void setProjectName(IProject project){
+		IProject iProjectProjectName = project.getProject();
+		String projectNameString = iProjectProjectName.toString(); 	
+		String subString = projectNameString.substring(2);
+		this.projectName = subString;
+ 	}
+ 	
+ 	public String getProjectName(){
+ 		return projectName;
+ 	}
 	
 	public void sourceSelected(String projectName, String sources, String version){
 		logger.info("Selecting source");
@@ -145,6 +155,5 @@ public class PluginController {
 			}
 		}
 		return violationArrayList;
-		
 	}
 }
