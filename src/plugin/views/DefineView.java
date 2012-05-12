@@ -8,10 +8,8 @@ import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
@@ -40,7 +38,6 @@ public class DefineView extends ViewPart {
 	private void createButtons(Frame frame){
 		Panel panel = new Panel();	
 		
-		
 		Button buttonImport = new Button("Import Architecture");
 		buttonImport.addActionListener(new ActionListener() {		 
 	        public void actionPerformed(ActionEvent e)
@@ -58,7 +55,7 @@ public class DefineView extends ViewPart {
 	        }
 	    }); 	
 		panel.add(buttonExport);
-		panel.setBackground(Color.gray);
+		panel.setBackground(Color.LIGHT_GRAY);
 		
 		frame.add(panel, BorderLayout.PAGE_START);
 	}
@@ -102,5 +99,4 @@ public class DefineView extends ViewPart {
 	@Override
 	public void setFocus() {
 	}
-
 }

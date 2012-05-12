@@ -1,12 +1,7 @@
 package plugin.views;
 
 import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.Frame;
-import java.awt.Panel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JInternalFrame;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
@@ -17,7 +12,7 @@ public class GraphicsAnalysedArchitectureView extends ViewPart {
 	private Frame frame;
 	
 	public GraphicsAnalysedArchitectureView() {
-
+		
 	}
 
 	@Override
@@ -36,5 +31,4 @@ public class GraphicsAnalysedArchitectureView extends ViewPart {
 	public void setFocus() {
 		
 	}
-
 }
