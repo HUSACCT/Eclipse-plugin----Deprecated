@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="HUSACCT_Plugin.HUSACCT"
+            name="HUSACCT">
+      </category>
+      <view
+            allowMultiple="false"
+            category="HUSACCT_Plugin.HUSACCT"
+            class="plugin.views.DefineView"
+            icon="icons/HU-icon.gif"
+            id="plugin.views.DefineView"
+            name="Define"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
+            category="HUSACCT_Plugin.HUSACCT"
+            class="plugin.views.ValidateView"
+            icon="icons/HU-icon.gif"
+            id="plugin.views.ValidateView"
+            name="Validate"
+            restorable="true">
+      </view>
+      <view
+            category="HUSACCT_Plugin.HUSACCT"
+            class="plugin.views.GraphicsAnalysedArchitectureView"
+            icon="icons/HU-icon.gif"
+            id="plugin.views.GraphicsAnalysedArchitectureView"
+            name="Graphics - Analysed Architecture"
+            restorable="true">
+      </view>
+      <view
+            category="HUSACCT_Plugin.HUSACCT"
+            class="plugin.views.AnalyseView"
+            icon="icons/HU-icon.gif"
+            id="plugin.views.AnalyseView"
+            name="Analyse"
+            restorable="true">
+      </view>
+      <view
+            category="HUSACCT_Plugin.HUSACCT"
+            class="plugin.views.GraphicsDefinedArchitectureView"
+            icon="icons/HU-icon.gif"
+            id="plugin.views.GraphicsDefinedArchitectureView"
+            name="Graphics - Defined Architecture"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="plugin.perspective.HusacctPerspectiveFactory"
+            fixed="true"
+            icon="icons/HU-icon.gif"
+            id="HUSACCT_Plugin.HusacctPerspective"
+            name="HUSACCT">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            description="This is HUSACCT action set"
+            id="HUSACCT-Plugin.workbenchActionSet"
+            label="HUSACCT ActionSet"
+            visible="true">
+         <menu
+               icon="icons/HU-icon.gif"
+               id="HUSACCT-Plugin.workbenchMenu"
+               label="HUSACCT Plugin Manager"
+               path="additions">
+            <separator
+                  name="additions">
+            </separator>
+            <groupMarker
+                  name="content">
+            </groupMarker>
+         </menu>
+         <action
+               class="plugin.actions.OpenHusacctPerspectiveActionDelegate"
+               icon="icons/HU-icon.gif"
+               id="HUSACCT-Plugin.openHusacctView"
+               label="Open HUSACCT Perspective"
+               menubarPath="HUSACCT-Plugin.workbenchMenu/content"
+               style="push"
+               tooltip="Open the HUSACCT View">
+         </action>
+      </actionSet>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            id="HUSACCT_Plugin.contribution1"
+            nameFilter="*"
+            objectClass="org.eclipse.core.resources.IProject">
+         <action
+               class="plugin.builder.ToggleNatureAction"
+               enablesFor="+"
+               id="HUSACCT_Plugin.addRemoveNatureAction"
+               label="HUSACCT - Analyse Project"
+               menubarPath="additions">
+         </action>
+      </objectContribution>
+   </extension>
+   <extension
+         id="xmlProblem"
+         name="XML Problem"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+      <persistent
+            value="true">
+      </persistent>
+   </extension>
+
+</plugin>
