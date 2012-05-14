@@ -25,14 +25,16 @@ public class PluginController {
 	private JInternalFrame JInternalFrameValidate, JInternalFrameDefine, JInternalFrameAnalysedGraphics, JInternalFrameDefinedGraphics, JInternalFrameAnalyse;
  	private Logger logger;
  	private static PluginController pluginController = null;
+ 	private PluginStateController pluginStateController;
  	private IProject project;
  	private String projectName;
- 	private String projectPath;
+ 	private IPath projectPath;
  	
  	private PluginController(){
  		initializeLogger();
  		logger.info("Starting ServiceProvider");
  		serviceProvider = ServiceProvider.getInstance();
+ 		pluginStateController = new PluginStateController();
  		logger.info("Initialize Frames");
  		initializeFrames();
  	}
@@ -69,8 +71,11 @@ public class PluginController {
 		JInternalFrameDefinedGraphics.setVisible(true);
 		
 		JInternalFrameAnalyse = serviceProvider.getAnalyseService().getJInternalFrame();
-		JInternalFrameDefinedGraphics.setVisible(true);
-		
+		JInternalFrameDefinedGraphics.setVisible(true);		
+ 	}
+ 	
+ 	public PluginStateController getPluginStateController(){
+ 		return pluginStateController;
  	}
  	
  	public JInternalFrame getDefineFrame(){
@@ -101,34 +106,28 @@ public class PluginController {
  	
  	public void projectSelected(IProject project){
  		this.project = project;
- 		IPath projectPath = project.getLocation();
- 		sourceSelected("eclipse plugin project" ,projectPath.toString(), "1.0");
+ 		projectPath = project.getLocation();
+		projectName =  project.toString().substring(2);
+		pluginStateController.setIsOpened(true);
+ 		sourceSelected(projectName ,projectPath.toString(), "1.0");
  		logger.info(projectPath.makeRelative().toString());
- 		setProjectPath(projectPath.toString());
- 		
  	}
  	
- 	public void setProjectName(IProject project){
-		IProject iProjectProjectName = project.getProject();
-		String projectNameString = iProjectProjectName.toString(); 	
-		String subString = projectNameString.substring(2);
-		this.projectName = subString;
+ 	public IProject getProject(){
+ 		return project;
  	}
  	
  	public String getProjectName(){
  		return projectName;
  	}
- 	public void setProjectPath(String projectPath){
- 		this.projectPath = projectPath;
- 	}
  	
  	public String getProjectPath(){
- 		return projectPath;
+ 		return projectPath.toString();
  	}
 	
 	public void sourceSelected(String projectName, String sources, String version){
 		logger.info("Selecting source");
-		serviceProvider.getDefineService().createApplication( "Eclipseplugin", new String[]{sources}, "Java", version);		
+		serviceProvider.getDefineService().createApplication( projectName, new String[]{sources}, "Java", version);		
 		logger.info("Analyzing source");
 		serviceProvider.getAnalyseService().analyseApplication();
 	}

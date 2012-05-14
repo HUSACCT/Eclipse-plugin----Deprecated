@@ -39,9 +39,7 @@ public class ToggleNatureAction implements IObjectActionDelegate    {
 			} catch (WorkbenchException e) {
 				e.printStackTrace();
 			}
-			PluginController.getInstance().projectSelected(project);
-			PluginController.getInstance().setProjectName(project);
-			
+			PluginController.getInstance().projectSelected(project);			
 	}
 	
 	public void selectionChanged(IAction action, ISelection selection) {
