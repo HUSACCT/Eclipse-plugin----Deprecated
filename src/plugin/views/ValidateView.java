@@ -41,19 +41,27 @@ public class ValidateView extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-
 		pluginController = PluginController.getInstance();
 		Composite composite = new Composite(parent, SWT.EMBEDDED);	
 		Frame frame = SWT_AWT.new_Frame(composite);
 		frame.setLayout(new BorderLayout());
-
+		initiateViolationTable();
+		frame.add(new JScrollPane(violationTable), BorderLayout.CENTER);
+		createButton(frame);
+		frame.validate();
+		frame.repaint();
+		parent.setParent(composite);
+	}
+	
+	private void initiateViolationTable(){
 		String[] columnNames = {"From", "To", "Line number", "Dependency type"};
 
 		violationArrayList = pluginController.getViolations();
 		for(ViolationDTO dto: violationArrayList){
 			System.out.println(dto.logicalModuleFrom);
 		}
-
+		//--------->  COMMENTS WORDEN VERWIJDERD ZODRA DIT DEEL NAAR BEHOREN FUNCTIONEERT  <---------------------
+		
 		//Onderstaande array moet gevuld worden met violations. Is momenteel nog met testdata gevuld.
 		Object[][] data = { {"views.Display", "models.Log", "8", "Import"}, {"views.Display", "models.Storage", "19", "Import"} };
 
@@ -85,17 +93,10 @@ public class ValidateView extends ViewPart {
 				IFile iFile = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 
 				openViolationWithEditor(iFile,lineNumber);	
-
 			}
 		});
-
-		frame.add(new JScrollPane(violationTable), BorderLayout.CENTER);
-		createButton(frame);
-		frame.validate();
-		frame.repaint();
-		parent.setParent(composite);
 	}
-
+	
 	private void openViolationWithEditor(IFile file, int lineNumber) {
 		final IFile iFile = file;
 		final int finalLineNumber = lineNumber;

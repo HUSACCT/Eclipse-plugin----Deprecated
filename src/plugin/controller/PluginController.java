@@ -116,6 +116,13 @@ public class PluginController {
  	public IProject getProject(){
  		return project;
  	}
+
+ 	public void setProjectName(IProject project){
+		IProject iProjectProjectName = project.getProject();
+		String projectNameString = iProjectProjectName.toString(); 	
+		String subString = projectNameString.substring(2);
+		this.projectName = subString;
+ 	}
  	
  	public String getProjectName(){
  		return projectName;
