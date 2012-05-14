@@ -26,8 +26,7 @@ public class PluginController {
  	private Logger logger;
  	private static PluginController pluginController = null;
  	private IProject project;
- 	private String projectName;
- 	private String projectPath;
+ 	private String projectName, projectPath;
  	
  	private PluginController(){
  		initializeLogger();
@@ -105,9 +104,8 @@ public class PluginController {
  		sourceSelected("eclipse plugin project" ,projectPath.toString(), "1.0");
  		logger.info(projectPath.makeRelative().toString());
  		setProjectPath(projectPath.toString());
- 		
  	}
- 	
+
  	public void setProjectName(IProject project){
 		IProject iProjectProjectName = project.getProject();
 		String projectNameString = iProjectProjectName.toString(); 	
@@ -118,7 +116,8 @@ public class PluginController {
  	public String getProjectName(){
  		return projectName;
  	}
- 	public void setProjectPath(String projectPath){
+ 	
+ 	private void setProjectPath(String projectPath){
  		this.projectPath = projectPath;
  	}
  	
