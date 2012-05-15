@@ -6,6 +6,7 @@ import husacct.control.task.States;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Frame;
+import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.Panel;
 import java.util.List;
@@ -38,19 +39,17 @@ public class StateView extends ViewPart implements IStateChangeListener {
 	
 	private void createLabels(Frame frame){
 		Panel panel = new Panel();
+		panel.setLayout(new GridLayout(0,1));
 		source = new Label("Source Selected");
-		source.setBackground(Color.YELLOW);
 		panel.add(source);
 		defined = new Label("Defined");
-		defined.setBackground(Color.RED);
 		panel.add(defined);
 		mapped = new Label("Mapped");
-		mapped.setBackground(Color.RED);
 		panel.add(mapped);
 		validated = new Label("Validated");
-		validated.setBackground(Color.RED);
 		panel.add(validated);
 		frame.add(panel);
+		this.setFocus();
 	}
 
 	@Override
