@@ -4,12 +4,12 @@ import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
-
 public class HusacctPerspectiveFactory implements IPerspectiveFactory {
 	@Override
 	public void createInitialLayout(IPageLayout myLayout) {
 		myLayout.setEditorAreaVisible(false);
-		IFolderLayout topLeftFolder = myLayout.createFolder("topLeft", IPageLayout.LEFT, 0.20f, myLayout.getEditorArea());
+				
+		IFolderLayout topLeftFolder = myLayout.createFolder("topLeft", IPageLayout.LEFT, 0.18f, myLayout.getEditorArea());
 		topLeftFolder.addView("org.eclipse.jdt.ui.PackageExplorer");
 		IFolderLayout bottomLeftFolder = myLayout.createFolder("bottomLeft", IPageLayout.BOTTOM, 0.50f, "topLeft");
 		bottomLeftFolder.addView("plugin.views.StateView");
@@ -19,5 +19,6 @@ public class HusacctPerspectiveFactory implements IPerspectiveFactory {
 		rightFolder.addView("plugin.views.ValidateView");
 		rightFolder.addView("plugin.views.GraphicsAnalysedArchitectureView");
 		rightFolder.addView("plugin.views.GraphicsDefinedArchitectureView");
+		
 	}
 }
