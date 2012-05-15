@@ -81,14 +81,15 @@ public class ValidateView extends ViewPart {
 				String formattedPackageAndClassName = readedPackageAndClassName.replace('.' , '/'); 
 
 				//Onderstaande = string van project die geanalyseerd is				
-				String projectPath = pluginController.getProjectPath();
+				String projectName = pluginController.getProjectName();
 
 				//Onderstaande = volledige pad van de klasse waar de violation in zit.
-				String entireClassPath = (projectPath + "/src/" + formattedPackageAndClassName);
+				String entireClassPath = (projectName + "/src/" + formattedPackageAndClassName)+ ".java";
 
 				System.out.println(entireClassPath);  // deze is voor de test - mag binnenkort weg! Wanneer er geen project geanalyseerd is zal de output foutief zijn.
 
-				Path path = new Path("Border/src/BorderLayoutDemo.java"); //de huidige test situatie - pad moet een project zijn in je huidige (test) workspace
+				//Path path = new Path("Border/src/BorderLayoutDemo.java");
+				Path path = new Path("Border/src/task/BorderLayoutDemo.java"); //de huidige test situatie - pad moet een project zijn in je huidige (test) workspace
 				//Path path = new Path(entireClassPath); //deze moet gebruikt gaan worden als violations opgehaald kunnen worden van de validate service
 				IFile iFile = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 
