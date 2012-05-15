@@ -66,7 +66,7 @@
          point="org.eclipse.ui.perspectives">
       <perspective
             class="plugin.perspective.HusacctPerspectiveFactory"
-            fixed="true"
+            fixed="false"
             icon="icons/HU-icon.gif"
             id="HUSACCT_Plugin.HusacctPerspective"
             name="HUSACCT">
