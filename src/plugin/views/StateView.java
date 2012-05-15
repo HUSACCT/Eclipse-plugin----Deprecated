@@ -9,7 +9,14 @@ import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.Panel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
+
+import javax.swing.JLabel;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
@@ -18,7 +25,7 @@ import org.eclipse.ui.part.ViewPart;
 import plugin.controller.PluginController;
 
 public class StateView extends ViewPart implements IStateChangeListener {
-	private Label source, defined, mapped, validated;
+	private JLabel source, defined, mapped, validated;
 	private Frame frame;
 
 	public StateView() {
@@ -40,13 +47,18 @@ public class StateView extends ViewPart implements IStateChangeListener {
 	private void createLabels(Frame frame){
 		Panel panel = new Panel();
 		panel.setLayout(new GridLayout(0,1));
-		source = new Label("Source Selected");
+	    source = new JLabel("Source Selected");
+	    source.setOpaque(true);
+	    source.setToolTipText("Click this button to disable the middle button.");
 		panel.add(source);
-		defined = new Label("Defined");
+		defined = new JLabel("Defined");;
+		defined.setOpaque(true);
 		panel.add(defined);
-		mapped = new Label("Mapped");
+		mapped = new JLabel("Mapped");
+		mapped.setOpaque(true);
 		panel.add(mapped);
-		validated = new Label("Validated");
+		validated = new JLabel("Validated");
+		validated.setOpaque(true);
 		panel.add(validated);
 		frame.add(panel);
 		this.setFocus();

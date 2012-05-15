@@ -11,7 +11,7 @@ public class HusacctPerspectiveFactory implements IPerspectiveFactory {
 		myLayout.setEditorAreaVisible(false);
 		IFolderLayout topLeftFolder = myLayout.createFolder("topLeft", IPageLayout.LEFT, 0.20f, myLayout.getEditorArea());
 		topLeftFolder.addView("org.eclipse.jdt.ui.PackageExplorer");
-		IFolderLayout bottomLeftFolder = myLayout.createFolder("bottomLeft", IPageLayout.BOTTOM, 0.5f, "topLeft");
+		IFolderLayout bottomLeftFolder = myLayout.createFolder("bottomLeft", IPageLayout.BOTTOM, 0.50f, "topLeft");
 		bottomLeftFolder.addView("plugin.views.StateView");
 		IFolderLayout rightFolder = myLayout.createFolder("RIGHT", IPageLayout.RIGHT, 0.25f, myLayout.getEditorArea());
 		rightFolder.addView("plugin.views.DefineView");
