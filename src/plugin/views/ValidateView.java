@@ -12,8 +12,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -34,6 +40,7 @@ public class ValidateView extends ViewPart {
 	private PluginController pluginController;
 	private ArrayList<ViolationDTO> violationArrayList = new ArrayList<ViolationDTO>();
 	private JTable violationTable;
+	private JLabel violationInformation;
 
 	public ValidateView() {
 
@@ -57,19 +64,40 @@ public class ValidateView extends ViewPart {
 		String[] columnNames = {"From", "To", "Line number", "Dependency type"};
 
 		violationArrayList = pluginController.getViolations();
-		for(ViolationDTO dto: violationArrayList){
-			System.out.println(dto.logicalModuleFrom);
-		}
-		//--------->  COMMENTS WORDEN VERWIJDERD ZODRA DIT DEEL NAAR BEHOREN FUNCTIONEERT  <---------------------
-		
-		//Onderstaande array moet gevuld worden met violations. Is momenteel nog met testdata gevuld.
-		Object[][] data = { {"views.Display", "models.Log", "8", "Import"}, {"views.Display", "models.Storage", "19", "Import"} };
 
+		//--------->  COMMENTS WORDEN VERWIJDERD ZODRA DIT DEEL NAAR BEHOREN FUNCTIONEERT  <---------------------
+		Object[][] data = new Object[][]{ { "", "", "", ""} };
+		//Onderstaande array moet gevuld worden met violations. Is momenteel nog met testdata gevuld.
+		if(violationArrayList.size() > 1){
+			data = new Object[violationArrayList.size()][4];
+		
+			int counter = 0;
+			for(ViolationDTO violationDTO : violationArrayList){
+				data[counter][0] = violationDTO.fromClasspath;
+				data[counter][1] = violationDTO.toClasspath;
+				data[counter][2] = "" + violationDTO.linenumber;
+				data[counter][3] = violationDTO.violationType.getKey();
+				counter++;
+			}
+		}
+		if(violationTable == null){
 		violationTable = new JTable(data, columnNames);
+		}else{
+			TableModel dataModel = new MyTableModel();
+			((MyTableModel) dataModel).setNewArray(data);
+			violationTable.setModel(dataModel);
+			
+			TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(dataModel);
+			violationTable.setRowSorter(sorter);
+			
+			violationInformation.setText("Er zijn " + violationArrayList.size() + " violations gevonden.");
+			violationTable.repaint();
+		}
+		violationTable.repaint();
 		violationTable.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				//Onderstaande = line number van geselecteerde violation 
-				int lineNumber = Integer.parseInt((String) violationTable.getValueAt(violationTable.getSelectedRow(), 2));  
+				int lineNumber = Integer.parseInt(violationTable.getValueAt(violationTable.getSelectedRow(), 2).toString());  
 
 				//Onderstaande is package+classname gescheiden met een punt van geselecteerde violation
 				String readedPackageAndClassName = violationTable.getValueAt(violationTable.getSelectedRow(), 0).toString();  
@@ -86,16 +114,13 @@ public class ValidateView extends ViewPart {
 				//Onderstaande = volledige pad van de klasse waar de violation in zit.
 				String entireClassPath = (projectName + "/src/" + formattedPackageAndClassName)+ ".java";
 
-				System.out.println(entireClassPath);  // deze is voor de test - mag binnenkort weg! Wanneer er geen project geanalyseerd is zal de output foutief zijn.
-
-				//Path path = new Path("Border/src/BorderLayoutDemo.java");
-				Path path = new Path("Border/src/task/BorderLayoutDemo.java"); //de huidige test situatie - pad moet een project zijn in je huidige (test) workspace
-				//Path path = new Path(entireClassPath); //deze moet gebruikt gaan worden als violations opgehaald kunnen worden van de validate service
+				Path path = new Path(entireClassPath); //deze moet gebruikt gaan worden als violations opgehaald kunnen worden van de validate service
 				IFile iFile = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 
 				openViolationWithEditor(iFile,lineNumber);	
 			}
 		});
+		
 	}
 	
 	private void openViolationWithEditor(IFile file, int lineNumber) {
@@ -135,18 +160,74 @@ public class ValidateView extends ViewPart {
 		Panel panel = new Panel();	
 		panel.setBackground(Color.LIGHT_GRAY);
 		Button buttonValidate = new Button("Validate");
+		violationInformation = new JLabel("Er zijn 0 violations gevonden");
+		
 		buttonValidate.addActionListener(new ActionListener() {		 
 			public void actionPerformed(ActionEvent e)
 			{
 				pluginController.validate();
+				initiateViolationTable();
 			}
-		}); 	
+		}); 
 		panel.add(buttonValidate);
+		panel.add(violationInformation);
 		frame.add(panel, BorderLayout.PAGE_START);
 	}
 
 	@Override
 	public void setFocus() {
 
+	}
+	
+	class MyTableModel extends AbstractTableModel {
+	    private String[] columnNames = {"From", "To", "Line number", "Dependency type"};
+	    private Object[][] data = new Object[][]{ { "", "", "", ""} };
+
+	    public int getColumnCount() {
+	        return columnNames.length;
+	    }
+
+	    public int getRowCount() {
+	        return data.length;
+	    }
+
+	    public String getColumnName(int col) {
+	        return columnNames[col];
+	    }
+
+	    public Object getValueAt(int row, int col) {
+	        return data[row][col];
+	    }
+
+	    public Class getColumnClass(int c) {
+	        return getValueAt(0, c).getClass();
+	    }
+	    
+	    public void setNewArray(Object[][] data){
+	    	this.data = data;
+	    }
+
+	    /*
+	     * Don't need to implement this method unless your table's
+	     * editable.
+	     */
+	    public boolean isCellEditable(int row, int col) {
+	        //Note that the data/cell address is constant,
+	        //no matter where the cell appears onscreen.
+	        if (col < 2) {
+	            return false;
+	        } else {
+	            return true;
+	        }
+	    }
+
+	    /*
+	     * Don't need to implement this method unless your table's
+	     * data can change.
+	     */
+	    public void setValueAt(Object value, int row, int col) {
+	        data[row][col] = value;
+	        fireTableCellUpdated(row, col);
+	    }
 	}
 }
