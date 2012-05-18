@@ -6,13 +6,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import javax.swing.JInternalFrame;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.jdom2.Document;
 import org.jdom2.Element;
-import plugin.Activator;
 import husacct.Main;
 import husacct.ServiceProvider;
 import husacct.common.dto.ModuleDTO;
@@ -23,7 +20,7 @@ import husacct.control.task.resources.ResourceFactory;
 public class PluginController {
 	private ServiceProvider serviceProvider;
 	private JInternalFrame JInternalFrameValidate, JInternalFrameDefine, JInternalFrameAnalysedGraphics, JInternalFrameDefinedGraphics, JInternalFrameAnalyse;
- 	private Logger logger;
+ 	private Logger logger = Logger.getLogger(PluginController.class);
  	private static PluginController pluginController = null;
  	private PluginStateController pluginStateController;
  	private IProject project;
@@ -31,9 +28,9 @@ public class PluginController {
  	private IPath projectPath;
  	
  	private PluginController(){
- 		initializeLogger();
+ 		new Main(new String[]{"nogui"});
  		logger.info("Starting ServiceProvider");
- 		serviceProvider = ServiceProvider.getInstance();
+ 		serviceProvider = ServiceProvider.getInstance(); 		
  		pluginStateController = new PluginStateController();
  		logger.info("Initialize Frames");
  		initializeFrames();
@@ -45,17 +42,6 @@ public class PluginController {
  		}
 		return pluginController;
  	}
- 	
- 	private void initializeLogger(){
- 		try {
-			String loggerFile = FileLocator.toFileURL(Activator.getDefault().getBundle().getEntry("husacct.properties")).getPath();
-			PropertyConfigurator.configure(loggerFile);
-			logger = Logger.getLogger(Main.class);
-			logger.info("Starting HUSACCT");
-		} catch (Exception e) {
-			e.printStackTrace();
-		} 		
- 	} 	
  	
  	private void initializeFrames(){
  		JInternalFrameValidate = serviceProvider.getValidateService().getBrowseViolationsGUI();
