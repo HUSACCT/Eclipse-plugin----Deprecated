@@ -61,6 +61,14 @@
             name="StateView"
             restorable="true">
       </view>
+      <view
+            category="HUSACCT_Plugin.HUSACCT"
+            class="plugin.views.StartView"
+            icon="icons/HU-icon.gif"
+            id="plugin.views.StartView"
+            name="StartView"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">

@@ -3,22 +3,34 @@ package plugin.views;
 import husacct.control.task.IStateChangeListener;
 import husacct.control.task.States;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Frame;
 import java.awt.GridLayout;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import org.eclipse.core.runtime.FileLocator;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
+
+import plugin.Activator;
 import plugin.controller.PluginController;
 
 public class StateView extends ViewPart implements IStateChangeListener {
 	private JLabel sourceSelectLabel, definedLabel, mappedLabel, validatedLabel;
+	private JLabel sourceSelectImage, definedImage, mappedImage, ValidatedImage;
 	private Frame frame;
+	private final String availableIcon = "icons/availableIcon.png";
+	private final String correctIcon = "icons/correctIcon.png";
+	private final String wrongIcon = "icons/wrongIcon.png";
+	
+	
 
 	public StateView() {
 	}
@@ -30,32 +42,66 @@ public class StateView extends ViewPart implements IStateChangeListener {
 		frame = SWT_AWT.new_Frame(composite);
 		frame.setLayout(new BorderLayout());
 		createLabels(frame);
-		frame.setBackground(Color.LIGHT_GRAY);
-		frame.validate();
-		frame.repaint();
+		fillPanel();
 		parent.setParent(composite);
+		this.setFocus();
 	}
 	
-	private void createLabels(Frame frame){
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(0,3));
+	private void createLabels(Frame frame){		
 	    sourceSelectLabel = new JLabel("Source Selected");
-	    sourceSelectLabel.setOpaque(true);
-	    sourceSelectLabel.setToolTipText("This shows if you have set the Source");
-		panel.add(sourceSelectLabel);
-		definedLabel = new JLabel("Defined");;
-		definedLabel.setOpaque(true);
-		definedLabel.setToolTipText("This shows if you have defined a Architecture");
-		panel.add(definedLabel);
+		sourceSelectImage = new JLabel("");	
+		
+		definedLabel = new JLabel("Defined");
+		definedLabel.setToolTipText("This shows if you have defined a architecture");	
+		definedImage = new JLabel("");	
+		
 		mappedLabel = new JLabel("Mapped");
-		mappedLabel.setOpaque(true);
-		panel.add(mappedLabel);
+		mappedLabel.setToolTipText("This shows if you have mapped the defined architecture to the source");	
+		mappedImage = new JLabel("");
+		
 		validatedLabel = new JLabel("Validated");
-		validatedLabel.setOpaque(true);
+		validatedLabel.setToolTipText("This shows if the code is checked on the defined rules");	
+		ValidatedImage = new JLabel("");	
+	}
+	
+	private void fillPanel(){
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(0,2));
+		panel.add(sourceSelectLabel);
+		panel.add(sourceSelectImage);
+		panel.add(definedLabel);
+		panel.add(definedImage);
+		panel.add(mappedLabel);
+		panel.add(mappedImage);
 		panel.add(validatedLabel);
-		panel.setToolTipText("Test panel");
-		frame.add(panel);
-		this.setFocus();
+		panel.add(ValidatedImage);
+		frame.add(panel, BorderLayout.NORTH);		
+	}
+	
+	private void setAvailable(JLabel label){
+		label.setIcon(new ImageIcon(setImage(availableIcon)));
+		label.setToolTipText("This step is available");
+	}
+	
+	private void setDone(JLabel label){
+		label.setIcon(new ImageIcon(setImage(correctIcon)));
+		label.setToolTipText("This step is done");
+	}
+	
+	private void setNotAvailable(JLabel label){
+		label.setIcon(new ImageIcon(setImage(wrongIcon)));
+		label.setToolTipText("This step is not yet available");
+	}
+	
+	private BufferedImage setImage(String imageLocation){
+		String husacctpng;
+		try {
+			husacctpng = FileLocator.toFileURL(Activator.getDefault().getBundle().getEntry(imageLocation)).getPath();
+			return ImageIO.read(new File(husacctpng));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	@Override
@@ -66,40 +112,46 @@ public class StateView extends ViewPart implements IStateChangeListener {
 	@Override
 	public void changeState(List<States> states) {
 		if(states.contains(States.VALIDATED)){
-			sourceSelectLabel.setBackground(Color.GREEN);
-			definedLabel.setBackground(Color.GREEN);
-			mappedLabel.setBackground(Color.GREEN);
-			validatedLabel.setBackground(Color.GREEN);
+			sourceSelectLabel.setToolTipText("The selected project is: " + PluginController.getInstance().getProjectName());	
+			setDone(sourceSelectImage);
+			setDone(definedImage);
+			setDone(mappedImage);
+			setDone(ValidatedImage);
 		}
 		else if(states.contains(States.MAPPED)){
-			sourceSelectLabel.setBackground(Color.GREEN);
-			definedLabel.setBackground(Color.GREEN);
-			mappedLabel.setBackground(Color.GREEN);
-			validatedLabel.setBackground(Color.YELLOW);
+			sourceSelectLabel.setToolTipText("The selected project is: " + PluginController.getInstance().getProjectName());	
+			setDone(sourceSelectImage);
+			setDone(definedImage);
+			setDone(mappedImage);
+			setAvailable(ValidatedImage);
 		}
 		else if(states.contains(States.DEFINED) && states.contains(States.OPENED)){
-			sourceSelectLabel.setBackground(Color.GREEN);
-			definedLabel.setBackground(Color.GREEN);
-			mappedLabel.setBackground(Color.YELLOW);
-			validatedLabel.setBackground(Color.RED);
+			sourceSelectLabel.setToolTipText("The selected project is: " + PluginController.getInstance().getProjectName());	
+			setDone(sourceSelectImage);
+			setDone(definedImage);
+			setAvailable(mappedImage);
+			setNotAvailable(ValidatedImage);
 		}
 		else if(states.contains(States.DEFINED) && !states.contains(States.OPENED)){
-			sourceSelectLabel.setBackground(Color.YELLOW);
-			definedLabel.setBackground(Color.GREEN);
-			mappedLabel.setBackground(Color.YELLOW);
-			validatedLabel.setBackground(Color.RED);
+			sourceSelectLabel.setToolTipText("The selected project is: " + PluginController.getInstance().getProjectName());
+			setAvailable(sourceSelectImage);
+			setDone(definedImage);
+			setAvailable(mappedImage);
+			setNotAvailable(ValidatedImage);
 		}	
 		else if(states.contains(States.OPENED)){
-			sourceSelectLabel.setBackground(Color.GREEN);
-			definedLabel.setBackground(Color.YELLOW);
-			mappedLabel.setBackground(Color.RED);
-			validatedLabel.setBackground(Color.RED);
+			sourceSelectLabel.setToolTipText("The selected project is: " + PluginController.getInstance().getProjectName());
+			setDone(sourceSelectImage);
+			setAvailable(definedImage);
+			setNotAvailable(mappedImage);
+			setNotAvailable(ValidatedImage);
 		}	
 		else{
-			sourceSelectLabel.setBackground(Color.YELLOW);
-			definedLabel.setBackground(Color.YELLOW);
-			mappedLabel.setBackground(Color.RED);
-			validatedLabel.setBackground(Color.RED);
+			sourceSelectLabel.setToolTipText("you can selected a project by right clicking on it and choosing 'HUSSACT analyze as project'");
+			setAvailable(sourceSelectImage);
+			setAvailable(definedImage);
+			setNotAvailable(mappedImage);
+			setNotAvailable(ValidatedImage);
 		}		
 		frame.validate();
 		frame.repaint();
