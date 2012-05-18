@@ -27,13 +27,8 @@ public class PluginController {
  	private String projectName;
  	private IPath projectPath;
  	
- 	private PluginController(){
- 		new Main(new String[]{"nogui"});
- 		logger.info("Starting ServiceProvider");
- 		serviceProvider = ServiceProvider.getInstance(); 		
- 		pluginStateController = new PluginStateController();
- 		logger.info("Initialize Frames");
- 		initializeFrames();
+ 	private PluginController(){ 
+ 		new Main(new String[]{"nogui"});		logger.info("Starting ServiceProvider");		serviceProvider = ServiceProvider.getInstance(); 				pluginStateController = new PluginStateController();		logger.info("Initialize Frames");		initializeFrames();
  	}
  	
  	public static PluginController getInstance(){
