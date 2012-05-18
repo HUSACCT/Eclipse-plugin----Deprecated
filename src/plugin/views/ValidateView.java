@@ -12,14 +12,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -62,12 +60,10 @@ public class ValidateView extends ViewPart {
 	
 	private void initiateViolationTable(){
 		String[] columnNames = {"From", "To", "Line number", "Dependency type"};
-
 		violationArrayList = pluginController.getViolations();
 
-		//--------->  COMMENTS WORDEN VERWIJDERD ZODRA DIT DEEL NAAR BEHOREN FUNCTIONEERT  <---------------------
 		Object[][] data = new Object[][]{ { "", "", "", ""} };
-		//Onderstaande array moet gevuld worden met violations. Is momenteel nog met testdata gevuld.
+		
 		if(violationArrayList.size() > 1){
 			data = new Object[violationArrayList.size()][4];
 		
@@ -94,27 +90,16 @@ public class ValidateView extends ViewPart {
 			violationTable.repaint();
 		}
 		violationTable.repaint();
+		
 		violationTable.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				//Onderstaande = line number van geselecteerde violation 
 				int lineNumber = Integer.parseInt(violationTable.getValueAt(violationTable.getSelectedRow(), 2).toString());  
-
-				//Onderstaande is package+classname gescheiden met een punt van geselecteerde violation
 				String readedPackageAndClassName = violationTable.getValueAt(violationTable.getSelectedRow(), 0).toString();  
-
-				/*Uitgelezen package + classname worden uigelezen met een punt ertussen.
-				  Voor het juist doorgeven moeten deze punten vervangen worden door slashes.
-				  Dit is in onderstaande String gebeurd
-				 */
 				String formattedPackageAndClassName = readedPackageAndClassName.replace('.' , '/'); 
-
-				//Onderstaande = string van project die geanalyseerd is				
 				String projectName = pluginController.getProjectName();
-
-				//Onderstaande = volledige pad van de klasse waar de violation in zit.
 				String entireClassPath = (projectName + "/src/" + formattedPackageAndClassName)+ ".java";
 
-				Path path = new Path(entireClassPath); //deze moet gebruikt gaan worden als violations opgehaald kunnen worden van de validate service
+				Path path = new Path(entireClassPath); 
 				IFile iFile = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 
 				openViolationWithEditor(iFile,lineNumber);	

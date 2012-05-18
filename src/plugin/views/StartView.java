@@ -8,8 +8,6 @@ import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
-import plugin.controller.PluginController;
-
 public class StartView extends ViewPart {
 	private Frame frame;
 	private JInternalHusacctStartScreen husacctMainScreen = new JInternalHusacctStartScreen();
@@ -20,7 +18,6 @@ public class StartView extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		PluginController pluginController = PluginController.getInstance();
 		Composite composite = new Composite(parent, SWT.EMBEDDED);	
 		frame = SWT_AWT.new_Frame(composite);
 		frame.setLayout(new BorderLayout());

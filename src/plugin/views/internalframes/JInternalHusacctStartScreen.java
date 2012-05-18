@@ -35,7 +35,7 @@ public class JInternalHusacctStartScreen extends JInternalFrame {
 
         tabbedPane.addTab("Home", icon, panelStart, "This is the start screen of the plugin");
         tabbedPane.setSelectedIndex(0);
-        tabbedPane.addTab("Help", icon, panelHelp, "In this view you see an explanation of the workflow");
+        tabbedPane.addTab("Help", icon, panelHelp, "In this screen you can find an explanation of the workflow");
 		
         getContentPane().add(tabbedPane);
 		setBounds(50, 50, 200, 200);
