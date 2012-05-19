@@ -22,13 +22,13 @@ public class GraphicsAnalysedArchitectureView extends ViewPart implements IState
 
 	@Override
 	public void createPartControl(Composite parent) {
-		PluginController.getInstance().getPluginStateController().addStateChangeListener(this);
+		//PluginController.getInstance().getPluginStateController().addStateChangeListener(this);
 		Composite composite = new Composite(parent, SWT.EMBEDDED);
 		frame = SWT_AWT.new_Frame(composite);
 		frame.add( PluginController.getInstance().getGraphicsAnalysedArchitecture().getRootPane(), BorderLayout.CENTER);
 		frame.validate();
 		frame.repaint();
-		frame.setVisible(false);
+		//frame.setVisible(false);
 		parent.setParent(composite);		
 	}
 	

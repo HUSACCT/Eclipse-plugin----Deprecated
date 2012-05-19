@@ -29,8 +29,7 @@ public class StateView extends ViewPart implements IStateChangeListener {
 	private final String availableIcon = "icons/availableIcon.png";
 	private final String correctIcon = "icons/correctIcon.png";
 	private final String wrongIcon = "icons/wrongIcon.png";
-	
-	
+	private String sourceSelectTextNotChosen = "No project has been selected. You can selected a project by right clicking on the project in the package explorer and choosing 'HUSSACT - analyze project'";
 
 	public StateView() {
 	}
@@ -108,46 +107,50 @@ public class StateView extends ViewPart implements IStateChangeListener {
 	public void setFocus() {
 		PluginController.getInstance().getPluginStateController().checkState();
 	}
+	
+	private String getSourceSelectTextChosen(){
+		return "The selected project is: " + PluginController.getInstance().getProjectName();
+	}
 
 	@Override
 	public void changeState(List<States> states) {
 		if(states.contains(States.VALIDATED)){
-			sourceSelectLabel.setToolTipText("The selected project is: " + PluginController.getInstance().getProjectName());	
+			sourceSelectLabel.setToolTipText(getSourceSelectTextChosen());	
 			setDone(sourceSelectImage);
 			setDone(definedImage);
 			setDone(mappedImage);
 			setDone(ValidatedImage);
 		}
 		else if(states.contains(States.MAPPED)){
-			sourceSelectLabel.setToolTipText("The selected project is: " + PluginController.getInstance().getProjectName());	
+			sourceSelectLabel.setToolTipText(getSourceSelectTextChosen());	
 			setDone(sourceSelectImage);
 			setDone(definedImage);
 			setDone(mappedImage);
 			setAvailable(ValidatedImage);
 		}
 		else if(states.contains(States.DEFINED) && states.contains(States.OPENED)){
-			sourceSelectLabel.setToolTipText("The selected project is: " + PluginController.getInstance().getProjectName());	
+			sourceSelectLabel.setToolTipText(getSourceSelectTextChosen());	
 			setDone(sourceSelectImage);
 			setDone(definedImage);
 			setAvailable(mappedImage);
 			setNotAvailable(ValidatedImage);
 		}
 		else if(states.contains(States.DEFINED) && !states.contains(States.OPENED)){
-			sourceSelectLabel.setToolTipText("The selected project is: " + PluginController.getInstance().getProjectName());
+			sourceSelectLabel.setToolTipText(getSourceSelectTextChosen());
 			setAvailable(sourceSelectImage);
 			setDone(definedImage);
 			setAvailable(mappedImage);
 			setNotAvailable(ValidatedImage);
 		}	
 		else if(states.contains(States.OPENED)){
-			sourceSelectLabel.setToolTipText("The selected project is: " + PluginController.getInstance().getProjectName());
+			sourceSelectLabel.setToolTipText(getSourceSelectTextChosen());
 			setDone(sourceSelectImage);
 			setAvailable(definedImage);
 			setNotAvailable(mappedImage);
 			setNotAvailable(ValidatedImage);
 		}	
 		else{
-			sourceSelectLabel.setToolTipText("you can selected a project by right clicking on it and choosing 'HUSSACT analyze as project'");
+			sourceSelectLabel.setToolTipText(sourceSelectTextNotChosen);
 			setAvailable(sourceSelectImage);
 			setAvailable(definedImage);
 			setNotAvailable(mappedImage);

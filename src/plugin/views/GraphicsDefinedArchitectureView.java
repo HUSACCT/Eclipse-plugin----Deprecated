@@ -22,11 +22,11 @@ public class GraphicsDefinedArchitectureView extends ViewPart implements IStateC
 
 	@Override
 	public void createPartControl(Composite parent) {
-		PluginController.getInstance().getPluginStateController().addStateChangeListener(this);
+		//PluginController.getInstance().getPluginStateController().addStateChangeListener(this);
 		Composite composite = new Composite(parent, SWT.EMBEDDED);	
 		frame = SWT_AWT.new_Frame(composite);
 		frame.add( PluginController.getInstance().getGraphicsDefinedArchitecture().getRootPane(), BorderLayout.CENTER);
-		frame.setVisible(false);
+		//frame.setVisible(false);
 		frame.validate();
 		frame.repaint();
 		parent.setParent(composite);

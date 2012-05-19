@@ -8,6 +8,7 @@ import javax.swing.JInternalFrame;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.swt.custom.BusyIndicator;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import husacct.Main;
@@ -24,7 +25,7 @@ public class PluginController {
  	private static PluginController pluginController = null;
  	private PluginStateController pluginStateController;
  	private IProject project;
- 	private String projectName;
+ 	private String projectName = "";
  	private IPath projectPath;
  	
  	private PluginController(){ 
@@ -80,8 +81,14 @@ public class PluginController {
  	}
  	
  	public void validate(){
- 		if(serviceProvider.getDefineService().isMapped()){
- 			serviceProvider.getValidateService().checkConformance();
+ 		if(serviceProvider.getDefineService().isMapped()){	
+ 			Thread validateThread = new Thread(){
+ 				 public void run() {
+ 					ServiceProvider.getInstance().getValidateService().checkConformance();			 
+ 				 }
+ 			};
+ 			BusyIndicator.showWhile(null, validateThread);
+ 			validateThread.run();
  		}
  	}
  	
@@ -110,7 +117,13 @@ public class PluginController {
 		logger.info("Selecting source");
 		serviceProvider.getDefineService().createApplication( projectName, new String[]{sources}, "Java", version);		
 		logger.info("Analyzing source");
-		serviceProvider.getAnalyseService().analyseApplication();
+		Thread analyzeThread = new Thread(){
+			 public void run() {
+				 ServiceProvider.getInstance().getAnalyseService().analyseApplication();				 
+			 }
+		};
+		BusyIndicator.showWhile(null, analyzeThread);
+		analyzeThread.run();
 	}
 	
 	public void importLogicalArchitecture(File file){		
