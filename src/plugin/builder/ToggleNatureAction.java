@@ -1,6 +1,15 @@
 package plugin.builder;
 
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Iterator;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.action.IAction;
@@ -15,6 +24,9 @@ import plugin.controller.PluginController;
 public class ToggleNatureAction implements IObjectActionDelegate    {
 
 	private ISelection selection;
+	private PluginController plugincontroller= PluginController.getInstance();
+	private IProject selectedProject;
+	private JFrame dialogFrame;
 	
 	public void run(IAction action) {		
 		if (selection instanceof IStructuredSelection) {
@@ -39,7 +51,41 @@ public class ToggleNatureAction implements IObjectActionDelegate    {
 			} catch (WorkbenchException e) {
 				e.printStackTrace();
 			}
-			PluginController.getInstance().projectSelected(project);			
+			
+			if(plugincontroller.getProject() == null){
+				plugincontroller.projectSelected(project);
+			}else if (!plugincontroller.getProject().equals(project)){
+				selectedProject = project;
+				dialogFrame = new JFrame("Project changed");
+				JButton confirmbtn = new JButton("Yes");
+				confirmbtn.addActionListener(new ActionListener(){
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						plugincontroller.resetPlugin();
+						plugincontroller.projectSelected(selectedProject);
+						dialogFrame.setVisible(false);
+					}
+				});
+				JButton declinebtn = new JButton("No");
+				declinebtn.addActionListener(new ActionListener(){
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						dialogFrame.setVisible(false);
+					}
+				});
+				JLabel textlbl = new JLabel("You requested a new analyse on a different project. \n Do you wish to continue?");
+				
+				dialogFrame.getContentPane().add(textlbl, BorderLayout.NORTH);
+				dialogFrame.getContentPane().add(confirmbtn, BorderLayout.SOUTH);
+				dialogFrame.getContentPane().add(declinebtn, BorderLayout.LINE_END);
+				dialogFrame.pack();
+				dialogFrame.setVisible(true);
+				
+			}else{
+				//Nothing
+			}
 	}
 	
 	public void selectionChanged(IAction action, ISelection selection) {

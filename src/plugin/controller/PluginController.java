@@ -11,6 +11,8 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.jdom2.Document;
 import org.jdom2.Element;
+
+import plugin.views.DefineView;
 import husacct.Main;
 import husacct.ServiceProvider;
 import husacct.common.dto.ModuleDTO;
@@ -170,4 +172,9 @@ public class PluginController {
 		}
 		return violationArrayList;
 	}
+	
+	public void resetPlugin(){
+		serviceProvider.resetServices();
+		//reset views?
+	}	
 }
