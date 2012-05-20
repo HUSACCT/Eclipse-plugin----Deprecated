@@ -1,12 +1,18 @@
 package plugin.builder;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.action.IAction;
@@ -23,7 +29,7 @@ public class ToggleNatureAnalyseProject implements IObjectActionDelegate    {
 	private ISelection selection;
 	private PluginController plugincontroller= PluginController.getInstance();
 	private IProject selectedProject;
-	private JFrame dialogFrame;
+	private JDialog dialogFrame;
 	
 	public void run(IAction action) {		
 		if (selection instanceof IStructuredSelection) {
@@ -53,9 +59,34 @@ public class ToggleNatureAnalyseProject implements IObjectActionDelegate    {
 				plugincontroller.projectSelected(project);
 			}else if (!plugincontroller.getProject().equals(project)){
 				selectedProject = project;
-				dialogFrame = new JFrame("Project changed");
-				JButton confirmbtn = new JButton("Yes");
-				confirmbtn.addActionListener(new ActionListener(){
+				dialogFrame = new JDialog();
+				JPanel contentPanel = new JPanel();
+				dialogFrame.setTitle("Warning");
+				dialogFrame.setBounds(100, 100, 300, 162);
+				dialogFrame.getContentPane().setLayout(new BorderLayout());
+				contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+				dialogFrame.getContentPane().add(contentPanel, BorderLayout.CENTER);
+				contentPanel.setLayout(new BorderLayout(0, 0));
+				
+					JLabel lblNewLabel = new JLabel("<html>You requested a new analyse on a different project. <br>\r\nDo you wish to continue?</html>");
+					lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+					contentPanel.add(lblNewLabel, BorderLayout.WEST);
+				
+				
+					JPanel buttonPane = new JPanel();
+					dialogFrame.getContentPane().add(buttonPane, BorderLayout.SOUTH);
+					buttonPane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+					
+						JButton okButton = new JButton("Yes");
+						buttonPane.add(okButton);
+						dialogFrame.getRootPane().setDefaultButton(okButton);
+					
+						JButton cancelButton = new JButton("No");
+						buttonPane.add(cancelButton);
+					
+				
+				
+				okButton.addActionListener(new ActionListener(){
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -64,20 +95,14 @@ public class ToggleNatureAnalyseProject implements IObjectActionDelegate    {
 						dialogFrame.setVisible(false);
 					}
 				});
-				JButton declinebtn = new JButton("No");
-				declinebtn.addActionListener(new ActionListener(){
+				cancelButton.addActionListener(new ActionListener(){
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						dialogFrame.setVisible(false);
 					}
 				});
-				JLabel textlbl = new JLabel("You requested a new analyse on a different project. \n Do you wish to continue?");
 				
-				dialogFrame.getContentPane().add(textlbl, BorderLayout.NORTH);
-				dialogFrame.getContentPane().add(confirmbtn, BorderLayout.SOUTH);
-				dialogFrame.getContentPane().add(declinebtn, BorderLayout.LINE_END);
-				dialogFrame.pack();
 				dialogFrame.setVisible(true);
 				
 			}else{
