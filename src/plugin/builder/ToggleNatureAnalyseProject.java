@@ -4,12 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.action.IAction;
@@ -21,7 +18,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
 import plugin.controller.PluginController;
 
-public class ToggleNatureAction implements IObjectActionDelegate    {
+public class ToggleNatureAnalyseProject implements IObjectActionDelegate    {
 
 	private ISelection selection;
 	private PluginController plugincontroller= PluginController.getInstance();
