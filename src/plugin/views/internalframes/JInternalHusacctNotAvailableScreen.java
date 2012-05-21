@@ -23,7 +23,7 @@ public class JInternalHusacctNotAvailableScreen extends JInternalFrame {
 		setVisible(true);
 		
 		textPaneInformation.setText("THIS SCREEN IS NOT AVAILABLE YET. /n" +
-		"In the Stateview you can see when it is available");
+		"In the “StateView” you can see when it is available");
 	
 		jPanel.add(textPaneInformation);
 		jPanel.setBackground(Color.WHITE);

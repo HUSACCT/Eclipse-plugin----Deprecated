@@ -12,9 +12,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextPane;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -38,7 +38,7 @@ public class ValidateView extends ViewPart {
 	private PluginController pluginController;
 	private ArrayList<ViolationDTO> violationArrayList = new ArrayList<ViolationDTO>();
 	private JTable violationTable;
-	private JLabel violationInformation;
+	private JTextPane violationInformation;
 
 	public ValidateView() {
 
@@ -145,7 +145,9 @@ public class ValidateView extends ViewPart {
 		Panel panel = new Panel();	
 		panel.setBackground(Color.LIGHT_GRAY);
 		Button buttonValidate = new Button("Validate");
-		violationInformation = new JLabel("Er zijn 0 violations gevonden");
+		violationInformation = new JTextPane();
+		violationInformation.setText("Er zijn 0 violations gevonden");
+		violationInformation.setBackground(Color.LIGHT_GRAY);
 		
 		buttonValidate.addActionListener(new ActionListener() {		 
 			public void actionPerformed(ActionEvent e)
