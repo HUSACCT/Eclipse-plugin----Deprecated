@@ -17,6 +17,7 @@ import husacct.Main;
 import husacct.ServiceProvider;
 import husacct.common.dto.ModuleDTO;
 import husacct.common.dto.ViolationDTO;
+import husacct.control.ControlServiceImpl;
 import husacct.control.task.resources.IResource;
 import husacct.control.task.resources.ResourceFactory;
 
@@ -31,7 +32,8 @@ public class PluginController {
  	private IPath projectPath;
  	
  	private PluginController(){ 
- 		new Main(new String[]{"nogui"});		logger.info("Starting ServiceProvider");		serviceProvider = ServiceProvider.getInstance(); 				pluginStateController = new PluginStateController();		logger.info("Initialize Frames");		initializeFrames();
+ 		serviceProvider = ServiceProvider.getInstance(); 
+ 		ControlServiceImpl controlService = (ControlServiceImpl) serviceProvider.getControlService();		logger.info("Starting ServiceProvider");						pluginStateController = new PluginStateController();		logger.info("Initialize Frames");		initializeFrames();
  	}
  	
  	public static PluginController getInstance(){
