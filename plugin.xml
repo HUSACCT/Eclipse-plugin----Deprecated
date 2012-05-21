@@ -117,33 +117,42 @@
             id="HUSACCT_Plugin.contribution1"
             nameFilter="*"
             objectClass="org.eclipse.core.resources.IProject">
+			<menu
+               label="HUSACCT"
+               path="additions"
+               id="project.menu">
+            <separator
+                  name="group">
+            </separator>
+         </menu>
+		 
         <action
                class="plugin.builder.ToggleNatureExportArchitecture"
                enablesFor="+"
                id="HUSACCT_Plugin.ToggleNatureExportArchitecture"
                label="HUSACCT - Export Architecture"
-               menubarPath="additions">
+               menubarPath="project.menu/group">
          </action>
          <action
                class="plugin.builder.ToggleNatureImportArchitecture"
                enablesFor="+"
                id="HUSACCT_Plugin.ToggleNatureImportArchitecture"
                label="HUSACCT - Import Architecture"
-               menubarPath="additions">
+               menubarPath="project.menu/group">
          </action>
          <action
                class="plugin.builder.ToggleNatureValidateProject"
                enablesFor="+"
                id="HUSACCT_Plugin.ToggleNatureValidateProject"
                label="HUSACCT - Validate project"
-               menubarPath="additions">
+               menubarPath="project.menu/group">
          </action>
          <action
                class="plugin.builder.ToggleNatureAnalyseProject"
                enablesFor="+"
                id="HUSACCT_Plugin.ToggleNatureAnalyseProject"
                label="HUSACCT - Analyse Project"
-               menubarPath="additions">
+               menubarPath="project.menu/group">
          </action>
       </objectContribution>
    </extension>
