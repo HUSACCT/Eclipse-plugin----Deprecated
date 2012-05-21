@@ -43,7 +43,7 @@ public class ToggleNatureImportArchitecture implements IObjectActionDelegate    
 		jFileChooser.setFileFilter(new TypeOfFile());  
 		jFileChooser.setAcceptAllFileFilterUsed(false); 
 		if (jFileChooser.showOpenDialog(pluginController.getDefineFrame().getRootPane()) == JFileChooser.APPROVE_OPTION) { 
-			pluginController.importLogicalArchitecture(jFileChooser.getSelectedFile());
+			//pluginController.importLogicalArchitecture(jFileChooser.getSelectedFile());
 		}
 	}
 	

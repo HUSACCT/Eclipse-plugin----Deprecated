@@ -1,39 +1,43 @@
 package plugin.controller;
 
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import javax.swing.JInternalFrame;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.swt.custom.BusyIndicator;
-import org.jdom2.Document;
-import org.jdom2.Element;
 
-import plugin.views.DefineView;
 import husacct.Main;
 import husacct.ServiceProvider;
 import husacct.common.dto.ModuleDTO;
 import husacct.common.dto.ViolationDTO;
 import husacct.control.ControlServiceImpl;
-import husacct.control.task.resources.IResource;
-import husacct.control.task.resources.ResourceFactory;
+import husacct.control.task.MainController;
+import husacct.control.task.StateController;
+import husacct.control.task.WorkspaceController;
 
 public class PluginController {
+	private static PluginController pluginController = null;
+	
 	private ServiceProvider serviceProvider;
+	private StateController stateController;
+ 	private ControlServiceImpl controlService;	
+ 	private MainController mainController;
 	private JInternalFrame JInternalFrameValidate, JInternalFrameDefine, JInternalFrameAnalysedGraphics, JInternalFrameDefinedGraphics, JInternalFrameAnalyse;
- 	private Logger logger = Logger.getLogger(PluginController.class);
- 	private static PluginController pluginController = null;
- 	private PluginStateController pluginStateController;
+ 	private Logger logger = Logger.getLogger(PluginController.class);;
  	private IProject project;
  	private String projectName = "";
  	private IPath projectPath;
  	
  	private PluginController(){ 
- 		serviceProvider = ServiceProvider.getInstance(); 
- 		ControlServiceImpl controlService = (ControlServiceImpl) serviceProvider.getControlService();		logger.info("Starting ServiceProvider");						pluginStateController = new PluginStateController();		logger.info("Initialize Frames");		initializeFrames();
+ 		URL propertiesFile = getClass().getResource("/husacct/common/resources/husacct.properties");
+		PropertyConfigurator.configure(propertiesFile);
+		initializeControllers();			initializeFrames();
  	}
  	
  	public static PluginController getInstance(){
@@ -42,8 +46,16 @@ public class PluginController {
  		}
 		return pluginController;
  	}
+ 	private void initializeControllers(){
+ 		logger.info("Initializing Controllers");
+ 		serviceProvider = ServiceProvider.getInstance(); 
+ 		controlService = (ControlServiceImpl) serviceProvider.getControlService();
+ 		mainController = controlService.getMainController();
+ 		stateController = mainController.getStateController();
+ 	} 	
  	
  	private void initializeFrames(){
+ 		logger.info("Initializing Frames");
  		JInternalFrameValidate = serviceProvider.getValidateService().getBrowseViolationsGUI();
 		JInternalFrameValidate.setVisible(true);
 		
@@ -60,8 +72,8 @@ public class PluginController {
 		JInternalFrameDefinedGraphics.setVisible(true);		
  	}
  	
- 	public PluginStateController getPluginStateController(){
- 		return pluginStateController;
+ 	public StateController getStateController(){
+ 		return stateController;
  	}
  	
  	public JInternalFrame getDefineFrame(){
@@ -100,9 +112,12 @@ public class PluginController {
  		this.project = project;
  		projectPath = project.getLocation();
 		projectName =  project.toString().substring(2);
-		pluginStateController.setIsOpened(true);
+		WorkspaceController workspaceController = mainController.getWorkspaceController();
+		workspaceController.createWorkspace(projectName);		
+		stateController.checkState();
+		File file = new File(projectPath.makeRelative().toString() + "\\" + projectName + ".hussact");
+		logger.debug(file.toString());
  		sourceSelected(projectName ,projectPath.toString(), "1.0");
- 		logger.info(projectPath.makeRelative().toString());
  	}
  	
  	public IProject getProject(){
@@ -128,35 +143,6 @@ public class PluginController {
 		};
 		BusyIndicator.showWhile(null, analyzeThread);
 		analyzeThread.run();
-	}
-	
-	public void importLogicalArchitecture(File file){		
-		logger.info("importing architecture");
-		HashMap<String, Object> resourceData = new HashMap<String, Object>();
-		resourceData.put("file", file);
-		IResource xmlResource = ResourceFactory.get("xml");
-		try {
-			Document doc = xmlResource.load(resourceData);	
-			Element logicalData = doc.getRootElement();
-			System.out.println(logicalData);
-			serviceProvider.getDefineService().loadLogicalArchitectureData(logicalData);
-		} catch (Exception e) {
-			logger.debug("Unable to import logical architecture: " + e.getMessage());
-		}
-	}
-	
-	public void exportLogicalArchitecture(File file){
-		logger.info("exporting architecture");
-		HashMap<String, Object> resourceData = new HashMap<String, Object>();
-		resourceData.put("file", file);
-		IResource xmlResource = ResourceFactory.get("xml");
-		try {
-			Element logicalData = serviceProvider.getDefineService().getLogicalArchitectureData();
-			Document doc = new Document(logicalData);
-			xmlResource.save(doc, resourceData);
-		} catch (Exception e) {
-			logger.debug("Unable to export logical architecture: " + e.getMessage());
-		}
 	}
 	
 	public ArrayList<ViolationDTO> getViolations(){

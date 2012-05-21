@@ -68,7 +68,7 @@ public class DefineView extends ViewPart {
 		jFileChooser.setFileFilter(new TypeOfFile());  
 		jFileChooser.setAcceptAllFileFilterUsed(false); 
 		if (jFileChooser.showOpenDialog(pluginController.getDefineFrame().getRootPane()) == JFileChooser.APPROVE_OPTION) { 
-			pluginController.importLogicalArchitecture(jFileChooser.getSelectedFile());
+			//pluginController.importLogicalArchitecture(jFileChooser.getSelectedFile());
 		}
 	}
 	
@@ -80,7 +80,7 @@ public class DefineView extends ViewPart {
 		jFileChooser.setFileFilter(new TypeOfFile());  
 		jFileChooser.setAcceptAllFileFilterUsed(false); 
 		if (jFileChooser.showSaveDialog(pluginController.getDefineFrame().getRootPane()) == JFileChooser.APPROVE_OPTION) { 
-			pluginController.exportLogicalArchitecture(jFileChooser.getSelectedFile());
+			//pluginController.exportLogicalArchitecture(jFileChooser.getSelectedFile());
 		}
 	}
 	

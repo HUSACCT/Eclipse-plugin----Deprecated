@@ -44,7 +44,7 @@ public class ToggleNatureExportArchitecture implements IObjectActionDelegate    
 		jFileChooser.setFileFilter(new TypeOfFile());  
 		jFileChooser.setAcceptAllFileFilterUsed(false); 
 		if (jFileChooser.showSaveDialog(pluginController.getDefineFrame().getRootPane()) == JFileChooser.APPROVE_OPTION) { 
-			pluginController.exportLogicalArchitecture(jFileChooser.getSelectedFile());
+			//pluginController.exportLogicalArchitecture(jFileChooser.getSelectedFile());
 		}
 	}
 	
