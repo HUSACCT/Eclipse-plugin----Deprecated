@@ -7,7 +7,6 @@ import java.util.Arrays;
 import javax.swing.JInternalFrame;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.swt.custom.BusyIndicator;
@@ -40,7 +39,8 @@ public class PluginController {
  	private PluginController(){ 
  		URL propertiesFile = getClass().getResource("/husacct/common/resources/husacct.properties");
 		PropertyConfigurator.configure(propertiesFile);
-		initializeControllers();			initializeFrames();
+		initializeControllers();	
+		initializeFrames();
  	}
  	
  	public static PluginController getInstance(){
