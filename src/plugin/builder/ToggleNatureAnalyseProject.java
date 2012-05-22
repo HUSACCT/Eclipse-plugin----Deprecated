@@ -103,7 +103,7 @@ public class ToggleNatureAnalyseProject implements IObjectActionDelegate    {
 				dialogFrame.setVisible(true);
 				
 			}else{
-				plugincontroller.projectSelected(project);
+				pluginController.projectSelected(project);
 			}
 	}
 	
