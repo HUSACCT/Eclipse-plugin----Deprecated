@@ -11,11 +11,11 @@ import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 import plugin.controller.PluginController;
-import plugin.views.internalframes.JInternalHusacctNotAvailableScreen;
+import plugin.views.internalframes.JInternalHusacctNotAvailableFrame;
 
 public class GraphicsDefinedArchitectureView extends ViewPart implements IStateChangeListener {
 	private Frame frame;
-	private JInternalHusacctNotAvailableScreen notAvailableScreen;
+	private JInternalHusacctNotAvailableFrame notAvailableScreen;
 
 	public GraphicsDefinedArchitectureView() {
 
@@ -23,7 +23,7 @@ public class GraphicsDefinedArchitectureView extends ViewPart implements IStateC
 
 	@Override
 	public void createPartControl(Composite parent) {
-		notAvailableScreen = new JInternalHusacctNotAvailableScreen();
+		notAvailableScreen = new JInternalHusacctNotAvailableFrame();
 		PluginController.getInstance().getStateController().addStateChangeListener(this);
 		Composite composite = new Composite(parent, SWT.EMBEDDED);	
 		frame = SWT_AWT.new_Frame(composite);

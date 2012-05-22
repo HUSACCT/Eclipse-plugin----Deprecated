@@ -5,12 +5,12 @@ import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 
-public class JInternalHusacctNotAvailableScreen extends JInternalFrame {
+public class JInternalHusacctNotAvailableFrame extends JInternalFrame {
 	private static final long serialVersionUID = 1L;
 	private JTextPane textPaneInformation;
 	private JPanel jPanel;
 	
-	public JInternalHusacctNotAvailableScreen() {
+	public JInternalHusacctNotAvailableFrame() {
 		textPaneInformation = new JTextPane();
 		jPanel = new JPanel();
 		setBounds(50, 50, 200, 400);

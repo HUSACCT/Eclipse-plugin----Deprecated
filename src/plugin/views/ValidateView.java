@@ -11,12 +11,12 @@ import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 import plugin.controller.PluginController;
-import plugin.views.internalframes.JInternalHusacctNotAvailableScreen;
+import plugin.views.internalframes.JInternalHusacctNotAvailableFrame;
 import plugin.views.internalframes.JInternalHusacctViolationsFrame;
 
 public class ValidateView extends ViewPart implements IStateChangeListener {
 	private Frame frame;
-	private JInternalHusacctNotAvailableScreen notAvailableScreen;
+	private JInternalHusacctNotAvailableFrame notAvailableScreen;
 	private JInternalHusacctViolationsFrame violationsFrame = new JInternalHusacctViolationsFrame();
 	
 	public ValidateView() {
@@ -25,7 +25,7 @@ public class ValidateView extends ViewPart implements IStateChangeListener {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		notAvailableScreen = new JInternalHusacctNotAvailableScreen();
+		notAvailableScreen = new JInternalHusacctNotAvailableFrame();
 		PluginController.getInstance().getStateController().addStateChangeListener(this);
 		Composite composite = new Composite(parent, SWT.EMBEDDED);	
 		frame = SWT_AWT.new_Frame(composite);

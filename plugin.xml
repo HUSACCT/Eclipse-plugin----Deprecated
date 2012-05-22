@@ -120,17 +120,26 @@
 			<menu
                label="HUSACCT"
                path="additions"
+               icon="icons/HU-icon.gif"
                id="project.menu">
             <separator
                   name="group">
             </separator>
          </menu>
-		 
+		<action
+               class="plugin.builder.ToggleNatureSaveProject"
+               enablesFor="+"
+               id="HUSACCT_Plugin.ToggleNatureSaveProject"
+               label="Save Project"
+               icon="icons/HU-icon.gif"
+               menubarPath="project.menu/group">
+         </action> 
         <action
                class="plugin.builder.ToggleNatureExportArchitecture"
                enablesFor="+"
                id="HUSACCT_Plugin.ToggleNatureExportArchitecture"
                label="Export Architecture"
+               icon="icons/HU-icon.gif"
                menubarPath="project.menu/group">
          </action>
          <action
@@ -138,6 +147,7 @@
                enablesFor="+"
                id="HUSACCT_Plugin.ToggleNatureImportArchitecture"
                label="Import Architecture"
+               icon="icons/HU-icon.gif"
                menubarPath="project.menu/group">
          </action>
          <action
@@ -145,6 +155,7 @@
                enablesFor="+"
                id="HUSACCT_Plugin.ToggleNatureValidateProject"
                label="Validate Project"
+               icon="icons/HU-icon.gif"
                menubarPath="project.menu/group">
          </action>
          <action
@@ -152,6 +163,7 @@
                enablesFor="+"
                id="HUSACCT_Plugin.ToggleNatureAnalyseProject"
                label="Analyse Project"
+               icon="icons/HU-icon.gif"
                menubarPath="project.menu/group">
          </action>
       </objectContribution>
