@@ -12,6 +12,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.swt.custom.BusyIndicator;
 
+import plugin.views.internalframes.JInternalHusacctViolationsFrame;
+
 import husacct.Main;
 import husacct.ServiceProvider;
 import husacct.common.dto.ModuleDTO;
@@ -29,7 +31,8 @@ public class PluginController {
  	private ControlServiceImpl controlService;	
  	private MainController mainController;
 	private JInternalFrame JInternalFrameValidate, JInternalFrameDefine, JInternalFrameAnalysedGraphics, JInternalFrameDefinedGraphics, JInternalFrameAnalyse;
- 	private Logger logger = Logger.getLogger(PluginController.class);;
+ 	private JInternalHusacctViolationsFrame JInternalViolationsFrame;
+	private Logger logger = Logger.getLogger(PluginController.class);;
  	private IProject project;
  	private String projectName = "";
  	private IPath projectPath;
@@ -95,6 +98,10 @@ public class PluginController {
  	public JInternalFrame getAnalyseFrame(){
  		return JInternalFrameAnalyse;
  	}
+ 	
+	public void setViolationFrame(JInternalHusacctViolationsFrame violationFrame){
+		JInternalViolationsFrame = violationFrame;
+	}
  	
  	public void validate(){
  		if(serviceProvider.getDefineService().isMapped()){	
@@ -164,5 +171,30 @@ public class PluginController {
 	public void resetPlugin(){
 		serviceProvider.resetServices();
 		//reset views?
-	}	
+	}
+	
+	public Object[][] setDataModel(){
+		ArrayList<ViolationDTO> violationArrayList = pluginController.getViolations();
+		Object[][] data = new Object[][]{ { "", "", "", ""} };
+		
+		if(violationArrayList.size() > 1){
+			data = new Object[violationArrayList.size()][4];
+		
+			int counter = 0;
+			for(ViolationDTO violationDTO : violationArrayList){
+				data[counter][0] = violationDTO.fromClasspath;
+				data[counter][1] = violationDTO.toClasspath;
+				data[counter][2] = "" + violationDTO.linenumber;
+				data[counter][3] = violationDTO.violationType.getKey();
+				counter++;
+			}
+		}
+		return data;
+	}
+	
+	public void refreshViolationFrame(){
+		validate();
+		JInternalViolationsFrame.initiateViolationTable();
+	}
+
 }
