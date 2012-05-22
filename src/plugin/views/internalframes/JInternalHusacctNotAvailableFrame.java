@@ -5,13 +5,12 @@ import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 
-public class JInternalHusacctNotAvailableScreen extends JInternalFrame {
+public class JInternalHusacctNotAvailableFrame extends JInternalFrame {
 	private static final long serialVersionUID = 1L;
 	private JTextPane textPaneInformation;
 	private JPanel jPanel;
 	
-	public JInternalHusacctNotAvailableScreen() {
-
+	public JInternalHusacctNotAvailableFrame() {
 		textPaneInformation = new JTextPane();
 		jPanel = new JPanel();
 		setBounds(50, 50, 200, 400);
@@ -22,9 +21,15 @@ public class JInternalHusacctNotAvailableScreen extends JInternalFrame {
 		setTitle("Husacct");
 		setVisible(true);
 		
-		textPaneInformation.setText("THIS SCREEN IS NOT AVAILABLE YET. /n" +
-		"In the “StateView” you can see when it is available");
-	
+		textPaneInformation.setContentType("text/html");
+		textPaneInformation.setText(
+				"<font face='verdana' color='black'>" +
+        		"<span style='font-size: 14pt'>" +
+				"<B>THIS VIEW IS NOT AVAILABLE YET</B><BR><BR>" +
+				"<span style='font-size: 10pt'>" +
+				"In the “StateView” you can see when it is available" +
+				"</span>" 
+		);
 		jPanel.add(textPaneInformation);
 		jPanel.setBackground(Color.WHITE);
 		getContentPane().add(jPanel);

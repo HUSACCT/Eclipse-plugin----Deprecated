@@ -120,38 +120,50 @@
 			<menu
                label="HUSACCT"
                path="additions"
+               icon="icons/HU-icon.gif"
                id="project.menu">
             <separator
                   name="group">
             </separator>
          </menu>
-		 
+		<action
+               class="plugin.builder.ToggleNatureSaveProject"
+               enablesFor="+"
+               id="HUSACCT_Plugin.ToggleNatureSaveProject"
+               label="Save Project"
+               icon="icons/HU-icon.gif"
+               menubarPath="project.menu/group">
+         </action> 
         <action
                class="plugin.builder.ToggleNatureExportArchitecture"
                enablesFor="+"
                id="HUSACCT_Plugin.ToggleNatureExportArchitecture"
-               label="HUSACCT - Export Architecture"
+               label="Export Architecture"
+               icon="icons/HU-icon.gif"
                menubarPath="project.menu/group">
          </action>
          <action
                class="plugin.builder.ToggleNatureImportArchitecture"
                enablesFor="+"
                id="HUSACCT_Plugin.ToggleNatureImportArchitecture"
-               label="HUSACCT - Import Architecture"
+               label="Import Architecture"
+               icon="icons/HU-icon.gif"
                menubarPath="project.menu/group">
          </action>
          <action
                class="plugin.builder.ToggleNatureValidateProject"
                enablesFor="+"
                id="HUSACCT_Plugin.ToggleNatureValidateProject"
-               label="HUSACCT - Validate project"
+               label="Validate Project"
+               icon="icons/HU-icon.gif"
                menubarPath="project.menu/group">
          </action>
          <action
                class="plugin.builder.ToggleNatureAnalyseProject"
                enablesFor="+"
                id="HUSACCT_Plugin.ToggleNatureAnalyseProject"
-               label="HUSACCT - Analyse Project"
+               label="Analyse Project"
+               icon="icons/HU-icon.gif"
                menubarPath="project.menu/group">
          </action>
       </objectContribution>

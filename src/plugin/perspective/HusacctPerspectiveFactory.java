@@ -20,6 +20,5 @@ public class HusacctPerspectiveFactory implements IPerspectiveFactory {
 		rightFolder.addView("plugin.views.ValidateView");
 		rightFolder.addView("plugin.views.GraphicsAnalysedArchitectureView");
 		rightFolder.addView("plugin.views.GraphicsDefinedArchitectureView");
-		
 	}
 }

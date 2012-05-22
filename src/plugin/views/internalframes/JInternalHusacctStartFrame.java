@@ -16,7 +16,7 @@ import javax.swing.JTextPane;
 import org.eclipse.core.runtime.FileLocator;
 import plugin.Activator;
 
-public class JInternalHusacctStartScreen extends JInternalFrame {
+public class JInternalHusacctStartFrame extends JInternalFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel panelStart, panelHelp;
 	private JLabel labelStartInfo;
@@ -25,7 +25,7 @@ public class JInternalHusacctStartScreen extends JInternalFrame {
 	private JScrollPane scrollPane;
 	private JTextPane textPaneHelpInformation;
 	
-	public JInternalHusacctStartScreen() {
+	public JInternalHusacctStartFrame() {
 		initializeStartPane();
 		initializeHelpPane();
 		ImageIcon icon = new ImageIcon("pathicon.jpg");
