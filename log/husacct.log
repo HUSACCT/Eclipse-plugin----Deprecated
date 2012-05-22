@@ -1,0 +1,9 @@
+INFO main plugin.controller.PluginController - Initializing Controllers
+INFO main plugin.controller.PluginController - Initializing Frames
+INFO main husacct.validate.presentation.BrowseViolations - Testing - fillChooseViolationsHistoryTableMethod() called
+INFO main husacct.validate.presentation.BrowseViolations - Testing - fillChooseViolationsHistoryTableMethod() called
+DEBUG main husacct.control.task.MainController - Setting apple specific properties
+INFO main plugin.controller.PluginController - Initializing Controllers
+INFO main plugin.controller.PluginController - Initializing Frames
+INFO main husacct.validate.presentation.BrowseViolations - Testing - fillChooseViolationsHistoryTableMethod() called
+INFO main husacct.validate.presentation.BrowseViolations - Testing - fillChooseViolationsHistoryTableMethod() called

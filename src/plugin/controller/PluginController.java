@@ -69,7 +69,7 @@ public class PluginController {
 		JInternalFrameDefinedGraphics.setVisible(true);
 		
 		JInternalFrameAnalyse = serviceProvider.getAnalyseService().getJInternalFrame();
-		JInternalFrameDefinedGraphics.setVisible(true);		
+		JInternalFrameAnalyse.setVisible(true);		
  	}
  	
  	public StateController getStateController(){
