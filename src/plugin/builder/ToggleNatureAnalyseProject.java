@@ -25,7 +25,7 @@ import plugin.controller.PluginController;
 public class ToggleNatureAnalyseProject implements IObjectActionDelegate    {
 
 	private ISelection selection;
-	private PluginController plugincontroller= PluginController.getInstance();
+	private PluginController pluginController = PluginController.getInstance();
 	private IProject selectedProject;
 	private JDialog dialogFrame;
 	private JLabel MessageLabel;
@@ -55,9 +55,9 @@ public class ToggleNatureAnalyseProject implements IObjectActionDelegate    {
 				e.printStackTrace();
 			}
 			
-			if(plugincontroller.getProject() == null){
-				plugincontroller.projectSelected(project);
-			}else if (!plugincontroller.getProject().equals(project)){
+			if(pluginController.getProject() == null){
+				pluginController.projectSelected(project);
+			}else if (!pluginController.getProject().equals(project)){
 				selectedProject = project;
 				dialogFrame = new JDialog();
 				JPanel contentPanel = new JPanel();
@@ -87,8 +87,8 @@ public class ToggleNatureAnalyseProject implements IObjectActionDelegate    {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						plugincontroller.resetPlugin();
-						plugincontroller.projectSelected(selectedProject);
+						pluginController.resetPlugin();
+						pluginController.projectSelected(selectedProject);
 						dialogFrame.setVisible(false);
 					}
 				});

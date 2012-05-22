@@ -1,58 +1,66 @@
 package plugin.views;
 
+import husacct.control.task.IStateChangeListener;
+import husacct.control.task.States;
 import java.awt.BorderLayout;
-import java.awt.Button;
-import java.awt.Color;
 import java.awt.Frame;
-import java.awt.Panel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.HashMap;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextPane;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.Path;
+import java.util.List;
+import javax.swing.JInternalFrame;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
 import plugin.controller.PluginController;
+import plugin.views.internalframes.JInternalHusacctNotAvailableScreen;
 import plugin.views.internalframes.JInternalHusacctViolationsFrame;
 
-public class ValidateView extends ViewPart {
+public class ValidateView extends ViewPart implements IStateChangeListener {
+	private Frame frame;
+	private JInternalHusacctNotAvailableScreen notAvailableScreen;
 	private JInternalHusacctViolationsFrame violationsFrame = new JInternalHusacctViolationsFrame();
+	
 	public ValidateView() {
 
 	}
 
 	@Override
 	public void createPartControl(Composite parent) {
+		notAvailableScreen = new JInternalHusacctNotAvailableScreen();
+		PluginController.getInstance().getStateController().addStateChangeListener(this);
 		Composite composite = new Composite(parent, SWT.EMBEDDED);	
-		Frame frame = SWT_AWT.new_Frame(composite);
-		frame.setLayout(new BorderLayout());
-		frame.add(violationsFrame.getRootPane(), BorderLayout.CENTER);
+		frame = SWT_AWT.new_Frame(composite);
+		frame.add(notAvailableScreen.getRootPane(), BorderLayout.CENTER);
 		frame.validate();
 		frame.repaint();
 		parent.setParent(composite);
 	}
-	
-	
+
 	@Override
 	public void setFocus() {
 
+	}
+
+	public void changeState(List<States> states) {
+		if(states.contains(States.MAPPED)){
+			changeScreen(notAvailableScreen, violationsFrame);
+		}
+		else{
+			changeScreen(violationsFrame, notAvailableScreen);
+		}
+	}
+
+	public void changeScreen(JInternalFrame jInternalFrameOld, JInternalFrame jInternalFrameNew){
+		
+		if(frame == null){
+			frame.add(jInternalFrameNew.getRootPane(), BorderLayout.CENTER);
+			frame.validate();
+			frame.repaint();
+		}
+		else if(frame != null){
+			frame.removeAll();
+			frame.add(jInternalFrameNew.getRootPane(), BorderLayout.CENTER);
+			frame.validate();
+			frame.repaint();
+		}
 	}
 }

@@ -9,9 +9,12 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
+import plugin.controller.PluginController;
+
 
 public class ToggleNatureValidateProject implements IObjectActionDelegate    {
 	private ISelection selection;
+	private PluginController pluginController = PluginController.getInstance();
 	
 	public void run(IAction action) {		
 		if (selection instanceof IStructuredSelection) {
@@ -31,7 +34,7 @@ public class ToggleNatureValidateProject implements IObjectActionDelegate    {
 	}
 
 	private void toggleNature(IProject project) {
-		System.out.println("Validate project");
+		pluginController.refreshViolationFrame();
 
 	}
 	
