@@ -7,12 +7,10 @@ import java.awt.event.ActionListener;
 import java.util.Iterator;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.action.IAction;
@@ -30,6 +28,8 @@ public class ToggleNatureAnalyseProject implements IObjectActionDelegate    {
 	private PluginController plugincontroller= PluginController.getInstance();
 	private IProject selectedProject;
 	private JDialog dialogFrame;
+	private JLabel MessageLabel;
+	private JPanel buttonPane;
 	
 	public void run(IAction action) {		
 		if (selection instanceof IStructuredSelection) {
@@ -68,12 +68,11 @@ public class ToggleNatureAnalyseProject implements IObjectActionDelegate    {
 				dialogFrame.getContentPane().add(contentPanel, BorderLayout.CENTER);
 				contentPanel.setLayout(new BorderLayout(0, 0));
 				
-					JLabel lblNewLabel = new JLabel("<html>You requested a new analyse on a different project. <br>\r\nDo you wish to continue?</html>");
-					lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-					contentPanel.add(lblNewLabel, BorderLayout.WEST);
+					MessageLabel = new JLabel("<html>You requested a new analyse on a different project. <br>\r\nDo you wish to continue?</html>");
+					MessageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+					contentPanel.add(MessageLabel, BorderLayout.WEST);
 				
-				
-					JPanel buttonPane = new JPanel();
+					buttonPane = new JPanel();
 					dialogFrame.getContentPane().add(buttonPane, BorderLayout.SOUTH);
 					buttonPane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 					
@@ -83,9 +82,7 @@ public class ToggleNatureAnalyseProject implements IObjectActionDelegate    {
 					
 						JButton cancelButton = new JButton("No");
 						buttonPane.add(cancelButton);
-					
-				
-				
+									
 				okButton.addActionListener(new ActionListener(){
 
 					@Override

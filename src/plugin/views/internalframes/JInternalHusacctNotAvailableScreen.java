@@ -11,7 +11,6 @@ public class JInternalHusacctNotAvailableScreen extends JInternalFrame {
 	private JPanel jPanel;
 	
 	public JInternalHusacctNotAvailableScreen() {
-
 		textPaneInformation = new JTextPane();
 		jPanel = new JPanel();
 		setBounds(50, 50, 200, 400);

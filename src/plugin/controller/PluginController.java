@@ -7,12 +7,9 @@ import java.util.Arrays;
 import javax.swing.JInternalFrame;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.swt.custom.BusyIndicator;
-
-import husacct.Main;
 import husacct.ServiceProvider;
 import husacct.common.dto.ModuleDTO;
 import husacct.common.dto.ViolationDTO;
