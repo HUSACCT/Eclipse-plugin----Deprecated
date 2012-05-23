@@ -154,6 +154,7 @@ public class PluginController {
 	}
  	
 	//CODE IN DEVELOPMENT
+	//FOUT er zal nooit als eerste een project geopend worden zelfs als er een hussact.hu file bestaat
  	public void projectSelected(IProject project){
  		String projectPath = project.getLocation().toString();
 		String projectName = project.toString().substring(2);
@@ -167,7 +168,7 @@ public class PluginController {
 			analyse();
  		}
  		//if there is no a workspace open but it is the same only analyse
- 		else if(file.toString().equals(project.getLocation().toString() + "\\" + "hussact.hu")){
+ 		else if(file.equals(new File(project.getLocation().toString() + "\\" + "hussact.hu"))){
  			logger.debug("the same workspace is reanalysed");
  			analyse();
  		}
