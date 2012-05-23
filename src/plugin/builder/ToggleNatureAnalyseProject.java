@@ -87,7 +87,7 @@ public class ToggleNatureAnalyseProject implements IObjectActionDelegate    {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						pluginController.resetPlugin();
+						//pluginController.resetPlugin();
 						pluginController.projectSelected(selectedProject);
 						dialogFrame.setVisible(false);
 					}
