@@ -121,16 +121,25 @@ public class PluginController {
  	}
  	
  	public void projectSelected(IProject project){
+
  		this.project = project;
  		projectPath = project.getLocation();
 		projectName =  project.toString().substring(2);
 		File newFile = new File(projectPath.toString() + "\\" + "hussact.hu");
+		
  		if(workspaceController.isOpenWorkspace()){
  			if(!file.toString().equals(newFile.toString())){
  				saveProject();
+ 				file = newFile;
+ 			}
+ 			else{
+ 				analyse();
+ 				stateController.checkState();
+ 				return;
  			}
 		}
- 		else if(newFile.exists()){ 			
+ 		
+ 		if(newFile.exists()){ 			
  			loadProject();
  		}	
  		else{
