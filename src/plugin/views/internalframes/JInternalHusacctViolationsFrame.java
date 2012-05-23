@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JInternalFrame;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextPane;
@@ -113,7 +112,7 @@ public class JInternalHusacctViolationsFrame extends JInternalFrame {
 				if (page != null) {
 					try {
 						IDE.openEditor(page, iFile, true);
-						HashMap hashMap = new HashMap ();
+						HashMap<String, Comparable> hashMap = new HashMap<String, Comparable> ();
 						hashMap.put(IMarker.LINE_NUMBER, new Integer(finalLineNumber));
 						hashMap.put(IDE.EDITOR_ID_ATTR, "org.eclipse.jdt.internal.ui.javaeditor.JavaEditor");
 						try {

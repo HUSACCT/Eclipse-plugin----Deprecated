@@ -10,27 +10,35 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
+
+import plugin.controller.IResetListener;
 import plugin.controller.PluginController;
 import plugin.views.internalframes.JInternalHusacctNotAvailableFrame;
 
-public class GraphicsDefinedArchitectureView extends ViewPart implements IStateChangeListener {
+public class GraphicsDefinedArchitectureView extends ViewPart implements IStateChangeListener, IResetListener {
 	private Frame frame;
 	private JInternalHusacctNotAvailableFrame notAvailableScreen;
-
+	private JInternalFrame definedArchitectureFrame;
+	private boolean isDefinedArchitectureFrameVisible;
+	
 	public GraphicsDefinedArchitectureView() {
 
 	}
 
 	@Override
 	public void createPartControl(Composite parent) {
+		PluginController pluginController = PluginController.getInstance();
+		pluginController.addToStateController(this);
+		pluginController.addToResetController(this);
 		notAvailableScreen = new JInternalHusacctNotAvailableFrame();
-		PluginController.getInstance().getStateController().addStateChangeListener(this);
+		definedArchitectureFrame = pluginController.getGraphicsDefinedArchitecture();
 		Composite composite = new Composite(parent, SWT.EMBEDDED);	
 		frame = SWT_AWT.new_Frame(composite);
 		frame.add(notAvailableScreen.getRootPane(), BorderLayout.CENTER);
 		frame.validate();
 		frame.repaint();
 		parent.setParent(composite);
+		pluginController.checkState();
 	}
 
 	@Override
@@ -39,28 +47,27 @@ public class GraphicsDefinedArchitectureView extends ViewPart implements IStateC
 	}
 
 	public void changeState(List<States> states) {
-		if(states.contains(States.DEFINED)){
-			changeScreen(notAvailableScreen,
-					PluginController.getInstance().getGraphicsDefinedArchitecture());
+		if(states.contains(States.DEFINED) && !isDefinedArchitectureFrameVisible){
+			changeScreen(definedArchitectureFrame);
+			isDefinedArchitectureFrameVisible = true;
 		}
-		else{
-			changeScreen(PluginController.getInstance().getGraphicsDefinedArchitecture(),
-					notAvailableScreen);
+		else if(!states.contains(States.DEFINED) && isDefinedArchitectureFrameVisible){
+			changeScreen(notAvailableScreen);
+			isDefinedArchitectureFrameVisible = false;
 		}
 	}
 
-	public void changeScreen(JInternalFrame jInternalFrameOld, JInternalFrame jInternalFrameNew){
-		
-		if(frame == null){
-			frame.add(jInternalFrameNew.getRootPane(), BorderLayout.CENTER);
-			frame.validate();
-			frame.repaint();
-		}
-		else if(frame != null){
-			frame.removeAll();
-			frame.add(jInternalFrameNew.getRootPane(), BorderLayout.CENTER);
-			frame.validate();
-			frame.repaint();
-		}
+	public void changeScreen(JInternalFrame jInternalFrame){
+		frame.removeAll();
+		frame.add(jInternalFrame.getRootPane(), BorderLayout.CENTER);
+		frame.validate();
+		frame.repaint();
+	}
+
+	@Override
+	public void reset() {
+		definedArchitectureFrame = PluginController.getInstance().getGraphicsDefinedArchitecture();
+		changeScreen(notAvailableScreen);
+		isDefinedArchitectureFrameVisible = false;		
 	}
 }

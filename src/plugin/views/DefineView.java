@@ -14,10 +14,13 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
+
+import plugin.controller.IResetListener;
 import plugin.controller.PluginController;
 
-public class DefineView extends ViewPart {
+public class DefineView extends ViewPart implements IResetListener{
 	private PluginController pluginController;
+	private Frame frame;
 
 	public DefineView() {
 	}
@@ -25,8 +28,9 @@ public class DefineView extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		pluginController = PluginController.getInstance();
+		pluginController.addToResetController(this);
 		Composite composite = new Composite(parent, SWT.EMBEDDED);	
-		Frame frame = SWT_AWT.new_Frame(composite);
+		frame = SWT_AWT.new_Frame(composite);
 		frame.setLayout(new BorderLayout());
 		frame.add(pluginController.getDefineFrame().getRootPane(), BorderLayout.CENTER);
 		createButtons(frame);
@@ -98,5 +102,14 @@ public class DefineView extends ViewPart {
 
 	@Override
 	public void setFocus() {
+	}
+
+	@Override
+	public void reset() {
+		frame.removeAll();
+		frame.add(pluginController.getDefineFrame().getRootPane(), BorderLayout.CENTER);
+		createButtons(frame);
+		frame.validate();
+		frame.repaint();
 	}
 }
