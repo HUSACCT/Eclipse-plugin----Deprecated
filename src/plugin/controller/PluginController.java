@@ -156,7 +156,6 @@ public class PluginController {
 	}
  	
 	//CODE IN DEVELOPMENT
-	//FOUT er zal nooit als eerste een project geopend worden zelfs als er een hussact.hu file bestaat
  	public void projectSelected(IProject project){
  		String projectPath = project.getLocation().toString();
 		String projectName = project.toString().substring(2);
@@ -168,6 +167,8 @@ public class PluginController {
  			if(file.exists()){
  				logger.debug("Loading a hussact project for the first time this startup");
 				loadProject();
+				workspaceController.createWorkspace(projectName);
+				serviceProvider.getDefineService().createApplication(projectName, new String[]{projectPath}, "Java", "1.0");
 			}
  			//if no save file exist create a new project
  			else{
@@ -191,6 +192,8 @@ public class PluginController {
 			if(file.exists()){
 				logger.debug("Loading a other hussact project");
 				loadProject();
+				workspaceController.createWorkspace(projectName);
+				serviceProvider.getDefineService().createApplication(projectName, new String[]{projectPath}, "Java", "1.0");
 			}
 			//if no save file exists then create a new workspace
 			else{
