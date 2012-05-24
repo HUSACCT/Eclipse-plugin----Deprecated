@@ -175,10 +175,11 @@ public class PluginController {
 	
 	public Object[][] setDataModel(){
 		ArrayList<ViolationDTO> violationArrayList = pluginController.getViolations();
-		Object[][] data = new Object[][]{ { "", "", "", ""} };
+		Object[][] data = new Object[][]{ { "", "", "", "", ""} };
+		String serverity = "";
 		
 		if(violationArrayList.size() > 1){
-			data = new Object[violationArrayList.size()][4];
+			data = new Object[violationArrayList.size()][5];
 		
 			int counter = 0;
 			for(ViolationDTO violationDTO : violationArrayList){
@@ -186,6 +187,14 @@ public class PluginController {
 				data[counter][1] = violationDTO.toClasspath;
 				data[counter][2] = "" + violationDTO.linenumber;
 				data[counter][3] = violationDTO.violationType.getKey();
+				if(violationDTO.severityValue == 0){
+					serverity = "Low";
+				}else if(violationDTO.severityValue == 1){
+					serverity = "Medium";
+				}else if(violationDTO.severityValue == 2){
+					serverity = "High";
+				}
+				data[counter][4] = serverity;
 				counter++;
 			}
 		}

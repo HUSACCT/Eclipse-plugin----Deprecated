@@ -64,7 +64,7 @@ public class JInternalHusacctViolationsFrame extends JInternalFrame {
 	}
 	
 	public void initiateViolationTable(){
-		String[] columnNames = {"From", "To", "Line number", "Dependency type"};
+		String[] columnNames = {"Source", "Target", "LineNumber", "Kind of dependency", "Severity"};
 		if(pluginController != null){
 			violationArrayList = pluginController.getViolations();
 		}
@@ -159,8 +159,8 @@ public class JInternalHusacctViolationsFrame extends JInternalFrame {
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		private String[] columnNames = {"From", "To", "Line number", "Dependency type"};
-	    private Object[][] data = new Object[][]{ { "", "", "", ""} };
+		private String[] columnNames = {"Source", "Target", "LineNumber", "Kind of dependency", "Severity"};
+	    private Object[][] data = new Object[][]{ { "", "", "", "", ""} };
 
 	    public int getColumnCount() {
 	        return columnNames.length;
