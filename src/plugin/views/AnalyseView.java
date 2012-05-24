@@ -21,9 +21,6 @@ public class AnalyseView extends ViewPart implements IStateChangeListener, IRese
 	private JInternalFrame analyseFrame;
 	private boolean isAnalyseFrameVisible;
 
-	public AnalyseView() {
-
-	}
 
 	@Override
 	public void createPartControl(Composite parent) {

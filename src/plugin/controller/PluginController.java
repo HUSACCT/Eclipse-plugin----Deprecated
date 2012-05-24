@@ -49,6 +49,7 @@ public class PluginController {
  		}
 		return pluginController;
  	}
+ 	
  	private void initializeControllers(){
  		logger.info("Initializing Controllers");
  		serviceProvider = ServiceProvider.getInstance(); 
@@ -159,39 +160,53 @@ public class PluginController {
  		String projectPath = project.getLocation().toString();
 		String projectName = project.toString().substring(2);
 		this.project = project;
-		//if there is no workspace open create a workspace
+		//if there is no workspace open create a workspace or open a workspace
  		if(!workspaceController.isOpenWorkspace()){ 
- 			logger.debug("creating a workspace for the first time");
  			file = new File(project.getLocation().toString() + "\\" + "hussact.hu");
- 			workspaceController.createWorkspace(projectName);
-			serviceProvider.getDefineService().createApplication(projectName, new String[]{projectPath}, "Java", "1.0");
+ 			//if file exists open the workspace
+ 			if(file.exists()){
+ 				logger.debug("Loading a hussact project for the first time this startup");
+				loadProject();
+			}
+ 			//if no save file exist create a new project
+ 			else{
+ 				logger.debug("Creating a new hussact project");
+	 			workspaceController.createWorkspace(projectName);
+				serviceProvider.getDefineService().createApplication(projectName, new String[]{projectPath}, "Java", "1.0");
+ 			}
 			analyse();
  		}
  		//if there is no a workspace open but it is the same only analyse
  		else if(file.equals(new File(project.getLocation().toString() + "\\" + "hussact.hu"))){
- 			logger.debug("the same workspace is reanalysed");
+ 			logger.debug("The opened workspace is re-analysed");
  			analyse();
  		}
  		//if there is no a workspace open and its different save the last project and reset the plugin
  		else{
- 			logger.debug("a new workspace is about to open or be created");
  			saveProject();
 			resetPlugin();
 			file = new File(project.getLocation().toString() + "\\" + "hussact.hu");
 			//if the save file exists then open the workspace
 			if(file.exists()){
-				logger.debug("loading the project");
+				logger.debug("Loading a other hussact project");
 				loadProject();
 			}
 			//if no save file exists then create a new workspace
 			else{
-				logger.debug("creating a new workspace");
+				logger.debug("Creating a new hussact project");
 				workspaceController.createWorkspace(projectName);
 				serviceProvider.getDefineService().createApplication(projectName, new String[]{projectPath}, "Java", "1.0");
 			}
 			analyse();
- 		}		
+ 		}	
 	}
+ 	
+ 	private void checkOnOpenAndOpen(File newFile){
+ 	}
+ 	
+ 	private void checkOnSaveAndSave(){
+ 		
+ 	}
  	
  	private void saveProject(){
  		logger.debug("saving project");
