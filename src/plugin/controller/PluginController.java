@@ -188,55 +188,35 @@ public class PluginController {
 		viewResetController.notifyResetListeners();
 		stateController.checkState();
 	}
- 	
-	//CODE IN DEVELOPMENT
- 	public void projectSelected(IProject project){
- 		String projectPath = project.getLocation().toString();
+	
+	public void projectSelected(IProject project){
+		String projectPath = project.getLocation().toString();
 		String projectName = project.toString().substring(2);
 		this.project = project;
-		//if there is no workspace open create a workspace or open a workspace
- 		if(!workspaceController.isOpenWorkspace()){ 
- 			file = new File(project.getLocation().toString() + "\\" + "hussact.hu");
- 			//if file exists open the workspace
- 			if(file.exists()){
+		if(file.equals(new File(project.getLocation().toString() + "\\" + "hussact.hu"))){
+			logger.debug("reanalysing project");
+			analyse();
+		}
+		else{
+			if(workspaceController.isOpenWorkspace()){
+				logger.debug("Saving project and resetting plugin");
+				saveProject();
+				resetPlugin();
+			}		
+			file = new File(project.getLocation().toString() + "\\" + "hussact.hu");
+			if(file.exists()){
  				logger.debug("Loading a hussact project for the first time this startup");
 				loadProject();
 				workspaceController.createWorkspace(projectName);
 				serviceProvider.getDefineService().createApplication(projectName, new String[]{projectPath}, "Java", "1.0");
 			}
- 			//if no save file exist create a new project
  			else{
  				logger.debug("Creating a new hussact project");
 	 			workspaceController.createWorkspace(projectName);
 				serviceProvider.getDefineService().createApplication(projectName, new String[]{projectPath}, "Java", "1.0");
  			}
 			analyse();
- 		}
- 		//if there is no a workspace open but it is the same only analyse
- 		else if(file.equals(new File(project.getLocation().toString() + "\\" + "hussact.hu"))){
- 			logger.debug("The opened workspace is re-analysed");
- 			analyse();
- 		}
- 		//if there is no a workspace open and its different save the last project and reset the plugin
- 		else{
- 			saveProject();
-			resetPlugin();
-			file = new File(project.getLocation().toString() + "\\" + "hussact.hu");
-			//if the save file exists then open the workspace
-			if(file.exists()){
-				logger.debug("Loading a other hussact project");
-				loadProject();
-				workspaceController.createWorkspace(projectName);
-				serviceProvider.getDefineService().createApplication(projectName, new String[]{projectPath}, "Java", "1.0");
-			}
-			//if no save file exists then create a new workspace
-			else{
-				logger.debug("Creating a new hussact project");
-				workspaceController.createWorkspace(projectName);
-				serviceProvider.getDefineService().createApplication(projectName, new String[]{projectPath}, "Java", "1.0");
-			}
-			analyse();
- 		}	
+		}		
 	}
  	
  	private void saveProject(){
