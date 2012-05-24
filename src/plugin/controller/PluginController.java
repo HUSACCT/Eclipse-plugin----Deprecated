@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
+
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.core.resources.IProject;
@@ -125,31 +127,15 @@ public class PluginController {
 	}
  	
 	public void validate(){
-		loadingdialog = new LoadingDialog(mainController, "validating");
  		if(serviceProvider.getDefineService().isMapped()){	
- 			final Thread validateThread = new Thread(){
+ 			Thread validateThread = new Thread(){
  				 public void run() {
  					ServiceProvider.getInstance().getValidateService().checkConformance();
  					PluginController.getInstance().checkState();
  				 }
  			};
- 			Thread loadingThread = new Thread(loadingdialog);
-
- 			Thread monitorThread = new Thread(new Runnable() {
- 				public void run() {
- 					try {
- 						validateThread.join();
- 						loadingdialog.dispose();
- 						logger.debug("Monitor: analyse finished");
- 					} catch (InterruptedException exception){
- 						logger.debug("Monitor: analyse interrupted");
- 					}
-
- 				}
- 			});
- 			loadingThread.start();
- 			validateThread.start();
- 			monitorThread.start();
+ 			BusyIndicator.showWhile(null, validateThread);
+ 			validateThread.run();
  		}
  	}
  	
@@ -169,8 +155,10 @@ public class PluginController {
 					analyseThread.join();
 					loadingdialog.dispose();
 					logger.debug("Monitor: analyse finished");
+					JOptionPane.showMessageDialog(JInternalFrameAnalyse, "Analysation succeeded, open the define-view for mapping your architecture", "Succes", JOptionPane.PLAIN_MESSAGE);
 				} catch (InterruptedException exception){
 					logger.debug("Monitor: analyse interrupted");
+					JOptionPane.showMessageDialog(JInternalFrameAnalyse, "Validation failed", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 
 			}
