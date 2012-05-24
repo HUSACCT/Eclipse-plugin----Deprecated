@@ -18,7 +18,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
-
 import plugin.Activator;
 import plugin.controller.PluginController;
 
@@ -47,20 +46,20 @@ public class StateView extends ViewPart implements IStateChangeListener {
 	}
 	
 	private void createLabels(Frame frame){		
-	    sourceSelectLabel = new JLabel("Source Selected");
-		sourceSelectImage = new JLabel("");	
+	    sourceSelectLabel = new JLabel("Project Analysed");
+		sourceSelectImage = new JLabel();	
 		
 		definedLabel = new JLabel("Defined");
 		definedLabel.setToolTipText("This shows if you have defined a architecture");	
-		definedImage = new JLabel("");	
+		definedImage = new JLabel();	
 		
 		mappedLabel = new JLabel("Mapped");
 		mappedLabel.setToolTipText("This shows if you have mapped the defined architecture to the source");	
-		mappedImage = new JLabel("");
+		mappedImage = new JLabel();
 		
 		validatedLabel = new JLabel("Validated");
 		validatedLabel.setToolTipText("This shows if the code is checked on the defined rules");	
-		ValidatedImage = new JLabel("");	
+		ValidatedImage = new JLabel();	
 	}
 	
 	private void fillPanel(){
