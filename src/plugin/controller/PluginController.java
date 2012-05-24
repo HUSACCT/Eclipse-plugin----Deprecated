@@ -12,6 +12,7 @@ import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.swt.custom.BusyIndicator;
 import plugin.views.internalframes.JInternalHusacctViolationsFrame;
+import plugin.views.internalframes.LoadingDialog;
 import husacct.ServiceProvider;
 import husacct.common.dto.ModuleDTO;
 import husacct.common.dto.ViolationDTO;
@@ -32,7 +33,8 @@ public class PluginController {
  	private ViewResetController viewResetController;
 	private JInternalFrame JInternalFrameValidate, JInternalFrameDefine, JInternalFrameAnalysedGraphics, JInternalFrameDefinedGraphics, JInternalFrameAnalyse;
  	private JInternalHusacctViolationsFrame JInternalViolationsFrame;
-	private Logger logger = Logger.getLogger(PluginController.class);;
+	private LoadingDialog loadingdialog;
+ 	private Logger logger = Logger.getLogger(PluginController.class);;
  	private IProject project;
  	private File file = new File("");
  	
@@ -122,28 +124,60 @@ public class PluginController {
 		viewResetController.addListener(resetListener);
 	}
  	
- 	public void validate(){
+	public void validate(){
+		loadingdialog = new LoadingDialog(mainController, "validating");
  		if(serviceProvider.getDefineService().isMapped()){	
- 			Thread validateThread = new Thread(){
+ 			final Thread validateThread = new Thread(){
  				 public void run() {
  					ServiceProvider.getInstance().getValidateService().checkConformance();
  					PluginController.getInstance().checkState();
  				 }
  			};
- 			BusyIndicator.showWhile(null, validateThread);
- 			validateThread.run();
+ 			Thread loadingThread = new Thread(loadingdialog);
+
+ 			Thread monitorThread = new Thread(new Runnable() {
+ 				public void run() {
+ 					try {
+ 						validateThread.join();
+ 						loadingdialog.dispose();
+ 						logger.debug("Monitor: analyse finished");
+ 					} catch (InterruptedException exception){
+ 						logger.debug("Monitor: analyse interrupted");
+ 					}
+
+ 				}
+ 			});
+ 			loadingThread.start();
+ 			validateThread.start();
+ 			monitorThread.start();
  		}
  	}
  	
 	public void analyse(){
-		Thread analyseThread = new Thread(){
+		loadingdialog = new LoadingDialog(mainController, "analysing");
+		final Thread analyseThread = new Thread(){
 			 public void run() {
 				 ServiceProvider.getInstance().getAnalyseService().analyseApplication();
 				 PluginController.getInstance().checkState();
 			 }
 		};
-		BusyIndicator.showWhile(null, analyseThread);
-		analyseThread.run();
+		Thread loadingThread = new Thread(loadingdialog);
+
+		Thread monitorThread = new Thread(new Runnable() {
+			public void run() {
+				try {
+					analyseThread.join();
+					loadingdialog.dispose();
+					logger.debug("Monitor: analyse finished");
+				} catch (InterruptedException exception){
+					logger.debug("Monitor: analyse interrupted");
+				}
+
+			}
+		});
+		loadingThread.start();
+		analyseThread.start();
+		monitorThread.start();
 	}
 	
 	
