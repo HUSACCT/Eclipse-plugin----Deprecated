@@ -138,7 +138,8 @@ public class PluginController {
 	public void analyse(){
 		Thread analyseThread = new Thread(){
 			 public void run() {
-				 ServiceProvider.getInstance().getAnalyseService().analyseApplication();	
+				 ServiceProvider.getInstance().getAnalyseService().analyseApplication();
+				 PluginController.getInstance().checkState();
 			 }
 		};
 		BusyIndicator.showWhile(null, analyseThread);
@@ -200,13 +201,6 @@ public class PluginController {
 			analyse();
  		}	
 	}
- 	
- 	private void checkOnOpenAndOpen(File newFile){
- 	}
- 	
- 	private void checkOnSaveAndSave(){
- 		
- 	}
  	
  	private void saveProject(){
  		logger.debug("saving project");
