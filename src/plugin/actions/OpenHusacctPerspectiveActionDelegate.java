@@ -19,7 +19,7 @@ public class OpenHusacctPerspectiveActionDelegate implements IWorkbenchWindowAct
 
         public void run(IAction action) {
         	try {
-				PlatformUI.getWorkbench().showPerspective("HUSACCT_Plugin.HusacctPerspective",PlatformUI.getWorkbench().getActiveWorkbenchWindow());
+        		PlatformUI.getWorkbench().showPerspective("HUSACCT_Plugin.HusacctPerspective",PlatformUI.getWorkbench().getActiveWorkbenchWindow());
 			} catch (WorkbenchException e) {
 				e.printStackTrace();
 			} 

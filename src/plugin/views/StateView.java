@@ -36,14 +36,14 @@ public class StateView extends ViewPart implements IStateChangeListener {
 
 	@Override
 	public void createPartControl(Composite parent)  {
-		PluginController.getInstance().getStateController().addStateChangeListener(this);
+		PluginController.getInstance().addToStateController(this);
 		Composite composite = new Composite(parent, SWT.EMBEDDED);
 		frame = SWT_AWT.new_Frame(composite);
 		frame.setLayout(new BorderLayout());
 		createLabels(frame);
 		fillPanel();
 		parent.setParent(composite);
-		this.setFocus();
+		PluginController.getInstance().checkState();
 	}
 	
 	private void createLabels(Frame frame){		
@@ -105,7 +105,7 @@ public class StateView extends ViewPart implements IStateChangeListener {
 	
 	@Override
 	public void setFocus() {
-		PluginController.getInstance().getStateController().checkState();
+		PluginController.getInstance().checkState();
 	}
 	
 	private String getSourceSelectTextChosen(){

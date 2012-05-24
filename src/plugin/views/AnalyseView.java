@@ -10,12 +10,16 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
-import plugin.controller.PluginController;
-import plugin.views.internalframes.JInternalHusacctNotAvailableScreen;
 
-public class AnalyseView extends ViewPart implements IStateChangeListener {
+import plugin.controller.IResetListener;
+import plugin.controller.PluginController;
+import plugin.views.internalframes.JInternalHusacctNotAvailableFrame;
+
+public class AnalyseView extends ViewPart implements IStateChangeListener, IResetListener {
 	private Frame frame;
-	private JInternalHusacctNotAvailableScreen notAvailableScreen;
+	private JInternalHusacctNotAvailableFrame notAvailableScreen;
+	private JInternalFrame analyseFrame;
+	private boolean isAnalyseFrameVisible;
 
 	public AnalyseView() {
 
@@ -23,44 +27,47 @@ public class AnalyseView extends ViewPart implements IStateChangeListener {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		notAvailableScreen = new JInternalHusacctNotAvailableScreen();
-		PluginController.getInstance().getStateController().addStateChangeListener(this);
+		PluginController pluginController = PluginController.getInstance();
+		pluginController.addToStateController(this);
+		pluginController.addToResetController(this);
+		notAvailableScreen = new JInternalHusacctNotAvailableFrame();
+		analyseFrame = pluginController.getAnalyseFrame();
 		Composite composite = new Composite(parent, SWT.EMBEDDED);	
 		frame = SWT_AWT.new_Frame(composite);
 		frame.add(notAvailableScreen.getRootPane(), BorderLayout.CENTER);
+		isAnalyseFrameVisible = false;
 		frame.validate();
 		frame.repaint();
 		parent.setParent(composite);
+		pluginController.checkState();
 	}
 
 	@Override
 	public void setFocus() {
-
 	}
 
 	public void changeState(List<States> states) {
-		if(states.contains(States.ANALYSED)){
-			changeScreen(notAvailableScreen,
-					PluginController.getInstance().getAnalyseFrame());
+		if(states.contains(States.ANALYSED) && !isAnalyseFrameVisible){
+			changeScreen(analyseFrame);
+			isAnalyseFrameVisible = true;
 		}
-		else{
-			changeScreen(PluginController.getInstance().getAnalyseFrame(),
-					notAvailableScreen);
+		else if(!states.contains(States.ANALYSED) && isAnalyseFrameVisible){
+			changeScreen(notAvailableScreen);
+			isAnalyseFrameVisible = false;
 		}
 	}
 
-	public void changeScreen(JInternalFrame jInternalFrameOld, JInternalFrame jInternalFrameNew){
-		
-		if(frame == null){
-			frame.add(jInternalFrameNew.getRootPane(), BorderLayout.CENTER);
-			frame.validate();
-			frame.repaint();
-		}
-		else if(frame != null){
-			frame.removeAll();
-			frame.add(jInternalFrameNew.getRootPane(), BorderLayout.CENTER);
-			frame.validate();
-			frame.repaint();
-		}
+	public void changeScreen(JInternalFrame jInternalFrame){
+		frame.removeAll();
+		frame.add(jInternalFrame.getRootPane(), BorderLayout.CENTER);
+		frame.validate();
+		frame.repaint();
+	}
+
+	@Override
+	public void reset() {
+		analyseFrame = PluginController.getInstance().getAnalyseFrame();
+		changeScreen(notAvailableScreen);
+		isAnalyseFrameVisible = false;
 	}
 }

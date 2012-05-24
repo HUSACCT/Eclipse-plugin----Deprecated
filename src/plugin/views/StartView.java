@@ -10,7 +10,7 @@ import org.eclipse.ui.part.ViewPart;
 
 public class StartView extends ViewPart {
 	private Frame frame;
-	private JInternalHusacctStartScreen husacctMainScreen = new JInternalHusacctStartScreen();
+	private JInternalHusacctStartFrame husacctMainScreen = new JInternalHusacctStartFrame();
 	
 	public StartView() {
 		

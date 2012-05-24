@@ -10,12 +10,16 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
-import plugin.controller.PluginController;
-import plugin.views.internalframes.JInternalHusacctNotAvailableScreen;
 
-public class GraphicsAnalysedArchitectureView extends ViewPart implements IStateChangeListener {
+import plugin.controller.IResetListener;
+import plugin.controller.PluginController;
+import plugin.views.internalframes.JInternalHusacctNotAvailableFrame;
+
+public class GraphicsAnalysedArchitectureView extends ViewPart implements IStateChangeListener, IResetListener  {
 	private Frame frame;
-	private JInternalHusacctNotAvailableScreen notAvailableScreen;
+	private JInternalHusacctNotAvailableFrame notAvailableScreen;
+	private JInternalFrame analysedArchitectureFrame;
+	private boolean isAnalysedArchitectureFrameVisible;
 
 	public GraphicsAnalysedArchitectureView() {
 
@@ -23,44 +27,46 @@ public class GraphicsAnalysedArchitectureView extends ViewPart implements IState
 
 	@Override
 	public void createPartControl(Composite parent) {
-		notAvailableScreen = new JInternalHusacctNotAvailableScreen();
-		PluginController.getInstance().getStateController().addStateChangeListener(this);
+		PluginController pluginController = PluginController.getInstance();
+		pluginController.addToStateController(this);
+		pluginController.addToResetController(this);
+		notAvailableScreen = new JInternalHusacctNotAvailableFrame();
+		analysedArchitectureFrame = pluginController.getGraphicsAnalysedArchitecture();
 		Composite composite = new Composite(parent, SWT.EMBEDDED);	
 		frame = SWT_AWT.new_Frame(composite);
 		frame.add(notAvailableScreen.getRootPane(), BorderLayout.CENTER);
 		frame.validate();
 		frame.repaint();
 		parent.setParent(composite);
+		pluginController.checkState();
 	}
 
 	@Override
 	public void setFocus() {
-
 	}
 
 	public void changeState(List<States> states) {
-		if(states.contains(States.ANALYSED)){
-			changeScreen(notAvailableScreen,
-					PluginController.getInstance().getGraphicsAnalysedArchitecture());
+		if(states.contains(States.ANALYSED) && !isAnalysedArchitectureFrameVisible){
+			changeScreen(analysedArchitectureFrame);
+			isAnalysedArchitectureFrameVisible = true;
 		}
-		else{
-			changeScreen(PluginController.getInstance().getGraphicsAnalysedArchitecture(),
-					notAvailableScreen);
+		else if(!states.contains(States.ANALYSED) && isAnalysedArchitectureFrameVisible){
+			changeScreen(notAvailableScreen);
+			isAnalysedArchitectureFrameVisible = false;
 		}
 	}
 
-	public void changeScreen(JInternalFrame jInternalFrameOld, JInternalFrame jInternalFrameNew){
-		
-		if(frame == null){
-			frame.add(jInternalFrameNew.getRootPane(), BorderLayout.CENTER);
-			frame.validate();
-			frame.repaint();
-		}
-		else if(frame != null){
-			frame.removeAll();
-			frame.add(jInternalFrameNew.getRootPane(), BorderLayout.CENTER);
-			frame.validate();
-			frame.repaint();
-		}
+	public void changeScreen(JInternalFrame jInternalFrame){
+		frame.removeAll();
+		frame.add(jInternalFrame.getRootPane(), BorderLayout.CENTER);
+		frame.validate();
+		frame.repaint();
+	}
+
+	@Override
+	public void reset() {
+		analysedArchitectureFrame = PluginController.getInstance().getGraphicsAnalysedArchitecture();
+		changeScreen(notAvailableScreen);
+		isAnalysedArchitectureFrameVisible = false;
 	}
 }

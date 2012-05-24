@@ -4,20 +4,19 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+
 import javax.swing.JInternalFrame;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.swt.custom.BusyIndicator;
-
 import plugin.views.internalframes.JInternalHusacctViolationsFrame;
-
-import husacct.Main;
 import husacct.ServiceProvider;
 import husacct.common.dto.ModuleDTO;
 import husacct.common.dto.ViolationDTO;
 import husacct.control.ControlServiceImpl;
+import husacct.control.task.IStateChangeListener;
 import husacct.control.task.MainController;
 import husacct.control.task.StateController;
 import husacct.control.task.WorkspaceController;
@@ -29,12 +28,13 @@ public class PluginController {
 	private StateController stateController;
  	private ControlServiceImpl controlService;	
  	private MainController mainController;
+ 	private WorkspaceController workspaceController;
+ 	private ViewResetController viewResetController;
 	private JInternalFrame JInternalFrameValidate, JInternalFrameDefine, JInternalFrameAnalysedGraphics, JInternalFrameDefinedGraphics, JInternalFrameAnalyse;
  	private JInternalHusacctViolationsFrame JInternalViolationsFrame;
 	private Logger logger = Logger.getLogger(PluginController.class);;
  	private IProject project;
- 	private String projectName = "";
- 	private IPath projectPath;
+ 	private File file = new File("");
  	
  	private PluginController(){ 
  		URL propertiesFile = getClass().getResource("/husacct/common/resources/husacct.properties");
@@ -55,6 +55,8 @@ public class PluginController {
  		controlService = (ControlServiceImpl) serviceProvider.getControlService();
  		mainController = controlService.getMainController();
  		stateController = mainController.getStateController();
+ 		workspaceController = mainController.getWorkspaceController();
+ 		viewResetController = new ViewResetController();
  	} 	
  	
  	private void initializeFrames(){
@@ -75,9 +77,9 @@ public class PluginController {
 		JInternalFrameAnalyse.setVisible(true);		
  	}
  	
- 	public StateController getStateController(){
- 		return stateController;
- 	}
+	public void checkState() {
+		stateController.checkState();
+	}
  	
  	public JInternalFrame getDefineFrame(){
  		return JInternalFrameDefine;
@@ -99,15 +101,32 @@ public class PluginController {
  		return JInternalFrameAnalyse;
  	}
  	
+ 	public IProject getProject(){
+ 		return project;
+ 	}
+ 	
+ 	public String getProjectName(){
+ 		return project.toString().substring(2);
+ 	}
+ 	
 	public void setViolationFrame(JInternalHusacctViolationsFrame violationFrame){
 		JInternalViolationsFrame = violationFrame;
+	}
+	
+	public void addToStateController(IStateChangeListener stateChangeListener){
+		stateController.addStateChangeListener(stateChangeListener);
+	}
+	
+	public void addToResetController(IResetListener resetListener){
+		viewResetController.addListener(resetListener);
 	}
  	
  	public void validate(){
  		if(serviceProvider.getDefineService().isMapped()){	
  			Thread validateThread = new Thread(){
  				 public void run() {
- 					ServiceProvider.getInstance().getValidateService().checkConformance();			 
+ 					ServiceProvider.getInstance().getValidateService().checkConformance();
+ 					PluginController.getInstance().checkState();
  				 }
  			};
  			BusyIndicator.showWhile(null, validateThread);
@@ -115,42 +134,80 @@ public class PluginController {
  		}
  	}
  	
- 	public void projectSelected(IProject project){
- 		this.project = project;
- 		projectPath = project.getLocation();
-		projectName =  project.toString().substring(2);
-		WorkspaceController workspaceController = mainController.getWorkspaceController();
-		workspaceController.createWorkspace(projectName);		
-		stateController.checkState();
-		File file = new File(projectPath.makeRelative().toString() + "\\" + projectName + ".hussact");
-		logger.debug(file.toString());
- 		sourceSelected(projectName ,projectPath.toString(), "1.0");
- 	}
- 	
- 	public IProject getProject(){
- 		return project;
- 	}
- 	
- 	public String getProjectName(){
- 		return projectName;
- 	}
- 	
- 	public String getProjectPath(){
- 		return projectPath.toString();
- 	}
-	
-	public void sourceSelected(String projectName, String sources, String version){
-		logger.info("Selecting source");
-		serviceProvider.getDefineService().createApplication( projectName, new String[]{sources}, "Java", version);		
-		logger.info("Analyzing source");
-		Thread analyzeThread = new Thread(){
+	public void analyse(){
+		Thread analyseThread = new Thread(){
 			 public void run() {
-				 ServiceProvider.getInstance().getAnalyseService().analyseApplication();				 
+				 ServiceProvider.getInstance().getAnalyseService().analyseApplication();	
 			 }
 		};
-		BusyIndicator.showWhile(null, analyzeThread);
-		analyzeThread.run();
+		BusyIndicator.showWhile(null, analyseThread);
+		analyseThread.run();
 	}
+	
+	
+	public void resetPlugin(){
+		serviceProvider.resetServices();
+		workspaceController.closeWorkspace();
+		initializeFrames();
+		viewResetController.notifyResetListeners();
+		stateController.checkState();
+	}
+ 	
+	//CODE IN DEVELOPMENT
+	//FOUT er zal nooit als eerste een project geopend worden zelfs als er een hussact.hu file bestaat
+ 	public void projectSelected(IProject project){
+ 		String projectPath = project.getLocation().toString();
+		String projectName = project.toString().substring(2);
+		this.project = project;
+		//if there is no workspace open create a workspace
+ 		if(!workspaceController.isOpenWorkspace()){ 
+ 			logger.debug("creating a workspace for the first time");
+ 			file = new File(project.getLocation().toString() + "\\" + "hussact.hu");
+ 			workspaceController.createWorkspace(projectName);
+			serviceProvider.getDefineService().createApplication(projectName, new String[]{projectPath}, "Java", "1.0");
+			analyse();
+ 		}
+ 		//if there is no a workspace open but it is the same only analyse
+ 		else if(file.equals(new File(project.getLocation().toString() + "\\" + "hussact.hu"))){
+ 			logger.debug("the same workspace is reanalysed");
+ 			analyse();
+ 		}
+ 		//if there is no a workspace open and its different save the last project and reset the plugin
+ 		else{
+ 			logger.debug("a new workspace is about to open or be created");
+ 			saveProject();
+			resetPlugin();
+			file = new File(project.getLocation().toString() + "\\" + "hussact.hu");
+			//if the save file exists then open the workspace
+			if(file.exists()){
+				logger.debug("loading the project");
+				loadProject();
+			}
+			//if no save file exists then create a new workspace
+			else{
+				logger.debug("creating a new workspace");
+				workspaceController.createWorkspace(projectName);
+				serviceProvider.getDefineService().createApplication(projectName, new String[]{projectPath}, "Java", "1.0");
+			}
+			analyse();
+ 		}		
+	}
+ 	
+ 	private void saveProject(){
+ 		logger.debug("saving project");
+ 		if(file != null){
+	 		HashMap<String, Object> dataValues = new HashMap<String, Object>();
+			dataValues.put("file", file);
+			workspaceController.saveWorkspace("xml", dataValues);
+ 		}
+ 	}
+ 	
+ 	private void loadProject(){
+ 		logger.debug("loading project");
+ 		HashMap<String, Object> dataValues = new HashMap<String, Object>();
+		dataValues.put("file", file);
+		workspaceController.loadWorkspace("xml", dataValues);
+ 	}
 	
 	public ArrayList<ViolationDTO> getViolations(){
 		ArrayList<ViolationDTO> violationArrayList = new ArrayList<ViolationDTO>();
@@ -166,11 +223,6 @@ public class PluginController {
 			}
 		}
 		return violationArrayList;
-	}
-	
-	public void resetPlugin(){
-		serviceProvider.resetServices();
-		//reset views?
 	}
 	
 	public Object[][] setDataModel(){
@@ -205,5 +257,4 @@ public class PluginController {
 		validate();
 		JInternalViolationsFrame.initiateViolationTable();
 	}
-
 }
