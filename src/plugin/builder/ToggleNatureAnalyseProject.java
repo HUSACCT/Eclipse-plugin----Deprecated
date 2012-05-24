@@ -54,53 +54,58 @@ public class ToggleNatureAnalyseProject implements IObjectActionDelegate    {
 			} catch (WorkbenchException e) {
 				e.printStackTrace();
 			}
-//			if (!pluginController.getProject().equals(project)){
-//				selectedProject = project;
-//				dialogFrame = new JDialog();
-//				JPanel contentPanel = new JPanel();
-//				dialogFrame.setTitle("Warning");
-//				dialogFrame.setBounds(100, 100, 300, 162);
-//				dialogFrame.getContentPane().setLayout(new BorderLayout());
-//				contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-//				dialogFrame.getContentPane().add(contentPanel, BorderLayout.CENTER);
-//				contentPanel.setLayout(new BorderLayout(0, 0));
-//				
-//					MessageLabel = new JLabel("<html>You requested a new analyse on a different project. <br>\r\nDo you wish to continue?</html>");
-//					MessageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-//					contentPanel.add(MessageLabel, BorderLayout.WEST);
-//				
-//					buttonPane = new JPanel();
-//					dialogFrame.getContentPane().add(buttonPane, BorderLayout.SOUTH);
-//					buttonPane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-//					
-//						JButton okButton = new JButton("Yes");
-//						buttonPane.add(okButton);
-//						dialogFrame.getRootPane().setDefaultButton(okButton);
-//					
-//						JButton cancelButton = new JButton("No");
-//						buttonPane.add(cancelButton);
-//									
-//				okButton.addActionListener(new ActionListener(){
-//
-//					@Override
-//					public void actionPerformed(ActionEvent e) {
-//						pluginController.projectSelected(selectedProject);
-//						dialogFrame.setVisible(false);
-//					}
-//				});
-//				cancelButton.addActionListener(new ActionListener(){
-//
-//					@Override
-//					public void actionPerformed(ActionEvent e) {
-//						dialogFrame.setVisible(false);
-//					}
-//				});
-//				
-//				dialogFrame.setVisible(true);
-//				
-//			}else{
+			if(pluginController.getProject() != null){
+				if (!pluginController.getProject().equals(project)){
+					selectedProject = project;
+					dialogFrame = new JDialog();
+					JPanel contentPanel = new JPanel();
+					dialogFrame.setTitle("Warning");
+					dialogFrame.setBounds(100, 100, 300, 162);
+					dialogFrame.getContentPane().setLayout(new BorderLayout());
+					contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+					dialogFrame.getContentPane().add(contentPanel, BorderLayout.CENTER);
+					contentPanel.setLayout(new BorderLayout(0, 0));
+					
+						MessageLabel = new JLabel("<html>You requested a new analyse on a different project. <br>\r\nDo you wish to continue?</html>");
+						MessageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+						contentPanel.add(MessageLabel, BorderLayout.WEST);
+					
+						buttonPane = new JPanel();
+						dialogFrame.getContentPane().add(buttonPane, BorderLayout.SOUTH);
+						buttonPane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+						
+							JButton okButton = new JButton("Yes");
+							buttonPane.add(okButton);
+							dialogFrame.getRootPane().setDefaultButton(okButton);
+						
+							JButton cancelButton = new JButton("No");
+							buttonPane.add(cancelButton);
+										
+					okButton.addActionListener(new ActionListener(){
+	
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							pluginController.projectSelected(selectedProject);
+							dialogFrame.setVisible(false);
+						}
+					});
+					cancelButton.addActionListener(new ActionListener(){
+	
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							dialogFrame.setVisible(false);
+						}
+					});
+					
+					dialogFrame.setVisible(true);
+					
+				}else{
+					pluginController.projectSelected(project);
+				}
+			}
+			else{
 				pluginController.projectSelected(project);
-//			}
+			}
 	}
 	
 	public void selectionChanged(IAction action, ISelection selection) {
