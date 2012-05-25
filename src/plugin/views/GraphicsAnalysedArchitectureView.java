@@ -30,7 +30,8 @@ public class GraphicsAnalysedArchitectureView extends ViewPart implements IState
 
 	@Override
 	public void createPartControl(Composite parent) {
-		notAvailableScreen = new JInternalHusacctNotAvailableFrame();
+		notAvailableScreen = new JInternalHusacctNotAvailableFrame(
+			"You have to analyse a project before this screen is available.");
 		Composite composite = new Composite(parent, SWT.EMBEDDED);	
 		frame = SWT_AWT.new_Frame(composite);
 		frame.add(notAvailableScreen.getRootPane(), BorderLayout.CENTER);

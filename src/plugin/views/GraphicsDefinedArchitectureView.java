@@ -30,7 +30,8 @@ public class GraphicsDefinedArchitectureView extends ViewPart implements IStateC
 
 	@Override
 	public void createPartControl(Composite parent) {
-		notAvailableScreen = new JInternalHusacctNotAvailableFrame();
+		notAvailableScreen = new JInternalHusacctNotAvailableFrame(
+			"You have to define a architecture before this screen is available.");
 		Composite composite = new Composite(parent, SWT.EMBEDDED);	
 		frame = SWT_AWT.new_Frame(composite);
 		frame.add(notAvailableScreen.getRootPane(), BorderLayout.CENTER);
