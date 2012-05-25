@@ -10,10 +10,12 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
+
 import plugin.controller.PluginController;
 
 public class ToggleNatureSaveProject implements IObjectActionDelegate    {
 	private ISelection selection;
+	private PluginController pluginController = PluginController.getInstance();
 
 	public void run(IAction action) {		
 		if (selection instanceof IStructuredSelection) {
@@ -33,11 +35,17 @@ public class ToggleNatureSaveProject implements IObjectActionDelegate    {
 	}
 
 	private void toggleNature(IProject project) {
-		PluginController.getInstance().saveProject();	
+		pluginController.saveProject();
 	}
 	
 	public void selectionChanged(IAction action, ISelection selection) {
 		this.selection = selection;
+		
+		if(pluginController.isDefined()){
+			action.setEnabled(true);
+		}else{
+			action.setEnabled(false);
+		}
 	}
 
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {

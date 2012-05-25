@@ -33,7 +33,7 @@ public class PluginController {
  	private PluginController(){ 
  		URL propertiesFile = getClass().getResource("/husacct/common/resources/husacct.properties");
 		PropertyConfigurator.configure(propertiesFile);
-		initializeControllers();	
+		initializeControllers();
  	}
  	
  	public static PluginController getInstance(){
@@ -146,5 +146,12 @@ public class PluginController {
 			isMapped = true;
 		}
 		return isMapped;
+	}
+	public boolean isDefined(){
+		boolean isDefined = false;
+		if(stateController.getState().contains(States.DEFINED)){
+			isDefined = true;
+		}
+		return isDefined;
 	}
 }
