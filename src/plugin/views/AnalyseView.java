@@ -25,9 +25,6 @@ public class AnalyseView extends ViewPart implements IStateChangeListener, IRese
 
 	@Override
 	public void createPartControl(Composite parent) {
-		PluginController pluginController = PluginController.getInstance();
-		pluginController.addToStateController(this);
-		pluginController.addToResetController(this);
 		notAvailableScreen = new JInternalHusacctNotAvailableFrame();
 		analyseFrame = FrameInstanceController.getAnalyseFrame();
 		Composite composite = new Composite(parent, SWT.EMBEDDED);	
@@ -37,7 +34,9 @@ public class AnalyseView extends ViewPart implements IStateChangeListener, IRese
 		frame.validate();
 		frame.repaint();
 		parent.setParent(composite);
-		pluginController.checkState();
+		PluginController pluginController = PluginController.getInstance();
+		pluginController.addToStateController(this);
+		pluginController.addToResetController(this);
 	}
 
 	@Override

@@ -4,8 +4,11 @@ import husacct.control.task.IStateChangeListener;
 import husacct.control.task.States;
 import java.awt.BorderLayout;
 import java.awt.Frame;
+import java.beans.PropertyVetoException;
 import java.util.List;
 import javax.swing.JInternalFrame;
+import javax.swing.JSplitPane;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
@@ -28,9 +31,6 @@ public class GraphicsDefinedArchitectureView extends ViewPart implements IStateC
 
 	@Override
 	public void createPartControl(Composite parent) {
-		PluginController pluginController = PluginController.getInstance();
-		pluginController.addToStateController(this);
-		pluginController.addToResetController(this);
 		notAvailableScreen = new JInternalHusacctNotAvailableFrame();
 		definedArchitectureFrame = FrameInstanceController.getGraphicsDefinedArchitecture();
 		Composite composite = new Composite(parent, SWT.EMBEDDED);	
@@ -39,7 +39,9 @@ public class GraphicsDefinedArchitectureView extends ViewPart implements IStateC
 		frame.validate();
 		frame.repaint();
 		parent.setParent(composite);
-		pluginController.checkState();
+		PluginController pluginController = PluginController.getInstance();
+		pluginController.addToStateController(this);
+		pluginController.addToResetController(this);
 	}
 
 	@Override
@@ -60,7 +62,15 @@ public class GraphicsDefinedArchitectureView extends ViewPart implements IStateC
 
 	public void changeScreen(JInternalFrame jInternalFrame){
 		frame.removeAll();
-		frame.add(jInternalFrame.getRootPane(), BorderLayout.CENTER);
+		JSplitPane jsp = new JSplitPane();
+		jsp.removeAll();
+		jsp.add(jInternalFrame, JSplitPane.TOP);
+		try {
+			jInternalFrame.setMaximum(true);
+		} catch (PropertyVetoException e) {
+			e.printStackTrace();
+		}
+		frame.add(jsp, BorderLayout.CENTER);
 		frame.validate();
 		frame.repaint();
 	}

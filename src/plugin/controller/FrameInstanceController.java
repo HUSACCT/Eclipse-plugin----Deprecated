@@ -20,12 +20,16 @@ public class FrameInstanceController {
  	public static JInternalFrame getGraphicsAnalysedArchitecture(){
  		JInternalFrame jInternalFrameAnalysedGraphics = ServiceProvider.getInstance().getGraphicsService().getAnalysedArchitectureGUI();
 		jInternalFrameAnalysedGraphics.setVisible(true);
+		jInternalFrameAnalysedGraphics.setClosable(false);
+		jInternalFrameAnalysedGraphics.setResizable(false);
  		return jInternalFrameAnalysedGraphics;
  	}
  	
  	public static JInternalFrame getGraphicsDefinedArchitecture(){
  		JInternalFrame jInternalFrameDefinedGraphics = ServiceProvider.getInstance().getGraphicsService().getDefinedArchitectureGUI();
 		jInternalFrameDefinedGraphics.setVisible(true);
+		jInternalFrameDefinedGraphics.setClosable(false);
+		jInternalFrameDefinedGraphics.setResizable(false);
  		return jInternalFrameDefinedGraphics;
  	}
  	
