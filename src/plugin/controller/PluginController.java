@@ -89,7 +89,7 @@ public class PluginController {
 	}
 	
 	public void validate(){
-		ValidateThreadController.validate();
+		ValidateThreadController.validate(FrameInstanceController.getValidateFrame(), mainController);
 	}
 	
 	public void analyse(){
