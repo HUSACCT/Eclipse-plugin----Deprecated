@@ -17,8 +17,9 @@ import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
-import plugin.controller.IResetListener;
+import plugin.controller.FrameInstanceController;
 import plugin.controller.PluginController;
+import plugin.controller.resources.IResetListener;
 
 public class DefineView extends ViewPart implements IResetListener{
 	private PluginController pluginController;
@@ -36,7 +37,7 @@ public class DefineView extends ViewPart implements IResetListener{
 		Composite composite = new Composite(parent, SWT.EMBEDDED);	
 		frame = SWT_AWT.new_Frame(composite);
 		frame.setLayout(new BorderLayout());
-		frame.add(pluginController.getDefineFrame().getRootPane(), BorderLayout.CENTER);
+		frame.add(FrameInstanceController.getDefineFrame().getRootPane(), BorderLayout.CENTER);
 		createButtons(frame);
 		frame.validate();
 		frame.repaint();
@@ -75,7 +76,7 @@ public class DefineView extends ViewPart implements IResetListener{
 		jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		jFileChooser.setFileFilter(new TypeOfFile());  
 		jFileChooser.setAcceptAllFileFilterUsed(false); 
-		if (jFileChooser.showOpenDialog(pluginController.getDefineFrame().getRootPane()) == JFileChooser.APPROVE_OPTION) { 
+		if (jFileChooser.showOpenDialog(FrameInstanceController.getDefineFrame().getRootPane()) == JFileChooser.APPROVE_OPTION) { 
 			//pluginController.importLogicalArchitecture(jFileChooser.getSelectedFile());
 		}
 	}
@@ -87,7 +88,7 @@ public class DefineView extends ViewPart implements IResetListener{
 		jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		jFileChooser.setFileFilter(new TypeOfFile());  
 		jFileChooser.setAcceptAllFileFilterUsed(false); 
-		if (jFileChooser.showSaveDialog(pluginController.getDefineFrame().getRootPane()) == JFileChooser.APPROVE_OPTION) { 
+		if (jFileChooser.showSaveDialog(FrameInstanceController.getDefineFrame().getRootPane()) == JFileChooser.APPROVE_OPTION) { 
 			//pluginController.exportLogicalArchitecture(jFileChooser.getSelectedFile());
 		}
 	}
@@ -112,7 +113,7 @@ public class DefineView extends ViewPart implements IResetListener{
 	public void reset() {
 		logger.info("defineView gereset");
 		frame.removeAll();
-		frame.add(pluginController.getDefineFrame().getRootPane(), BorderLayout.CENTER);
+		frame.add(FrameInstanceController.getDefineFrame().getRootPane(), BorderLayout.CENTER);
 		createButtons(frame);
 		frame.validate();
 		frame.repaint();

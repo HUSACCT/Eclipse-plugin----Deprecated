@@ -11,8 +11,9 @@ import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
-import plugin.controller.IResetListener;
+import plugin.controller.FrameInstanceController;
 import plugin.controller.PluginController;
+import plugin.controller.resources.IResetListener;
 import plugin.views.internalframes.JInternalHusacctNotAvailableFrame;
 
 public class AnalyseView extends ViewPart implements IStateChangeListener, IResetListener {
@@ -28,7 +29,7 @@ public class AnalyseView extends ViewPart implements IStateChangeListener, IRese
 		pluginController.addToStateController(this);
 		pluginController.addToResetController(this);
 		notAvailableScreen = new JInternalHusacctNotAvailableFrame();
-		analyseFrame = pluginController.getAnalyseFrame();
+		analyseFrame = FrameInstanceController.getAnalyseFrame();
 		Composite composite = new Composite(parent, SWT.EMBEDDED);	
 		frame = SWT_AWT.new_Frame(composite);
 		frame.add(notAvailableScreen.getRootPane(), BorderLayout.CENTER);
@@ -63,7 +64,7 @@ public class AnalyseView extends ViewPart implements IStateChangeListener, IRese
 
 	@Override
 	public void reset() {
-		analyseFrame = PluginController.getInstance().getAnalyseFrame();
+		analyseFrame = FrameInstanceController.getAnalyseFrame();
 		changeScreen(notAvailableScreen);
 		isAnalyseFrameVisible = false;
 	}

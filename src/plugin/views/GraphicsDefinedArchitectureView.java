@@ -11,8 +11,9 @@ import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
-import plugin.controller.IResetListener;
+import plugin.controller.FrameInstanceController;
 import plugin.controller.PluginController;
+import plugin.controller.resources.IResetListener;
 import plugin.views.internalframes.JInternalHusacctNotAvailableFrame;
 
 public class GraphicsDefinedArchitectureView extends ViewPart implements IStateChangeListener, IResetListener {
@@ -31,7 +32,7 @@ public class GraphicsDefinedArchitectureView extends ViewPart implements IStateC
 		pluginController.addToStateController(this);
 		pluginController.addToResetController(this);
 		notAvailableScreen = new JInternalHusacctNotAvailableFrame();
-		definedArchitectureFrame = pluginController.getGraphicsDefinedArchitecture();
+		definedArchitectureFrame = FrameInstanceController.getGraphicsDefinedArchitecture();
 		Composite composite = new Composite(parent, SWT.EMBEDDED);	
 		frame = SWT_AWT.new_Frame(composite);
 		frame.add(notAvailableScreen.getRootPane(), BorderLayout.CENTER);
@@ -66,7 +67,7 @@ public class GraphicsDefinedArchitectureView extends ViewPart implements IStateC
 
 	@Override
 	public void reset() {
-		definedArchitectureFrame = PluginController.getInstance().getGraphicsDefinedArchitecture();
+		definedArchitectureFrame = FrameInstanceController.getGraphicsDefinedArchitecture();
 		changeScreen(notAvailableScreen);
 		isDefinedArchitectureFrameVisible = false;		
 	}

@@ -2,6 +2,8 @@ package plugin.controller;
 
 import java.util.ArrayList;
 
+import plugin.controller.resources.IResetListener;
+
 public class ViewResetController {
 	
 	ArrayList<IResetListener> resetListeners = new ArrayList<IResetListener>();

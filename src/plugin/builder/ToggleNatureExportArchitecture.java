@@ -11,6 +11,8 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
+
+import plugin.controller.FrameInstanceController;
 import plugin.controller.PluginController;
 
 public class ToggleNatureExportArchitecture implements IObjectActionDelegate    {
@@ -43,7 +45,7 @@ public class ToggleNatureExportArchitecture implements IObjectActionDelegate    
 		jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		jFileChooser.setFileFilter(new TypeOfFile());  
 		jFileChooser.setAcceptAllFileFilterUsed(false); 
-		if (jFileChooser.showSaveDialog(pluginController.getDefineFrame().getRootPane()) == JFileChooser.APPROVE_OPTION) { 
+		if (jFileChooser.showSaveDialog(FrameInstanceController.getDefineFrame().getRootPane()) == JFileChooser.APPROVE_OPTION) { 
 			//pluginController.exportLogicalArchitecture(jFileChooser.getSelectedFile());
 		}
 	}

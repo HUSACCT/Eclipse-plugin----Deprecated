@@ -11,8 +11,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
-
 import javax.swing.JInternalFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -22,31 +20,23 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.ide.IDE;
 
 import plugin.controller.PluginController;
+import plugin.controller.ViolationsViewController;
 
 
 public class JInternalHusacctViolationsFrame extends JInternalFrame {
 	private static final long serialVersionUID = 1L;
 	
 	private PluginController pluginController = PluginController.getInstance();
+	private ViolationsViewController violationsViewController = new ViolationsViewController();
 	private ArrayList<ViolationDTO> violationArrayList = new ArrayList<ViolationDTO>();
 	private JTable violationTable;
 	private JTextPane violationInformation;
 
-	
-	
 	public JInternalHusacctViolationsFrame() {
-
 		setBounds(50, 50, 200, 400);
 		setResizable(true);
 		setClosable(true);
@@ -65,9 +55,9 @@ public class JInternalHusacctViolationsFrame extends JInternalFrame {
 	public void initiateViolationTable(){
 		String[] columnNames = {"Source", "Target", "LineNumber", "Kind of dependency", "Severity"};
 		if(pluginController != null){
-			violationArrayList = pluginController.getViolations();
+			violationArrayList = violationsViewController.getViolations();
 		}
-		Object[][] data = pluginController.setDataModel();
+		Object[][] data = violationsViewController.setDataModel();
 		
 		if(violationTable == null){
 		violationTable = new JTable(data, columnNames);
@@ -96,43 +86,11 @@ public class JInternalHusacctViolationsFrame extends JInternalFrame {
 					Path path = new Path(entireClassPath); 
 					IFile iFile = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 
-					openViolationWithEditor(iFile,lineNumber);
+					violationsViewController.openViolationWithEditor(iFile,lineNumber);
 				}
 			}
 		});
 		
-	}
-	private void openViolationWithEditor(IFile file, int lineNumber) {
-		final IFile iFile = file;
-		final int finalLineNumber = lineNumber;
-		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-
-			public void run() {
-				IWorkbenchWindow workbenchwindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-				IWorkbenchPage page = workbenchwindow.getActivePage();
-
-				if (page != null) {
-					try {
-						IDE.openEditor(page, iFile, true);
-						HashMap<String, Comparable> hashMap = new HashMap<String, Comparable> ();
-						hashMap.put(IMarker.LINE_NUMBER, new Integer(finalLineNumber));
-						hashMap.put(IDE.EDITOR_ID_ATTR, "org.eclipse.jdt.internal.ui.javaeditor.JavaEditor");
-						try {
-							IMarker marker = iFile.createMarker(IMarker.TEXT);
-							marker.setAttributes(hashMap);
-							IDE.openEditor(page, marker, true);
-							marker.delete();
-						} catch (PartInitException e) {
-							e.printStackTrace();
-						} catch (CoreException e) {
-							e.printStackTrace();
-						} 
-					}catch (PartInitException pie) {
-						System.out.println("Unable to open the Editor");
-					}
-				}
-			}
-		});
 	}
 
 	private void createButton(JInternalHusacctViolationsFrame frame){

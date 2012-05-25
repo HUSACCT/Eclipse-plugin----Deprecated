@@ -34,7 +34,7 @@ public class ToggleNatureValidateProject implements IObjectActionDelegate    {
 	}
 
 	private void toggleNature(IProject project) {
-		pluginController.refreshViolationFrame();
+		pluginController.validate();
 	}
 	
 	public void selectionChanged(IAction action, ISelection selection) {

@@ -12,6 +12,7 @@ import husacct.validate.IValidateService;
 import org.junit.Before;
 import org.junit.Test;
 
+import plugin.controller.FrameInstanceController;
 import plugin.controller.PluginController;
 
 
@@ -36,27 +37,27 @@ public class PluginControllerTest {
 	
 	@Test
 	public void testGetDefineFrame(){
-		assertEquals(pluginController.getDefineFrame(), serviceProvider.getDefineService().getDefinedGUI());
+		assertEquals(FrameInstanceController.getDefineFrame(), serviceProvider.getDefineService().getDefinedGUI());
 	}
 	
 	@Test
 	public void testGetValidateFrame(){
-		assertEquals(pluginController.getValidateFrame(), serviceProvider.getValidateService().getBrowseViolationsGUI());
+		assertEquals(FrameInstanceController.getValidateFrame(), serviceProvider.getValidateService().getBrowseViolationsGUI());
 	}
 	
 	@Test
 	public void testGetGraphicsAnalysedArchitecture(){
-		assertEquals(pluginController.getGraphicsAnalysedArchitecture(), serviceProvider.getGraphicsService().getAnalysedArchitectureGUI());
+		assertEquals(FrameInstanceController.getGraphicsAnalysedArchitecture(), serviceProvider.getGraphicsService().getAnalysedArchitectureGUI());
 	}
 	
 	@Test
 	public void testGetGraphicsDefinedArchitecture(){
-		assertEquals(pluginController.getGraphicsDefinedArchitecture(), serviceProvider.getGraphicsService().getDefinedArchitectureGUI());
+		assertEquals(FrameInstanceController.getGraphicsDefinedArchitecture(), serviceProvider.getGraphicsService().getDefinedArchitectureGUI());
 	}
 	
 	@Test
 	public void testGetAnalyseFrame(){
-		assertEquals(pluginController.getAnalyseFrame(), serviceProvider.getAnalyseService().getJInternalFrame());
+		assertEquals(FrameInstanceController.getAnalyseFrame(), serviceProvider.getAnalyseService().getJInternalFrame());
 	}
 	
 	
