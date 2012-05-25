@@ -7,9 +7,6 @@ import java.awt.Frame;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileFilter;
 
 import org.apache.log4j.Logger;
 import org.eclipse.swt.SWT;
@@ -51,7 +48,7 @@ public class DefineView extends ViewPart implements IResetListener{
 		buttonImport.addActionListener(new ActionListener() {		 
 	        public void actionPerformed(ActionEvent e)
 	        {
-	        	importArchitecture();
+	        	PluginController.getInstance().importArchitecture();
 	        }
 	    }); 	
 		panel.add(buttonImport);
@@ -60,49 +57,13 @@ public class DefineView extends ViewPart implements IResetListener{
 		buttonExport.addActionListener(new ActionListener() {		 
 	        public void actionPerformed(ActionEvent e)
 	        {
-	        	exportArchitecture();
+	        	PluginController.getInstance().exportArchitecture();
 	        }
 	    }); 	
 		panel.add(buttonExport);
 		panel.setBackground(Color.LIGHT_GRAY);
 		
 		frame.add(panel, BorderLayout.PAGE_START);
-	}
-	
-	private void importArchitecture(){
-		JFileChooser jFileChooser = new JFileChooser(); 
-		jFileChooser.setCurrentDirectory(new java.io.File("."));
-		jFileChooser.setDialogTitle("Import");
-		jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		jFileChooser.setFileFilter(new TypeOfFile());  
-		jFileChooser.setAcceptAllFileFilterUsed(false); 
-		if (jFileChooser.showOpenDialog(FrameInstanceController.getDefineFrame().getRootPane()) == JFileChooser.APPROVE_OPTION) { 
-			//pluginController.importLogicalArchitecture(jFileChooser.getSelectedFile());
-		}
-	}
-	
-	private void exportArchitecture(){
-		JFileChooser jFileChooser = new JFileChooser(); 
-		jFileChooser.setCurrentDirectory(new java.io.File("."));
-		jFileChooser.setDialogTitle("Export");
-		jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		jFileChooser.setFileFilter(new TypeOfFile());  
-		jFileChooser.setAcceptAllFileFilterUsed(false); 
-		if (jFileChooser.showSaveDialog(FrameInstanceController.getDefineFrame().getRootPane()) == JFileChooser.APPROVE_OPTION) { 
-			//pluginController.exportLogicalArchitecture(jFileChooser.getSelectedFile());
-		}
-	}
-	
-	class TypeOfFile extends FileFilter  
-	{   
-		public boolean accept(File f)  
-		{  
-			return f.isDirectory()||f.getName().toLowerCase().endsWith(".xml");  
-		}   
-		public String getDescription()  
-		{  
-			return ".xml files";  
-		}  
 	}
 
 	@Override
@@ -111,7 +72,6 @@ public class DefineView extends ViewPart implements IResetListener{
 
 	@Override
 	public void reset() {
-		logger.info("defineView gereset");
 		frame.removeAll();
 		frame.add(FrameInstanceController.getDefineFrame().getRootPane(), BorderLayout.CENTER);
 		createButtons(frame);

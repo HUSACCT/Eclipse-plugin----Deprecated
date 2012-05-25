@@ -6,8 +6,6 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.core.resources.IProject;
 import plugin.controller.resources.IResetListener;
-import plugin.views.PluginExportController;
-import plugin.views.PluginImportController;
 import plugin.views.internalframes.JInternalHusacctViolationsFrame;
 import husacct.ServiceProvider;
 import husacct.control.ControlServiceImpl;

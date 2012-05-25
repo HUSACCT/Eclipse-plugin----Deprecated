@@ -22,7 +22,6 @@ import plugin.views.internalframes.JInternalHusacctNotAvailableFrame;
 public class GraphicsDefinedArchitectureView extends ViewPart implements IStateChangeListener, IResetListener {
 	private Frame frame;
 	private JInternalHusacctNotAvailableFrame notAvailableScreen;
-	private JInternalFrame definedArchitectureFrame;
 	private boolean isDefinedArchitectureFrameVisible;
 	
 	public GraphicsDefinedArchitectureView() {
@@ -32,7 +31,6 @@ public class GraphicsDefinedArchitectureView extends ViewPart implements IStateC
 	@Override
 	public void createPartControl(Composite parent) {
 		notAvailableScreen = new JInternalHusacctNotAvailableFrame();
-		definedArchitectureFrame = FrameInstanceController.getGraphicsDefinedArchitecture();
 		Composite composite = new Composite(parent, SWT.EMBEDDED);	
 		frame = SWT_AWT.new_Frame(composite);
 		frame.add(notAvailableScreen.getRootPane(), BorderLayout.CENTER);
@@ -51,7 +49,7 @@ public class GraphicsDefinedArchitectureView extends ViewPart implements IStateC
 
 	public void changeState(List<States> states) {
 		if(states.contains(States.DEFINED) && !isDefinedArchitectureFrameVisible){
-			changeScreen(definedArchitectureFrame);
+			changeScreen(FrameInstanceController.getGraphicsDefinedArchitecture());
 			isDefinedArchitectureFrameVisible = true;
 		}
 		else if(!states.contains(States.DEFINED) && isDefinedArchitectureFrameVisible){
@@ -62,22 +60,21 @@ public class GraphicsDefinedArchitectureView extends ViewPart implements IStateC
 
 	public void changeScreen(JInternalFrame jInternalFrame){
 		frame.removeAll();
-		JSplitPane jsp = new JSplitPane();
-		jsp.removeAll();
-		jsp.add(jInternalFrame, JSplitPane.TOP);
+		JSplitPane jSplitPane = new JSplitPane();
+		jSplitPane.removeAll();
+		jSplitPane.add(jInternalFrame, JSplitPane.TOP);
 		try {
 			jInternalFrame.setMaximum(true);
 		} catch (PropertyVetoException e) {
 			e.printStackTrace();
 		}
-		frame.add(jsp, BorderLayout.CENTER);
+		frame.add(jSplitPane, BorderLayout.CENTER);
 		frame.validate();
 		frame.repaint();
 	}
 
 	@Override
 	public void reset() {
-		definedArchitectureFrame = FrameInstanceController.getGraphicsDefinedArchitecture();
 		changeScreen(notAvailableScreen);
 		isDefinedArchitectureFrameVisible = false;		
 	}

@@ -1,10 +1,9 @@
-package plugin.views;
+package plugin.controller;
 
 import java.io.File;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
-import plugin.controller.FrameInstanceController;
 import husacct.control.task.ImportController;
 
 public class PluginImportController {

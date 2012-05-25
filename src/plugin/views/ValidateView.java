@@ -19,7 +19,6 @@ import plugin.views.internalframes.JInternalHusacctViolationsFrame;
 public class ValidateView extends ViewPart implements IStateChangeListener, IResetListener {
 	private Frame frame;
 	private JInternalHusacctNotAvailableFrame notAvailableScreen;
-	private JInternalHusacctViolationsFrame violationsFrame = new JInternalHusacctViolationsFrame();
 	private boolean isViolationFrameVisible = false;
 	
 	public ValidateView() {
@@ -47,7 +46,7 @@ public class ValidateView extends ViewPart implements IStateChangeListener, IRes
 	
 	public void changeState(List<States> states) {
 		if(states.contains(States.MAPPED) && !isViolationFrameVisible){
-			changeScreen(violationsFrame);
+			changeScreen(new JInternalHusacctViolationsFrame());
 			isViolationFrameVisible = true;
 		}
 		else if(!states.contains(States.MAPPED) && isViolationFrameVisible){
@@ -65,7 +64,6 @@ public class ValidateView extends ViewPart implements IStateChangeListener, IRes
 
 	@Override
 	public void reset() {
-		violationsFrame = new JInternalHusacctViolationsFrame();
 		changeScreen(notAvailableScreen);
 		isViolationFrameVisible = false;
 	}

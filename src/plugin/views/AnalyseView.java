@@ -13,20 +13,17 @@ import org.eclipse.ui.part.ViewPart;
 
 import plugin.controller.FrameInstanceController;
 import plugin.controller.PluginController;
-import plugin.controller.resources.IResetListener;
 import plugin.views.internalframes.JInternalHusacctNotAvailableFrame;
 
-public class AnalyseView extends ViewPart implements IStateChangeListener, IResetListener {
+public class AnalyseView extends ViewPart implements IStateChangeListener {
 	private Frame frame;
 	private JInternalHusacctNotAvailableFrame notAvailableScreen;
-	private JInternalFrame analyseFrame;
 	private boolean isAnalyseFrameVisible;
 
 
 	@Override
 	public void createPartControl(Composite parent) {
 		notAvailableScreen = new JInternalHusacctNotAvailableFrame();
-		analyseFrame = FrameInstanceController.getAnalyseFrame();
 		Composite composite = new Composite(parent, SWT.EMBEDDED);	
 		frame = SWT_AWT.new_Frame(composite);
 		frame.add(notAvailableScreen.getRootPane(), BorderLayout.CENTER);
@@ -36,7 +33,6 @@ public class AnalyseView extends ViewPart implements IStateChangeListener, IRese
 		parent.setParent(composite);
 		PluginController pluginController = PluginController.getInstance();
 		pluginController.addToStateController(this);
-		pluginController.addToResetController(this);
 	}
 
 	@Override
@@ -45,7 +41,7 @@ public class AnalyseView extends ViewPart implements IStateChangeListener, IRese
 
 	public void changeState(List<States> states) {
 		if(states.contains(States.ANALYSED) && !isAnalyseFrameVisible){
-			changeScreen(analyseFrame);
+			changeScreen(FrameInstanceController.getAnalyseFrame());
 			isAnalyseFrameVisible = true;
 		}
 		else if(!states.contains(States.ANALYSED) && isAnalyseFrameVisible){
@@ -59,12 +55,5 @@ public class AnalyseView extends ViewPart implements IStateChangeListener, IRese
 		frame.add(jInternalFrame.getRootPane(), BorderLayout.CENTER);
 		frame.validate();
 		frame.repaint();
-	}
-
-	@Override
-	public void reset() {
-		analyseFrame = FrameInstanceController.getAnalyseFrame();
-		changeScreen(notAvailableScreen);
-		isAnalyseFrameVisible = false;
 	}
 }
