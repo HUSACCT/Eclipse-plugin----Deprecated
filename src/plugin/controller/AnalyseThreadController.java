@@ -29,7 +29,9 @@ public class AnalyseThreadController {
 					analyseThread.join();
 					loadingdialog.dispose();
 					logger.debug("Monitor: analyse finished");
-					JOptionPane.showMessageDialog(jInternalFrameAnalyse, "Analysation succeeded, open the define-view for mapping your architecture", "Succes", JOptionPane.PLAIN_MESSAGE);
+					if(!loadingdialog.isVisible()){
+						JOptionPane.showMessageDialog(jInternalFrameAnalyse, "Analysation succeeded, open the define-view for mapping your architecture", "Succes", JOptionPane.PLAIN_MESSAGE);
+					}
 				} catch (InterruptedException exception){
 					logger.debug("Monitor: analyse interrupted");
 					JOptionPane.showMessageDialog(jInternalFrameAnalyse, "Validation failed", "Error", JOptionPane.ERROR_MESSAGE);
