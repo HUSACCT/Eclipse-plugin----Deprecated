@@ -2,8 +2,6 @@ package plugin.controller;
 
 import java.io.File;
 import java.net.URL;
-import java.util.HashMap;
-import javax.swing.JInternalFrame;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.core.resources.IProject;
@@ -25,10 +23,10 @@ public class PluginController {
  	private MainController mainController;
  	private WorkspaceController workspaceController;
  	private ViewResetController viewResetController;
+ 	private PluginWorkspaceController pluginWorkspaceController;
  	private JInternalHusacctViolationsFrame JInternalViolationsFrame;
  	private Logger logger = Logger.getLogger(PluginController.class);
  	private IProject project;
- 	private File file = new File("");
  	
  	private PluginController(){ 
  		URL propertiesFile = getClass().getResource("/husacct/common/resources/husacct.properties");
@@ -50,6 +48,7 @@ public class PluginController {
  		mainController = controlService.getMainController();
  		stateController = mainController.getStateController();
  		workspaceController = mainController.getWorkspaceController();
+ 		pluginWorkspaceController = new PluginWorkspaceController(workspaceController);
  		viewResetController = new ViewResetController();
  	}
  	
@@ -72,21 +71,19 @@ public class PluginController {
 		return JInternalViolationsFrame;
 	}
 	
-	public void checkState() {
+	//This function needs to be taken out as soon as the hussact is far 
+	//enough that the individual components notifie the statecontroller. Until then this is used
+	public void checkState(){
 		stateController.checkState();
 	}
 	
 	public void addToStateController(IStateChangeListener stateChangeListener){
 		stateController.addStateChangeListener(stateChangeListener);
+		stateController.checkState();
 	}
 	
 	public void addToResetController(IResetListener resetListener){
 		viewResetController.addListener(resetListener);
-	}
-	
-	public void resetPlugin(){	
-		viewResetController.notifyResetListeners();
-		stateController.checkState();
 	}
 	
 	public void validate(){
@@ -97,51 +94,38 @@ public class PluginController {
 		AnalyseThreadController.analyse(FrameInstanceController.getAnalyseFrame(), mainController);
 	}
 	
+	public void saveProject(){
+		pluginWorkspaceController.saveProject();
+	}
+	
 	public void projectSelected(IProject project){
-		String projectPath = project.getLocation().toString();
-		String projectName = project.toString().substring(2);
 		this.project = project;
-		if(file.equals(new File(project.getLocation().toString() + "\\" + "hussact.hu"))){
+		File file = new File(project.getLocation().toString() + "\\" + "hussact.hu");
+		if(pluginWorkspaceController.getFile().toString().equals(file.toString())){
 			logger.debug("reanalysing project");
 			analyse();
 		}
 		else{
 			if(workspaceController.isOpenWorkspace()){
 				logger.debug("Saving project and resetting plugin");
-				saveProject();
+				pluginWorkspaceController.saveProject();
 			}		
-			file = new File(project.getLocation().toString() + "\\" + "hussact.hu");
 			if(file.exists()){
- 				logger.debug("Loading a hussact project for the first time this startup");
  				//loading is not working in hussact corectly yet. A new project is created even if the project is saved 
-				//loadProject();
-				workspaceController.createWorkspace(projectName);
-				serviceProvider.getDefineService().createApplication(projectName, new String[]{projectPath}, "Java", "1.0");
+				//pluginWorkspaceController.loadProject();
+ 				pluginWorkspaceController.createWorkspace(project, file);
 				resetPlugin();				
 			}
  			else{
- 				logger.debug("Creating a new hussact project");
-	 			workspaceController.createWorkspace(projectName);
-	 			serviceProvider.getDefineService().createApplication(projectName, new String[]{projectPath}, "Java", "1.0");
+	 			pluginWorkspaceController.createWorkspace(project, file);
 	 			resetPlugin();				
  			}
 			analyse();
 		}		
 	}
 	
- 	public void saveProject(){
- 		logger.debug("saving project");
- 		if(file != null){
-	 		HashMap<String, Object> dataValues = new HashMap<String, Object>();
-			dataValues.put("file", file);
-			workspaceController.saveWorkspace("xml", dataValues);
- 		}
- 	}
- 	
- 	private void loadProject(){
- 		logger.debug("loading project");
- 		HashMap<String, Object> dataValues = new HashMap<String, Object>();
-		dataValues.put("file", file);
-		workspaceController.loadWorkspace("xml", dataValues);
- 	}
+	private void resetPlugin(){	
+		viewResetController.notifyResetListeners();
+		stateController.checkState();
+	}
 }

@@ -28,9 +28,6 @@ public class ValidateView extends ViewPart implements IStateChangeListener, IRes
 
 	@Override
 	public void createPartControl(Composite parent) {
-		PluginController pluginController = PluginController.getInstance();
-		pluginController.addToStateController(this);
-		pluginController.addToResetController(this);
 		notAvailableScreen = new JInternalHusacctNotAvailableFrame();
 		Composite composite = new Composite(parent, SWT.EMBEDDED);	
 		frame = SWT_AWT.new_Frame(composite);
@@ -38,7 +35,9 @@ public class ValidateView extends ViewPart implements IStateChangeListener, IRes
 		frame.validate();
 		frame.repaint();
 		parent.setParent(composite);
-		pluginController.checkState();
+		PluginController pluginController = PluginController.getInstance();
+		pluginController.addToStateController(this);
+		pluginController.addToResetController(this);
 	}
 
 	@Override

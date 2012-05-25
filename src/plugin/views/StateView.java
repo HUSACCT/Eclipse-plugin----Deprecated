@@ -38,14 +38,13 @@ public class StateView extends ViewPart implements IStateChangeListener {
 
 	@Override
 	public void createPartControl(Composite parent)  {
-		PluginController.getInstance().addToStateController(this);
 		Composite composite = new Composite(parent, SWT.EMBEDDED);
 		frame = SWT_AWT.new_Frame(composite);
 		frame.setLayout(new BorderLayout());
 		createLabels(frame);
 		fillPanel();
 		parent.setParent(composite);
-		PluginController.getInstance().checkState();
+		PluginController.getInstance().addToStateController(this);
 	}
 	
 	private void createLabels(Frame frame){		

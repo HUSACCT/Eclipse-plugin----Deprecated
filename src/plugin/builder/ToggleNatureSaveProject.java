@@ -2,7 +2,6 @@ package plugin.builder;
 
 import java.io.File;
 import java.util.Iterator;
-import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
@@ -15,7 +14,6 @@ import plugin.controller.PluginController;
 
 public class ToggleNatureSaveProject implements IObjectActionDelegate    {
 	private ISelection selection;
-	private PluginController pluginController= PluginController.getInstance();
 
 	public void run(IAction action) {		
 		if (selection instanceof IStructuredSelection) {
@@ -35,8 +33,7 @@ public class ToggleNatureSaveProject implements IObjectActionDelegate    {
 	}
 
 	private void toggleNature(IProject project) {
-		pluginController.getInstance().saveProject();
-		
+		PluginController.getInstance().saveProject();	
 	}
 	
 	public void selectionChanged(IAction action, ISelection selection) {
