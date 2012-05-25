@@ -1,40 +1,39 @@
 package plugin.controller;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import javax.swing.JInternalFrame;
+import java.net.URL;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.IPath;
-import org.jdom2.Document;
-import org.jdom2.Element;
-import plugin.Activator;
-import husacct.Main;
+import plugin.controller.resources.IResetListener;
+import plugin.views.internalframes.JInternalHusacctViolationsFrame;
 import husacct.ServiceProvider;
-import husacct.common.dto.ModuleDTO;
-import husacct.common.dto.ViolationDTO;
-import husacct.control.task.resources.IResource;
-import husacct.control.task.resources.ResourceFactory;
+import husacct.control.ControlServiceImpl;
+import husacct.control.task.IStateChangeListener;
+import husacct.control.task.MainController;
+import husacct.control.task.StateController;
+import husacct.control.task.States;
 
 public class PluginController {
+	private static PluginController pluginController = null;
+	
 	private ServiceProvider serviceProvider;
-	private JInternalFrame JInternalFrameValidate, JInternalFrameDefine, JInternalFrameAnalysedGraphics, JInternalFrameDefinedGraphics, JInternalFrameAnalyse;
- 	private Logger logger;
- 	private static PluginController pluginController = null;
- 	private IProject project;
- 	private String projectName;
- 	private String projectPath;
+	private StateController stateController;
+ 	private ControlServiceImpl controlService;	
+ 	private MainController mainController;
+ 	private ViewResetController viewResetController;
+ 	private PluginWorkspaceController pluginWorkspaceController;
+ 	private PluginImportController pluginImportController;
+ 	private PluginExportController pluginExportController;
  	
- 	private PluginController(){
- 		initializeLogger();
- 		logger.info("Starting ServiceProvider");
- 		serviceProvider = ServiceProvider.getInstance();
- 		logger.info("Initialize Frames");
- 		initializeFrames();
+ 	private JInternalHusacctViolationsFrame JInternalViolationsFrame;
+ 	private Logger logger = Logger.getLogger(PluginController.class);
+ 	private IProject project;
+ 	
+ 	private PluginController(){ 
+ 		URL propertiesFile = getClass().getResource("/husacct/common/resources/husacct.properties");
+		PropertyConfigurator.configure(propertiesFile);
+		initializeControllers();
  	}
  	
  	public static PluginController getInstance(){
@@ -44,137 +43,115 @@ public class PluginController {
 		return pluginController;
  	}
  	
- 	private void initializeLogger(){
- 		try {
-			String loggerFile = FileLocator.toFileURL(Activator.getDefault().getBundle().getEntry("husacct.properties")).getPath();
-			PropertyConfigurator.configure(loggerFile);
-			logger = Logger.getLogger(Main.class);
-			logger.info("Starting HUSACCT");
-		} catch (Exception e) {
-			e.printStackTrace();
-		} 		
- 	} 	
- 	
- 	private void initializeFrames(){
- 		JInternalFrameValidate = serviceProvider.getValidateService().getBrowseViolationsGUI();
-		JInternalFrameValidate.setVisible(true);
-		
-		JInternalFrameDefine = serviceProvider.getDefineService().getDefinedGUI();
-		JInternalFrameDefine.setVisible(true);
-		
-		JInternalFrameAnalysedGraphics = serviceProvider.getGraphicsService().getAnalysedArchitectureGUI();
-		JInternalFrameAnalysedGraphics.setVisible(true);
-		
-		JInternalFrameDefinedGraphics = serviceProvider.getGraphicsService().getDefinedArchitectureGUI();
-		JInternalFrameDefinedGraphics.setVisible(true);
-		
-		JInternalFrameAnalyse = serviceProvider.getAnalyseService().getJInternalFrame();
-		JInternalFrameDefinedGraphics.setVisible(true);
-		
+ 	private void initializeControllers(){
+ 		logger.info("Initializing Controllers");
+ 		serviceProvider = ServiceProvider.getInstance(); 
+ 		controlService = (ControlServiceImpl) serviceProvider.getControlService();
+ 		mainController = controlService.getMainController();
+ 		stateController = mainController.getStateController();
+ 		pluginWorkspaceController = new PluginWorkspaceController(mainController.getWorkspaceController());
+ 		pluginImportController = new PluginImportController(mainController.getImportController());
+ 		pluginExportController = new PluginExportController(mainController.getExportController());
+ 		viewResetController = new ViewResetController();
  	}
  	
- 	public JInternalFrame getDefineFrame(){
- 		return JInternalFrameDefine;
- 	}
- 	
- 	public JInternalFrame getValidateFrame(){
- 		return JInternalFrameValidate;
- 	}
- 	
- 	public JInternalFrame getGraphicsAnalysedArchitecture(){
- 		return JInternalFrameAnalysedGraphics;
- 	}
- 	
- 	public JInternalFrame getGraphicsDefinedArchitecture(){
- 		return JInternalFrameDefinedGraphics;
- 	}
- 	
- 	public JInternalFrame getAnalyseFrame(){
- 		return JInternalFrameAnalyse;
- 	}
- 	
- 	public void validate(){
- 		if(serviceProvider.getDefineService().isMapped()){
- 			serviceProvider.getValidateService().checkConformance();
- 		}
- 	}
- 	
- 	public void projectSelected(IProject project){
- 		this.project = project;
- 		IPath projectPath = project.getLocation();
- 		sourceSelected("eclipse plugin project" ,projectPath.toString(), "1.0");
- 		logger.info(projectPath.makeRelative().toString());
- 		setProjectPath(projectPath.toString());
- 		
- 	}
- 	
- 	public void setProjectName(IProject project){
-		IProject iProjectProjectName = project.getProject();
-		String projectNameString = iProjectProjectName.toString(); 	
-		String subString = projectNameString.substring(2);
-		this.projectName = subString;
+ 	public IProject getProject(){
+ 		return project;
  	}
  	
  	public String getProjectName(){
- 		return projectName;
- 	}
- 	public void setProjectPath(String projectPath){
- 		this.projectPath = projectPath;
+ 		return project.toString().substring(2);
  	}
  	
- 	public String getProjectPath(){
- 		return projectPath;
- 	}
-	
-	public void sourceSelected(String projectName, String sources, String version){
-		logger.info("Selecting source");
-		serviceProvider.getDefineService().createApplication( "Eclipseplugin", new String[]{sources}, "Java", version);		
-		logger.info("Analyzing source");
-		serviceProvider.getAnalyseService().analyseApplication();
+	public void setViolationFrame(JInternalHusacctViolationsFrame violationFrame){
+		JInternalViolationsFrame = violationFrame;
 	}
 	
-	public void importLogicalArchitecture(File file){		
-		logger.info("importing architecture");
-		HashMap<String, Object> resourceData = new HashMap<String, Object>();
-		resourceData.put("file", file);
-		IResource xmlResource = ResourceFactory.get("xml");
-		try {
-			Document doc = xmlResource.load(resourceData);	
-			Element logicalData = doc.getRootElement();
-			System.out.println(logicalData);
-			serviceProvider.getDefineService().loadLogicalArchitectureData(logicalData);
-		} catch (Exception e) {
-			logger.debug("Unable to import logical architecture: " + e.getMessage());
+	public JInternalHusacctViolationsFrame getViolationFrame(){
+		if(JInternalViolationsFrame == null){
+			return new JInternalHusacctViolationsFrame();
 		}
+		return JInternalViolationsFrame;
 	}
 	
-	public void exportLogicalArchitecture(File file){
-		logger.info("exporting architecture");
-		HashMap<String, Object> resourceData = new HashMap<String, Object>();
-		resourceData.put("file", file);
-		IResource xmlResource = ResourceFactory.get("xml");
-		try {
-			Element logicalData = serviceProvider.getDefineService().getLogicalArchitectureData();
-			Document doc = new Document(logicalData);
-			xmlResource.save(doc, resourceData);
-		} catch (Exception e) {
-			logger.debug("Unable to export logical architecture: " + e.getMessage());
+	//This function needs to be taken out as soon as the hussact is far 
+	//enough that the individual components notifie the statecontroller. Until then this is used
+	public void checkState(){
+		stateController.checkState();
+	}
+	
+	public void addToStateController(IStateChangeListener stateChangeListener){
+		stateController.addStateChangeListener(stateChangeListener);
+		stateController.checkState();
+	}
+	
+	public void addToResetController(IResetListener resetListener){
+		viewResetController.addListener(resetListener);
+	}
+	
+	public void validate(){
+		ValidateThreadController.validate(FrameInstanceController.getValidateFrame(), mainController);
+	}
+	
+	public void analyse(){
+		AnalyseThreadController.analyse(FrameInstanceController.getAnalyseFrame(), mainController);
+	}
+	
+	public void saveProject(){
+		pluginWorkspaceController.saveProject();
+	}
+	
+	public void importArchitecture(){
+		pluginImportController.importArchitecture();
+	}
+	
+	public void exportArchitecture(){
+		pluginExportController.exportArchitecture();
+	}
+	
+	public void projectSelected(IProject project){
+		this.project = project;
+		File file = new File(project.getLocation().toString() + "\\" + "hussact.hu");
+		if(pluginWorkspaceController.getFile().toString().equals(file.toString())){
+			logger.debug("reanalysing project");
+			analyse();
 		}
-	}
-	
-	public ArrayList<ViolationDTO> getViolations(){
-		ArrayList<ViolationDTO> violationArrayList = new ArrayList<ViolationDTO>();
-		ModuleDTO[] moduleList;
-		moduleList = serviceProvider.getDefineService().getRootModules();
-		
-		//Setting all violation per module in a ArrayList
-		for(ModuleDTO mdtoFrom : moduleList){
-			for(ModuleDTO mdtoTo: moduleList){
-				if(mdtoFrom != mdtoTo){
-					violationArrayList.addAll(Arrays.asList(serviceProvider.getValidateService().getViolationsByLogicalPath(mdtoFrom.logicalPath, mdtoTo.logicalPath)));
-				}
+		else{
+			if(pluginWorkspaceController.isOpenWorkspace()){
+				logger.debug("Saving project and resetting plugin");
+				pluginWorkspaceController.saveProject();
+			}		
+			if(file.exists()){
+ 				//loading is not working in hussact corectly yet. A new project is created even if the project is saved 
+				//pluginWorkspaceController.loadProject();
+ 				pluginWorkspaceController.createWorkspace(project, file);
+				resetPlugin();				
 			}
+ 			else{
+	 			pluginWorkspaceController.createWorkspace(project, file);
+	 			resetPlugin();				
+ 			}
+			analyse();
+		}		
+	}
+	
+	private void resetPlugin(){	
+		viewResetController.notifyResetListeners();
+		stateController.checkState();
+	}
+	
+	public boolean isMapped(){
+		boolean isMapped = false;
+		if(stateController.getState().contains(States.MAPPED)){
+			isMapped = true;
 		}
-		return violationArrayList;
+		return isMapped;
+	}
+	public boolean isDefined(){
+		boolean isDefined = false;
+		if(stateController.getState().contains(States.DEFINED)){
+			isDefined = true;
+		}
+		return isDefined;
 	}
 }

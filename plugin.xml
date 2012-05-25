@@ -26,6 +26,7 @@
             restorable="true">
       </view>
       <view
+            allowMultiple="false"
             category="HUSACCT_Plugin.HUSACCT"
             class="plugin.views.GraphicsAnalysedArchitectureView"
             icon="icons/HU-icon.gif"
@@ -34,6 +35,7 @@
             restorable="true">
       </view>
       <view
+            allowMultiple="false"
             category="HUSACCT_Plugin.HUSACCT"
             class="plugin.views.AnalyseView"
             icon="icons/HU-icon.gif"
@@ -42,6 +44,7 @@
             restorable="true">
       </view>
       <view
+            allowMultiple="false"
             category="HUSACCT_Plugin.HUSACCT"
             class="plugin.views.GraphicsDefinedArchitectureView"
             icon="icons/HU-icon.gif"
@@ -49,12 +52,29 @@
             name="Graphics - Defined Architecture"
             restorable="true">
       </view>
+      <view
+            allowMultiple="false"
+            category="HUSACCT_Plugin.HUSACCT"
+            class="plugin.views.StateView"
+            icon="icons/HU-icon.gif"
+            id="plugin.views.StateView"
+            name="StateView"
+            restorable="true">
+      </view>
+      <view
+            category="HUSACCT_Plugin.HUSACCT"
+            class="plugin.views.StartView"
+            icon="icons/HU-icon.gif"
+            id="plugin.views.StartView"
+            name="StartView"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
             class="plugin.perspective.HusacctPerspectiveFactory"
-            fixed="true"
+            fixed="false"
             icon="icons/HU-icon.gif"
             id="HUSACCT_Plugin.HusacctPerspective"
             name="HUSACCT">
@@ -97,12 +117,54 @@
             id="HUSACCT_Plugin.contribution1"
             nameFilter="*"
             objectClass="org.eclipse.core.resources.IProject">
-         <action
-               class="plugin.builder.ToggleNatureAction"
+			<menu
+               label="HUSACCT"
+               path="additions"
+               icon="icons/HU-icon.gif"
+               id="project.menu">
+            <separator
+                  name="group">
+            </separator>
+         </menu>
+		<action
+               class="plugin.builder.ToggleNatureSaveProject"
                enablesFor="+"
-               id="HUSACCT_Plugin.addRemoveNatureAction"
-               label="HUSACCT - Analyse Project"
-               menubarPath="additions">
+               id="HUSACCT_Plugin.ToggleNatureSaveProject"
+               label="Save Project"
+               icon="icons/HU-icon.gif"
+               menubarPath="project.menu/group">
+         </action> 
+        <action
+               class="plugin.builder.ToggleNatureExportArchitecture"
+               enablesFor="+"
+               id="HUSACCT_Plugin.ToggleNatureExportArchitecture"
+               label="Export Architecture"
+               icon="icons/HU-icon.gif"
+               menubarPath="project.menu/group">
+         </action>
+         <action
+               class="plugin.builder.ToggleNatureImportArchitecture"
+               enablesFor="+"
+               id="HUSACCT_Plugin.ToggleNatureImportArchitecture"
+               label="Import Architecture"
+               icon="icons/HU-icon.gif"
+               menubarPath="project.menu/group">
+         </action>
+         <action
+               class="plugin.builder.ToggleNatureValidateProject"
+               enablesFor="+"
+               id="HUSACCT_Plugin.ToggleNatureValidateProject"
+               label="Validate Project"
+               icon="icons/HU-icon.gif"
+               menubarPath="project.menu/group">
+         </action>
+         <action
+               class="plugin.builder.ToggleNatureAnalyseProject"
+               enablesFor="+"
+               id="HUSACCT_Plugin.ToggleNatureAnalyseProject"
+               label="Analyse Project"
+               icon="icons/HU-icon.gif"
+               menubarPath="project.menu/group">
          </action>
       </objectContribution>
    </extension>
