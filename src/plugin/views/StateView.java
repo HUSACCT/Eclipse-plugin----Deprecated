@@ -144,7 +144,7 @@ public class StateView extends ViewPart implements IStateChangeListener {
 			setNotAvailable(validateImage);
 		}
 		else if(states.contains(States.DEFINED) && !states.contains(States.OPENED)){
-			analyseLabel.setToolTipText(getSourceSelectTextChosen());
+			analyseLabel.setToolTipText(sourceSelectTextNotChosen);
 			setAvailable(analyseImage);
 			setDone(defineImage);
 			setAvailable(mappedImage);
