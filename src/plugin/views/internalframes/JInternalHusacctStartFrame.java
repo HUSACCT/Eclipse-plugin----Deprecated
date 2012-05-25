@@ -76,29 +76,43 @@ public class JInternalHusacctStartFrame extends JInternalFrame {
         		"<BR>" +
         		"<BR>" +
         		"<span style='font-size: 12pt'>" +
+        		
         		"<B>State of the process: </B><BR></span>" + 
         		"Within the “StateView” you can see how far you are in the process and what steps you can take.<BR>" +
-        		"At each step you see the state. The states can be: “is performed”, “ready to do” or “not yet available”.<BR>" +
+        		"At each step you see the state. The states can be: “Succeeded”, “Available” or “Blocked”.<BR>" +
         		"<BR>" +
         		"<BR>" +
+        		
         		"<span style='font-size: 12pt'>" +
-        		"<B><U>Steps:</B></U><BR>" +
+        		"<B><U>States:</B></U><BR>" +
         		"<BR></span>" +
-        		"<B><I>Analyse a Java project within Eclipse:</B></I><BR>" +
+        		
+        		"<B><I>Analyse Project:</B></I><BR>" +
         		"You can analyse a Java Project within Eclipse by right-click within the “Package Explorer” view <BR>" +
-        		"at a Java Project and then you click at “HUSACCT – Analyse Project”.<BR>" +
+        		"at a Java Project and then you click at “HUSACCT” –> “Analyse Project”.<BR>" +
         		"When de Java project analyse is completed, you can see the analysed application within the “Analyse” view.<BR>" +
         		"<BR>"+
-        		"<B><I>Define logical  architecture:</B></I><BR>" +
+        		
+        		"<B><I>Define Architecture:</B></I><BR>" +
         		"You can define the logical architecture in the “Define” view.<BR>" +
         		"Within this view you can also import and export the logical architecture.<BR>" +
         		"<BR>"+
+        		
+        		"<B><I>Mapped: </B></I><BR>" +
+        		"The state is mapped when the analysed project is mapped to the defined architecture.<BR>" +
+        		"When this is done, you can validate to see if there are violations.<BR><BR>" +
+        		
         		"<B><I>Validate: </B></I><BR>" +
         		"When the architectural rules are defined and the Java project is analysed, <BR>" +
         		"the “StateView” will show you that you are able to validate your project. <BR>" +
         		"You can do this by opening the “Validate” view and click within this view at the button “Validate”.<BR>" +
         		"When you double-click at a violation, an editor will be opened with the source at the linenumber where the violation occurs.<BR>" +
         		"<BR>"+
+        		
+        		"<span style='font-size: 12pt'>" +
+        		"<B><U>Extra:</B></U><BR>" +
+        		"<BR></span>" +
+        		
         		"<B><I>Graphical representations:</B></I><BR>" +
         		"The HUSACCT Eclipse plugin gives you the ability to view a graphical representation of the analysed and defined architecture. <BR>" +
         		"You can see them by open the views: “Graphics – Analysed” and “Graphics – Defined”.<BR>" +

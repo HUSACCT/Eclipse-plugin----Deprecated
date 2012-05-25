@@ -9,8 +9,9 @@ public class JInternalHusacctNotAvailableFrame extends JInternalFrame {
 	private static final long serialVersionUID = 1L;
 	private JTextPane textPaneInformation;
 	private JPanel jPanel;
+	private String message;
 	
-	public JInternalHusacctNotAvailableFrame() {
+	public JInternalHusacctNotAvailableFrame(String message) {
 		textPaneInformation = new JTextPane();
 		jPanel = new JPanel();
 		setBounds(50, 50, 200, 400);
@@ -20,6 +21,7 @@ public class JInternalHusacctNotAvailableFrame extends JInternalFrame {
 		setIconifiable(true);
 		setTitle("Husacct");
 		setVisible(true);
+		this.message = message;
 		
 		textPaneInformation.setContentType("text/html");
 		textPaneInformation.setText(
@@ -27,7 +29,9 @@ public class JInternalHusacctNotAvailableFrame extends JInternalFrame {
         		"<span style='font-size: 14pt'>" +
 				"<B>THIS VIEW IS NOT AVAILABLE YET</B><BR><BR>" +
 				"<span style='font-size: 10pt'>" +
-				"In the “StateView” you can see when it is available" +
+				//"In the “StateView” you can see when it is available" +
+				message + "<BR>" +
+				"In the “StateView” you can see what is done yet." +
 				"</span>" 
 		);
 		jPanel.add(textPaneInformation);
