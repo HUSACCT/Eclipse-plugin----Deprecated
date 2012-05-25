@@ -68,7 +68,7 @@ public class JInternalHusacctStartFrame extends JInternalFrame {
         textPaneHelpInformation = new JTextPane();
         textPaneHelpInformation.setForeground(Color.BLACK);
         textPaneHelpInformation.setContentType("text/html");
-        textPaneHelpInformation.setText(       // ONDERSTAANDE TEKST MOET NOG VERBERERD WORDEN!!!!!!!!!!!!! IS EEN EERSTE OPZET
+        textPaneHelpInformation.setText(       
         		"<font face='verdana' color='black'>" +
         		"<span style='font-size: 10pt'>" +
         		"<span style='font-size: 14pt'>" +

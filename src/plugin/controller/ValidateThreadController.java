@@ -13,7 +13,7 @@ public class ValidateThreadController {
 	public static void validate(final JInternalFrame jInternalFrameValidate, MainController mainController){
 		
 		if(ServiceProvider.getInstance().getDefineService().isMapped()){
-		final LoadingDialog loadingdialog = new LoadingDialog(mainController, "validating");
+		final LoadingDialog loadingdialog = new LoadingDialog(mainController, "Validating");
 		final Thread validateThread = new Thread(){
 			 public void run() {
 				 ServiceProvider.getInstance().getValidateService().checkConformance();
@@ -31,11 +31,17 @@ public class ValidateThreadController {
 					loadingdialog.dispose();
 					logger.debug("Monitor: validate finished");
 					if(!loadingdialog.isVisible()){
-						JOptionPane.showMessageDialog(jInternalFrameValidate, "Validation succeeded", "Succes", JOptionPane.PLAIN_MESSAGE);
+						JOptionPane.showMessageDialog(jInternalFrameValidate, 
+						"Validation succeeded!\n" +
+						"\n* Open the “Validate” view to see the found violations."+
+						"\n* Within this view you can click on a violation to go to the specific fault " +
+						"in the source code.", 
+						"Succes", JOptionPane.PLAIN_MESSAGE);
 					}
 				} catch (InterruptedException exception){
 					logger.debug("Monitor: analyse interrupted");
-					JOptionPane.showMessageDialog(jInternalFrameValidate, "Validation failed", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(jInternalFrameValidate, "Validation failed", "Error", 
+					JOptionPane.ERROR_MESSAGE);
 				}
 
 			}
@@ -46,7 +52,8 @@ public class ValidateThreadController {
 		}
 		else{
 			logger.debug("Monitor: Validate not available yet");
-			JOptionPane.showMessageDialog(jInternalFrameValidate, "Validate functionality not available yet", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(jInternalFrameValidate, "Validate functionality not available yet", 
+			"Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }
