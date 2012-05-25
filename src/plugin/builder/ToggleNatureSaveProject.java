@@ -35,7 +35,7 @@ public class ToggleNatureSaveProject implements IObjectActionDelegate    {
 	}
 
 	private void toggleNature(IProject project) {
-		System.out.println("Save project");
+		pluginController.getInstance().saveProject();
 		
 	}
 	

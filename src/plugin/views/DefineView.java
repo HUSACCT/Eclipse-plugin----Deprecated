@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
+
+import org.apache.log4j.Logger;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
@@ -21,12 +23,14 @@ import plugin.controller.PluginController;
 public class DefineView extends ViewPart implements IResetListener{
 	private PluginController pluginController;
 	private Frame frame;
+	private Logger logger = Logger.getLogger(DefineView.class);
 
 	public DefineView() {
 	}
 
 	@Override
 	public void createPartControl(Composite parent) {
+		logger.info("defineView gestart");
 		pluginController = PluginController.getInstance();
 		pluginController.addToResetController(this);
 		Composite composite = new Composite(parent, SWT.EMBEDDED);	
@@ -106,6 +110,7 @@ public class DefineView extends ViewPart implements IResetListener{
 
 	@Override
 	public void reset() {
+		logger.info("defineView gereset");
 		frame.removeAll();
 		frame.add(pluginController.getDefineFrame().getRootPane(), BorderLayout.CENTER);
 		createButtons(frame);

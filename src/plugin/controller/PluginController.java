@@ -36,7 +36,7 @@ public class PluginController {
 	private JInternalFrame JInternalFrameValidate, JInternalFrameDefine, JInternalFrameAnalysedGraphics, JInternalFrameDefinedGraphics, JInternalFrameAnalyse;
  	private JInternalHusacctViolationsFrame JInternalViolationsFrame;
 	private LoadingDialog loadingdialog;
- 	private Logger logger = Logger.getLogger(PluginController.class);;
+ 	private Logger logger = Logger.getLogger(PluginController.class);
  	private IProject project;
  	private File file = new File("");
  	
@@ -66,6 +66,7 @@ public class PluginController {
  	
  	private void initializeFrames(){
  		logger.info("Initializing Frames");
+ 		serviceProvider = ServiceProvider.getInstance();
  		JInternalFrameValidate = serviceProvider.getValidateService().getBrowseViolationsGUI();
 		JInternalFrameValidate.setVisible(true);
 		
@@ -168,10 +169,7 @@ public class PluginController {
 		monitorThread.start();
 	}
 	
-	
-	public void resetPlugin(){
-		serviceProvider.resetServices();
-		workspaceController.closeWorkspace();
+	public void resetPlugin(){	
 		initializeFrames();
 		viewResetController.notifyResetListeners();
 		stateController.checkState();
@@ -189,25 +187,28 @@ public class PluginController {
 			if(workspaceController.isOpenWorkspace()){
 				logger.debug("Saving project and resetting plugin");
 				saveProject();
-				resetPlugin();
 			}		
 			file = new File(project.getLocation().toString() + "\\" + "hussact.hu");
 			if(file.exists()){
  				logger.debug("Loading a hussact project for the first time this startup");
-				loadProject();
+ 				//loading is not working in hussact corectly yet. A new project is created even if the project is saved 
+				//loadProject();
+				//ServiceProvider.getInstance().resetServices();
 				workspaceController.createWorkspace(projectName);
 				serviceProvider.getDefineService().createApplication(projectName, new String[]{projectPath}, "Java", "1.0");
+				resetPlugin();				
 			}
  			else{
  				logger.debug("Creating a new hussact project");
 	 			workspaceController.createWorkspace(projectName);
-				serviceProvider.getDefineService().createApplication(projectName, new String[]{projectPath}, "Java", "1.0");
+	 			serviceProvider.getDefineService().createApplication(projectName, new String[]{projectPath}, "Java", "1.0");
+	 			resetPlugin();				
  			}
 			analyse();
 		}		
 	}
- 	
- 	private void saveProject(){
+	
+ 	public void saveProject(){
  		logger.debug("saving project");
  		if(file != null){
 	 		HashMap<String, Object> dataValues = new HashMap<String, Object>();
