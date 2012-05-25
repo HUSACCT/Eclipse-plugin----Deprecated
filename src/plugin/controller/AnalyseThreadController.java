@@ -12,7 +12,7 @@ public class AnalyseThreadController {
 	
 	public static void analyse(final JInternalFrame jInternalFrameAnalyse, MainController mainController){
 		
-		final LoadingDialog loadingdialog = new LoadingDialog(mainController, "analysing");
+		final LoadingDialog loadingdialog = new LoadingDialog(mainController, "Analysing");
 		final Thread analyseThread = new Thread(){
 			 public void run() {
 				 ServiceProvider.getInstance().getAnalyseService().analyseApplication();
@@ -29,11 +29,17 @@ public class AnalyseThreadController {
 					loadingdialog.dispose();
 					logger.debug("Monitor: analyse finished");
 					if(!loadingdialog.isVisible()){
-						JOptionPane.showMessageDialog(jInternalFrameAnalyse, "Analysation succeeded, open the define-view for mapping your architecture", "Succes", JOptionPane.PLAIN_MESSAGE);
+						JOptionPane.showMessageDialog(jInternalFrameAnalyse, "Project successful analysed!\n" +
+						"\n* Open the “Define” view to define your architecture and map it to the analysed project" +
+						"\nor open the “Analyse” view to see the analysed application."+
+						"\n* You can also open the “Graphics – Analysed” view to see a graphical representation of the analysed project.",
+						
+						"Succes", JOptionPane.PLAIN_MESSAGE);
 					}
 				} catch (InterruptedException exception){
 					logger.debug("Monitor: analyse interrupted");
-					JOptionPane.showMessageDialog(jInternalFrameAnalyse, "Analysation failed", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(jInternalFrameAnalyse, "Analysation failed", "Error", 
+					JOptionPane.ERROR_MESSAGE);
 				}
 
 			}

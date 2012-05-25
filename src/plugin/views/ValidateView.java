@@ -10,7 +10,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
-
 import plugin.controller.PluginController;
 import plugin.controller.resources.IResetListener;
 import plugin.views.internalframes.JInternalHusacctNotAvailableFrame;
