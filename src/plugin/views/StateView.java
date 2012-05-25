@@ -3,6 +3,7 @@ package plugin.views;
 import husacct.control.task.IStateChangeListener;
 import husacct.control.task.States;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
@@ -18,18 +19,19 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
-
 import plugin.Activator;
 import plugin.controller.PluginController;
 
 public class StateView extends ViewPart implements IStateChangeListener {
-	private JLabel sourceSelectLabel, definedLabel, mappedLabel, validatedLabel;
-	private JLabel sourceSelectImage, definedImage, mappedImage, ValidatedImage;
+	private JLabel analyseLabel, defineLabel, mappedLabel, validateLabel;
+	private JLabel analyseImage, defineImage, mappedImage, validateImage;
 	private Frame frame;
 	private final String availableIcon = "icons/availableIcon.png";
-	private final String correctIcon = "icons/correctIcon.png";
-	private final String wrongIcon = "icons/wrongIcon.png";
-	private String sourceSelectTextNotChosen = "No project has been selected. You can selected a project by right clicking on the project in the package explorer and choosing 'HUSSACT - analyze project'";
+	private final String succeededIcon = "icons/succeededIcon.png";
+	private final String blockedIcon = "icons/blockedIcon.png";
+	private String sourceSelectTextNotChosen = "No project has been selected. " +
+			"You can selected a project by right clicking on the project in the " +
+			"package explorer and choosing 'HUSSACT - analyze project'";
 
 	public StateView() {
 	}
@@ -47,34 +49,40 @@ public class StateView extends ViewPart implements IStateChangeListener {
 	}
 	
 	private void createLabels(Frame frame){		
-	    sourceSelectLabel = new JLabel("Source Selected");
-		sourceSelectImage = new JLabel("");	
+	    analyseLabel = new JLabel("Analyse Project");
+	    analyseLabel.setToolTipText("This shows if you have analysed a project");
+		analyseImage = new JLabel();	
 		
-		definedLabel = new JLabel("Defined");
-		definedLabel.setToolTipText("This shows if you have defined a architecture");	
-		definedImage = new JLabel("");	
+		defineLabel = new JLabel("Define Architecture");
+		defineLabel.setToolTipText("This shows if you have defined a architecture");	
+		defineImage = new JLabel();	
 		
 		mappedLabel = new JLabel("Mapped");
 		mappedLabel.setToolTipText("This shows if you have mapped the defined architecture to the source");	
-		mappedImage = new JLabel("");
+		mappedImage = new JLabel();
 		
-		validatedLabel = new JLabel("Validated");
-		validatedLabel.setToolTipText("This shows if the code is checked on the defined rules");	
-		ValidatedImage = new JLabel("");	
+		validateLabel = new JLabel("Validate");
+		validateLabel.setToolTipText("This shows if the code is checked on the defined rules");	
+		validateImage = new JLabel();	
 	}
 	
 	private void fillPanel(){
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(0,2));
-		panel.add(sourceSelectLabel);
-		panel.add(sourceSelectImage);
-		panel.add(definedLabel);
-		panel.add(definedImage);
+		panel.add(analyseLabel);
+		panel.add(analyseImage);
+		
+		panel.add(defineLabel);
+		panel.add(defineImage);
+		
 		panel.add(mappedLabel);
 		panel.add(mappedImage);
-		panel.add(validatedLabel);
-		panel.add(ValidatedImage);
-		frame.add(panel, BorderLayout.NORTH);		
+		
+		panel.add(validateLabel);
+		panel.add(validateImage);
+		
+		frame.add(panel, BorderLayout.NORTH);	
+		panel.setBackground(Color.WHITE);
 	}
 	
 	private void setAvailable(JLabel label){
@@ -83,12 +91,12 @@ public class StateView extends ViewPart implements IStateChangeListener {
 	}
 	
 	private void setDone(JLabel label){
-		label.setIcon(new ImageIcon(setImage(correctIcon)));
+		label.setIcon(new ImageIcon(setImage(succeededIcon)));
 		label.setToolTipText("This step is done");
 	}
 	
 	private void setNotAvailable(JLabel label){
-		label.setIcon(new ImageIcon(setImage(wrongIcon)));
+		label.setIcon(new ImageIcon(setImage(blockedIcon)));
 		label.setToolTipText("This step is not yet available");
 	}
 	
@@ -115,49 +123,48 @@ public class StateView extends ViewPart implements IStateChangeListener {
 	@Override
 	public void changeState(List<States> states) {
 		if(states.contains(States.VALIDATED)){
-			sourceSelectLabel.setToolTipText(getSourceSelectTextChosen());	
-			setDone(sourceSelectImage);
-			setDone(definedImage);
+			analyseLabel.setToolTipText(getSourceSelectTextChosen());	
+			setDone(analyseImage);
+			setDone(defineImage);
 			setDone(mappedImage);
-			setDone(ValidatedImage);
+			setDone(validateImage);
 		}
 		else if(states.contains(States.MAPPED)){
-			sourceSelectLabel.setToolTipText(getSourceSelectTextChosen());	
-			setDone(sourceSelectImage);
-			setDone(definedImage);
+			analyseLabel.setToolTipText(getSourceSelectTextChosen());	
+			setDone(analyseImage);
+			setDone(defineImage);
 			setDone(mappedImage);
-			setAvailable(ValidatedImage);
+			setAvailable(validateImage);
 		}
 		else if(states.contains(States.DEFINED) && states.contains(States.OPENED)){
-			sourceSelectLabel.setToolTipText(getSourceSelectTextChosen());	
-			setDone(sourceSelectImage);
-			setDone(definedImage);
+			analyseLabel.setToolTipText(getSourceSelectTextChosen());	
+			setDone(analyseImage);
+			setDone(defineImage);
 			setAvailable(mappedImage);
-			setNotAvailable(ValidatedImage);
+			setNotAvailable(validateImage);
 		}
 		else if(states.contains(States.DEFINED) && !states.contains(States.OPENED)){
-			sourceSelectLabel.setToolTipText(getSourceSelectTextChosen());
-			setAvailable(sourceSelectImage);
-			setDone(definedImage);
+			analyseLabel.setToolTipText(getSourceSelectTextChosen());
+			setAvailable(analyseImage);
+			setDone(defineImage);
 			setAvailable(mappedImage);
-			setNotAvailable(ValidatedImage);
+			setNotAvailable(validateImage);
 		}	
 		else if(states.contains(States.OPENED)){
-			sourceSelectLabel.setToolTipText(getSourceSelectTextChosen());
-			setDone(sourceSelectImage);
-			setAvailable(definedImage);
+			analyseLabel.setToolTipText(getSourceSelectTextChosen());
+			setDone(analyseImage);
+			setAvailable(defineImage);
 			setNotAvailable(mappedImage);
-			setNotAvailable(ValidatedImage);
+			setNotAvailable(validateImage);
 		}	
 		else{
-			sourceSelectLabel.setToolTipText(sourceSelectTextNotChosen);
-			setAvailable(sourceSelectImage);
-			setAvailable(definedImage);
+			analyseLabel.setToolTipText(sourceSelectTextNotChosen);
+			setAvailable(analyseImage);
+			setAvailable(defineImage);
 			setNotAvailable(mappedImage);
-			setNotAvailable(ValidatedImage);
+			setNotAvailable(validateImage);
 		}		
 		frame.validate();
 		frame.repaint();
 	}
-
 }
