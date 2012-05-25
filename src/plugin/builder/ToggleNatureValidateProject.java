@@ -16,6 +16,7 @@ public class ToggleNatureValidateProject implements IObjectActionDelegate    {
 	private ISelection selection;
 	private PluginController pluginController = PluginController.getInstance();
 	
+	
 	public void run(IAction action) {		
 		if (selection instanceof IStructuredSelection) {
 			for (Iterator<?> it = ((IStructuredSelection) selection).iterator(); it.hasNext();) {
@@ -39,6 +40,11 @@ public class ToggleNatureValidateProject implements IObjectActionDelegate    {
 	
 	public void selectionChanged(IAction action, ISelection selection) {
 		this.selection = selection;
+		if(pluginController.isMapped()){
+			action.setEnabled(true);
+		}else{
+			action.setEnabled(false);
+		}
 	}
 
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {

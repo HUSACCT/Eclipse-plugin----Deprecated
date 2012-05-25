@@ -12,6 +12,7 @@ import husacct.control.ControlServiceImpl;
 import husacct.control.task.IStateChangeListener;
 import husacct.control.task.MainController;
 import husacct.control.task.StateController;
+import husacct.control.task.States;
 
 public class PluginController {
 	private static PluginController pluginController = null;
@@ -137,5 +138,13 @@ public class PluginController {
 	private void resetPlugin(){	
 		viewResetController.notifyResetListeners();
 		stateController.checkState();
+	}
+	
+	public boolean isMapped(){
+		boolean isMapped = false;
+		if(stateController.getState().contains(States.MAPPED)){
+			isMapped = true;
+		}
+		return isMapped;
 	}
 }
