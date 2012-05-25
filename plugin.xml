@@ -179,5 +179,16 @@
             value="true">
       </persistent>
    </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="husacct_plugin.editors.MultiPageEditor"
+            contributorClass="husacct_plugin.editors.MultiPageEditorContributor"
+            extensions="mpe"
+            icon="icons/sample.gif"
+            id="husacct_plugin.editors.MultiPageEditor"
+            name="Sample Multi-page Editor">
+      </editor>
+   </extension>
 
 </plugin>
