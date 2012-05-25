@@ -6,13 +6,14 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.core.resources.IProject;
 import plugin.controller.resources.IResetListener;
+import plugin.views.PluginExportController;
+import plugin.views.PluginImportController;
 import plugin.views.internalframes.JInternalHusacctViolationsFrame;
 import husacct.ServiceProvider;
 import husacct.control.ControlServiceImpl;
 import husacct.control.task.IStateChangeListener;
 import husacct.control.task.MainController;
 import husacct.control.task.StateController;
-import husacct.control.task.WorkspaceController;
 
 public class PluginController {
 	private static PluginController pluginController = null;
@@ -21,9 +22,11 @@ public class PluginController {
 	private StateController stateController;
  	private ControlServiceImpl controlService;	
  	private MainController mainController;
- 	private WorkspaceController workspaceController;
  	private ViewResetController viewResetController;
  	private PluginWorkspaceController pluginWorkspaceController;
+ 	private PluginImportController pluginImportController;
+ 	private PluginExportController pluginExportController;
+ 	
  	private JInternalHusacctViolationsFrame JInternalViolationsFrame;
  	private Logger logger = Logger.getLogger(PluginController.class);
  	private IProject project;
@@ -47,8 +50,9 @@ public class PluginController {
  		controlService = (ControlServiceImpl) serviceProvider.getControlService();
  		mainController = controlService.getMainController();
  		stateController = mainController.getStateController();
- 		workspaceController = mainController.getWorkspaceController();
- 		pluginWorkspaceController = new PluginWorkspaceController(workspaceController);
+ 		pluginWorkspaceController = new PluginWorkspaceController(mainController.getWorkspaceController());
+ 		pluginImportController = new PluginImportController(mainController.getImportController());
+ 		pluginExportController = new PluginExportController(mainController.getExportController());
  		viewResetController = new ViewResetController();
  	}
  	
@@ -98,6 +102,14 @@ public class PluginController {
 		pluginWorkspaceController.saveProject();
 	}
 	
+	public void importArchitecture(){
+		pluginImportController.importArchitecture();
+	}
+	
+	public void exportArchitecture(){
+		pluginExportController.exportArchitecture();
+	}
+	
 	public void projectSelected(IProject project){
 		this.project = project;
 		File file = new File(project.getLocation().toString() + "\\" + "hussact.hu");
@@ -106,7 +118,7 @@ public class PluginController {
 			analyse();
 		}
 		else{
-			if(workspaceController.isOpenWorkspace()){
+			if(pluginWorkspaceController.isOpenWorkspace()){
 				logger.debug("Saving project and resetting plugin");
 				pluginWorkspaceController.saveProject();
 			}		

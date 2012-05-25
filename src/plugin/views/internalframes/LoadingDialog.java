@@ -3,14 +3,11 @@ package plugin.views.internalframes;
 import husacct.ServiceProvider;
 import husacct.control.ControlServiceImpl;
 import husacct.control.IControlService;
-import husacct.control.presentation.util.DialogUtils;
 import husacct.control.task.MainController;
-
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
-
 import javax.swing.BoxLayout;
 import javax.swing.JDialog;
 import javax.swing.JLabel;

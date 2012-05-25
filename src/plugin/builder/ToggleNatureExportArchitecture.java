@@ -2,7 +2,6 @@ package plugin.builder;
 
 import java.io.File;
 import java.util.Iterator;
-import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
@@ -11,13 +10,10 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
-
-import plugin.controller.FrameInstanceController;
 import plugin.controller.PluginController;
 
 public class ToggleNatureExportArchitecture implements IObjectActionDelegate    {
 	private ISelection selection;
-	private PluginController pluginController= PluginController.getInstance();
 
 	public void run(IAction action) {		
 		if (selection instanceof IStructuredSelection) {
@@ -37,17 +33,7 @@ public class ToggleNatureExportArchitecture implements IObjectActionDelegate    
 	}
 
 	private void toggleNature(IProject project) {
-		System.out.println("Export Architecture");
-		
-		JFileChooser jFileChooser = new JFileChooser(); 
-		jFileChooser.setCurrentDirectory(new java.io.File("."));
-		jFileChooser.setDialogTitle("Export");
-		jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		jFileChooser.setFileFilter(new TypeOfFile());  
-		jFileChooser.setAcceptAllFileFilterUsed(false); 
-		if (jFileChooser.showSaveDialog(FrameInstanceController.getDefineFrame().getRootPane()) == JFileChooser.APPROVE_OPTION) { 
-			//pluginController.exportLogicalArchitecture(jFileChooser.getSelectedFile());
-		}
+		PluginController.getInstance().exportArchitecture();
 	}
 	
 	public void selectionChanged(IAction action, ISelection selection) {

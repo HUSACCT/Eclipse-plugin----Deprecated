@@ -45,4 +45,8 @@ public class PluginWorkspaceController {
  	public File getFile(){
  		return file;
  	}
+
+	public boolean isOpenWorkspace() {
+		return workspaceController.isOpenWorkspace();
+	}
 }

@@ -31,7 +31,6 @@ public class JInternalHusacctViolationsFrame extends JInternalFrame {
 	private static final long serialVersionUID = 1L;
 	
 	private PluginController pluginController = PluginController.getInstance();
-	private ViolationsViewController violationsViewController = new ViolationsViewController();
 	private ArrayList<ViolationDTO> violationArrayList = new ArrayList<ViolationDTO>();
 	private JTable violationTable;
 	private JTextPane violationInformation;
@@ -55,9 +54,9 @@ public class JInternalHusacctViolationsFrame extends JInternalFrame {
 	public void initiateViolationTable(){
 		String[] columnNames = {"Source", "Target", "LineNumber", "Kind of dependency", "Severity"};
 		if(pluginController != null){
-			violationArrayList = violationsViewController.getViolations();
+			violationArrayList = ViolationsViewController.getViolations();
 		}
-		Object[][] data = violationsViewController.setDataModel();
+		Object[][] data = ViolationsViewController.setDataModel();
 		
 		if(violationTable == null){
 		violationTable = new JTable(data, columnNames);
@@ -86,7 +85,7 @@ public class JInternalHusacctViolationsFrame extends JInternalFrame {
 					Path path = new Path(entireClassPath); 
 					IFile iFile = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 
-					violationsViewController.openViolationWithEditor(iFile,lineNumber);
+					ViolationsViewController.openViolationWithEditor(iFile,lineNumber);
 				}
 			}
 		});
@@ -137,7 +136,7 @@ public class JInternalHusacctViolationsFrame extends JInternalFrame {
 	        return data[row][col];
 	    }
 
-	    public Class getColumnClass(int c) {
+		public Class getColumnClass(int c) {
 	        return getValueAt(0, c).getClass();
 	    }
 	    
