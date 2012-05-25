@@ -11,16 +11,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide;bundle-version="3.6.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: lib/antlr-3.2.jar,
- lib/HUSACCT.jar,
- lib/itext-xtra-5.2.0.jar,
- lib/itextpdf-5.2.0.jar,
- lib/jcommon-1.0.17.jar,
- lib/jdom-2.0.0.jar,
- lib/jfreechart-1.0.14-experimental.jar,
- lib/jfreechart-1.0.14.jar,
- lib/jhotdraw.jar,
- lib/log4j-1.2.16.jar,
+Bundle-ClassPath: lib/HUSACCT.jar,
  .
 Import-Package: org.eclipse.core.filesystem,
  org.eclipse.ui.ide
