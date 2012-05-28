@@ -112,7 +112,6 @@ public class StateView extends ViewPart implements IStateChangeListener {
 	
 	@Override
 	public void setFocus() {
-		PluginController.getInstance().checkState();
 	}
 	
 	private String getSourceSelectTextChosen(){
@@ -159,7 +158,7 @@ public class StateView extends ViewPart implements IStateChangeListener {
 		else{
 			analyseLabel.setToolTipText(sourceSelectTextNotChosen);
 			setAvailable(analyseImage);
-			setAvailable(defineImage);
+			setNotAvailable(defineImage);
 			setNotAvailable(mappedImage);
 			setNotAvailable(validateImage);
 		}		

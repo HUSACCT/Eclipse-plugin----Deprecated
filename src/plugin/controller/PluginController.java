@@ -74,8 +74,6 @@ public class PluginController {
 		return JInternalViolationsFrame;
 	}
 	
-	//This function needs to be taken out as soon as the hussact is far 
-	//enough that the individual components notifie the statecontroller. Until then this is used
 	public void checkState(){
 		stateController.checkState();
 	}
@@ -147,11 +145,16 @@ public class PluginController {
 		}
 		return isMapped;
 	}
+	
 	public boolean isDefined(){
 		boolean isDefined = false;
 		if(stateController.getState().contains(States.DEFINED)){
 			isDefined = true;
 		}
 		return isDefined;
+	}
+	
+	public boolean isWorkspaceOpen(){
+		return pluginWorkspaceController.isOpenWorkspace();
 	}
 }

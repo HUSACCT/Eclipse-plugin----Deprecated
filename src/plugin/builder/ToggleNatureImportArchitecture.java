@@ -36,6 +36,11 @@ public class ToggleNatureImportArchitecture implements IObjectActionDelegate    
 	
 	public void selectionChanged(IAction action, ISelection selection) {
 		this.selection = selection;
+		if(PluginController.getInstance().isWorkspaceOpen()){
+			action.setEnabled(true);
+		}else{
+			action.setEnabled(false);
+		}
 	}
 	
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {

@@ -37,6 +37,5 @@ public class FrameInstanceController {
  		JInternalFrame jInternalFrameAnalyse = ServiceProvider.getInstance().getAnalyseService().getJInternalFrame();
 		jInternalFrameAnalyse.setVisible(true);		
  		return jInternalFrameAnalyse;
- 	}
- 	
+ 	} 	
 }
