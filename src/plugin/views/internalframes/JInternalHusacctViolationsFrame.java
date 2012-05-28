@@ -75,16 +75,16 @@ public class JInternalHusacctViolationsFrame extends JInternalFrame {
 		
 		violationTable.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if(violationTable.getValueAt(violationTable.getSelectedRow(), 2) != null){
+				if(violationTable.getValueAt(violationTable.getSelectedRow(), 2).toString() != ""){
 					int lineNumber = Integer.parseInt(violationTable.getValueAt(violationTable.getSelectedRow(), 2).toString());  
 					String readedPackageAndClassName = violationTable.getValueAt(violationTable.getSelectedRow(), 0).toString();  
 					String formattedPackageAndClassName = readedPackageAndClassName.replace('.' , '/'); 
 					String projectName = pluginController.getProjectName();
 					String entireClassPath = (projectName + "/src/" + formattedPackageAndClassName)+ ".java";
-
+					
 					Path path = new Path(entireClassPath); 
 					IFile iFile = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
-
+					
 					ViolationsViewController.openViolationWithEditor(iFile,lineNumber);
 				}
 			}

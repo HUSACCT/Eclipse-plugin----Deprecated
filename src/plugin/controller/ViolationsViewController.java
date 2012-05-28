@@ -3,11 +3,9 @@ package plugin.controller;
 import husacct.ServiceProvider;
 import husacct.common.dto.ModuleDTO;
 import husacct.common.dto.ViolationDTO;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
@@ -18,7 +16,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 
 public class ViolationsViewController {
-	
+		
 	public static ArrayList<ViolationDTO> getViolations(){
 		ArrayList<ViolationDTO> violationArrayList = new ArrayList<ViolationDTO>();
 		ModuleDTO[] moduleList;
@@ -68,7 +66,7 @@ public class ViolationsViewController {
 		public void run() {
 			IWorkbenchWindow workbenchwindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 			IWorkbenchPage page = workbenchwindow.getActivePage();
-			if (page != null) {
+			if (page != null && iFile != null) {
 				try {
 					IDE.openEditor(page, iFile, true);
 					HashMap<String, Object> hashMap = new HashMap<String, Object> ();
@@ -85,7 +83,7 @@ public class ViolationsViewController {
 						e.printStackTrace();
 					} 
 				}catch (PartInitException pie) {
-					System.out.println("Unable to open the Editor");
+					System.out.println("Unable to open the Editor");     // MAG NIET!!!!!!!!
 				}
 			}
 		}
