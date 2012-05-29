@@ -16,7 +16,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 
 public class ViolationsViewController {
-		
+
 	public static ArrayList<ViolationDTO> getViolations(){
 		ArrayList<ViolationDTO> violationArrayList = new ArrayList<ViolationDTO>();
 		ModuleDTO[] moduleList;
@@ -30,15 +30,15 @@ public class ViolationsViewController {
 		}
 		return violationArrayList;
 	}
-	
+
 	public static Object[][] setDataModel(){
 		ArrayList<ViolationDTO> violationArrayList = getViolations();
 		Object[][] data = new Object[][]{ { "", "", "", "", ""} };
 		String serverity = "";
-		
+
 		if(violationArrayList.size() > 1){
 			data = new Object[violationArrayList.size()][5];
-		
+
 			int counter = 0;
 			for(ViolationDTO violationDTO : violationArrayList){
 				data[counter][0] = violationDTO.fromClasspath;
@@ -60,33 +60,33 @@ public class ViolationsViewController {
 	}
 
 	public static void openViolationWithEditor(IFile file, int lineNumber) {
-	final IFile iFile = file;
-	final int finalLineNumber = lineNumber;
-	PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-		public void run() {
-			IWorkbenchWindow workbenchwindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-			IWorkbenchPage page = workbenchwindow.getActivePage();
-			if (page != null && iFile != null) {
-				try {
-					IDE.openEditor(page, iFile, true);
-					HashMap<String, Object> hashMap = new HashMap<String, Object> ();
-					hashMap.put(IMarker.LINE_NUMBER, new Integer(finalLineNumber));
-					hashMap.put(IDE.EDITOR_ID_ATTR, "org.eclipse.jdt.internal.ui.javaeditor.JavaEditor");
+		final IFile iFile = file;
+		final int finalLineNumber = lineNumber;
+		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+			public void run() {
+				IWorkbenchWindow workbenchwindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+				IWorkbenchPage page = workbenchwindow.getActivePage();
+				if (page != null && iFile != null) {
 					try {
-						IMarker marker = iFile.createMarker(IMarker.TEXT);
-						marker.setAttributes(hashMap);
-						IDE.openEditor(page, marker, true);
-						marker.delete();
-					} catch (PartInitException e) {
-						e.printStackTrace();
-					} catch (CoreException e) {
-						e.printStackTrace();
-					} 
-				}catch (PartInitException pie) {
-					System.out.println("Unable to open the Editor");     // MAG NIET!!!!!!!!
+						IDE.openEditor(page, iFile, true);
+						HashMap<String, Object> hashMap = new HashMap<String, Object> ();
+						hashMap.put(IMarker.LINE_NUMBER, new Integer(finalLineNumber));
+						hashMap.put(IDE.EDITOR_ID_ATTR, "org.eclipse.jdt.internal.ui.javaeditor.JavaEditor");
+						try {
+							IMarker marker = iFile.createMarker(IMarker.TEXT);
+							marker.setAttributes(hashMap);
+							IDE.openEditor(page, marker, true);
+							marker.delete();
+						} catch (PartInitException e) {
+							e.printStackTrace();
+						} catch (CoreException e) {
+							e.printStackTrace();
+						} 
+					}catch (PartInitException pie) {
+						pie.printStackTrace();
+					}
 				}
 			}
-		}
-	});
+		});
 	}
 }
