@@ -22,6 +22,9 @@ import javax.swing.table.TableRowSorter;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 
 import plugin.controller.PluginController;
 import plugin.controller.ViolationsViewController;
@@ -75,6 +78,7 @@ public class JInternalHusacctViolationsFrame extends JInternalFrame {
 		
 		violationTable.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
+				System.out.println("uitgevoerd" + e.toString());
 				if(violationTable.getValueAt(violationTable.getSelectedRow(), 2).toString() != ""){
 					int lineNumber = Integer.parseInt(violationTable.getValueAt(violationTable.getSelectedRow(), 2).toString());  
 					String readedPackageAndClassName = violationTable.getValueAt(violationTable.getSelectedRow(), 0).toString();  
@@ -84,8 +88,21 @@ public class JInternalHusacctViolationsFrame extends JInternalFrame {
 					
 					Path path = new Path(entireClassPath); 
 					IFile iFile = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
-					
-					ViolationsViewController.openViolationWithEditor(iFile,lineNumber);
+					if(iFile.exists()){
+						ViolationsViewController.openViolationWithEditor(iFile,lineNumber);
+					}
+//					else{
+//						Display.getDefault().asyncExec(new Runnable() {
+//				        	public void run() {
+//								Display display = Display.getDefault();
+//				        	    Shell  shell = new Shell(display);
+//								final Shell dialog = new Shell(shell, SWT.APPLICATION_MODAL | SWT.DIALOG_TRIM);
+//								dialog.setText("File does not exist");
+//								dialog.setSize(250, 150);
+//								dialog.open();
+//				        	}
+//						});
+//					}
 				}
 			}
 		});

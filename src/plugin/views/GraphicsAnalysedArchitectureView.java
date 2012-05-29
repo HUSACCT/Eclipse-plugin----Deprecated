@@ -20,7 +20,7 @@ import plugin.views.internalframes.JInternalHusacctNotAvailableFrame;
 public class GraphicsAnalysedArchitectureView extends ViewPart implements IStateChangeListener, IResetListener  {
 	private Frame frame;
 	private JInternalHusacctNotAvailableFrame notAvailableScreen;
-	private JInternalFrame graphicsAnalysedArchtecture;
+	private JInternalFrame graphicsAnalysedArchitecture;
 	private boolean isAnalysedArchitectureFrameVisible;
 
 	public GraphicsAnalysedArchitectureView() {
@@ -31,7 +31,7 @@ public class GraphicsAnalysedArchitectureView extends ViewPart implements IState
 	public void createPartControl(Composite parent) {
 		notAvailableScreen = new JInternalHusacctNotAvailableFrame(
 			"You have to analyse a project before this screen is available.");
-		graphicsAnalysedArchtecture = FrameInstanceController.getGraphicsAnalysedArchitecture();
+		graphicsAnalysedArchitecture = FrameInstanceController.getGraphicsAnalysedArchitecture();
 		Composite composite = new Composite(parent, SWT.EMBEDDED);	
 		frame = SWT_AWT.new_Frame(composite);
 		frame.add(notAvailableScreen.getRootPane(), BorderLayout.CENTER);
@@ -49,7 +49,7 @@ public class GraphicsAnalysedArchitectureView extends ViewPart implements IState
 
 	public void changeState(List<States> states) {
 		if(states.contains(States.ANALYSED) && !isAnalysedArchitectureFrameVisible){
-			changeScreen(FrameInstanceController.getGraphicsAnalysedArchitecture());
+			changeScreen(graphicsAnalysedArchitecture);
 			isAnalysedArchitectureFrameVisible = true;
 		}
 		else if(!states.contains(States.ANALYSED) && isAnalysedArchitectureFrameVisible){
@@ -75,7 +75,7 @@ public class GraphicsAnalysedArchitectureView extends ViewPart implements IState
 
 	@Override
 	public void reset() {
-		graphicsAnalysedArchtecture = FrameInstanceController.getGraphicsAnalysedArchitecture();
+		graphicsAnalysedArchitecture = FrameInstanceController.getGraphicsAnalysedArchitecture();
 		changeScreen(notAvailableScreen);
 		isAnalysedArchitectureFrameVisible = false;
 	}

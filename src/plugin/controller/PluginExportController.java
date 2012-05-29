@@ -4,6 +4,11 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Shell;
+
 import husacct.control.task.ExportController;
 
 public class PluginExportController {
@@ -13,16 +18,23 @@ public class PluginExportController {
 		this.exportController = exportController;
 	}
 
-	public void exportArchitecture() {
-		JFileChooser jFileChooser = new JFileChooser(); 
-		jFileChooser.setCurrentDirectory(new java.io.File("."));
-		jFileChooser.setDialogTitle("Export");
-		jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		jFileChooser.setFileFilter(new TypeOfFile());  
-		jFileChooser.setAcceptAllFileFilterUsed(false); 
-		if (jFileChooser.showSaveDialog(FrameInstanceController.getDefineFrame().getRootPane()) == JFileChooser.APPROVE_OPTION) { 
-			exportController.exportArchitecture(jFileChooser.getSelectedFile());
-		}		
+	public void exportArchitecture() {	
+        Display.getDefault().asyncExec(new Runnable() {
+        	public void run() {
+        		Display display = Display.getDefault();
+        	    Shell  shell = new Shell(display);
+        	    shell.setSize(400, 400);
+        	    FileDialog fileDialog = new FileDialog(shell, SWT.SAVE);
+                fileDialog.setText("Save");
+                fileDialog.setFilterPath("C:/");
+                String[] filterExt = { "*.xml"};
+                fileDialog.setFilterExtensions(filterExt);
+        		String selected = fileDialog.open();
+        		if(selected != null){
+        			exportController.exportArchitecture(new File(selected));
+        		}
+        	}
+        });
 	}
 	
 	class TypeOfFile extends FileFilter  
