@@ -121,7 +121,7 @@ public class PluginController {
 			}		
 			if(file.exists()){
  				//loading is not working in hussact corectly yet. A new project is created even if the project is saved 
-				//pluginWorkspaceController.loadProject();
+				//pluginWorkspaceController.loadProject(file);
  				pluginWorkspaceController.createWorkspace(project, file);
 				resetPlugin();				
 			}
