@@ -22,9 +22,6 @@ import javax.swing.table.TableRowSorter;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 
 import plugin.controller.PluginController;
 import plugin.controller.ViolationsViewController;
