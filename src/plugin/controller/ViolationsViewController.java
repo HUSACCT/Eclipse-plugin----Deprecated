@@ -83,7 +83,6 @@ public class ViolationsViewController {
 						e.printStackTrace();
 					} 
 				}catch (PartInitException pie) {
-					System.out.println("Unable to open the Editor");     // MAG NIET!!!!!!!!
 				}
 			}
 		}

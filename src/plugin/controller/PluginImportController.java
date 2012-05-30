@@ -1,8 +1,6 @@
 package plugin.controller;
 
 import java.io.File;
-
-import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 
 import org.eclipse.swt.SWT;
