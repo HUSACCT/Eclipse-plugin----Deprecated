@@ -106,6 +106,7 @@ public class PluginController {
 	
 	public void importArchitecture(){
 		pluginImportController.importArchitecture();
+		resetPlugin();
 	}
 	
 	public void exportArchitecture(){
