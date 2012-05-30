@@ -20,7 +20,7 @@ import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 import plugin.Activator;
-import plugin.controller.PluginController;
+import plugin.controllers.PluginController;
 
 public class StateView extends ViewPart implements IStateChangeListener {
 	private JLabel analyseLabel, defineLabel, mappedLabel, validateLabel;

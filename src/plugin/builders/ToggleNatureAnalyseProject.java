@@ -1,4 +1,4 @@
-package plugin.builder;
+package plugin.builders;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -20,7 +20,8 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
-import plugin.controller.PluginController;
+
+import plugin.controllers.PluginController;
 
 public class ToggleNatureAnalyseProject implements IObjectActionDelegate    {
 

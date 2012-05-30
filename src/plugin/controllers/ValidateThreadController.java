@@ -1,4 +1,4 @@
-package plugin.controller;
+package plugin.controllers;
 
 import husacct.ServiceProvider;
 import husacct.control.task.MainController;

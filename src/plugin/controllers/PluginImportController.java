@@ -1,4 +1,4 @@
-package plugin.controller;
+package plugin.controllers;
 
 import java.io.File;
 import javax.swing.filechooser.FileFilter;
@@ -8,32 +8,32 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 
-import husacct.control.task.ExportController;
+import husacct.control.task.ImportController;
 
-public class PluginExportController {
-	private ExportController exportController;
-	
-	public PluginExportController(ExportController exportController){
-		this.exportController = exportController;
+public class PluginImportController {
+	ImportController importController;
+
+	public PluginImportController(ImportController importController) {
+		this.importController = importController;
 	}
 
-	public void exportArchitecture() {	
-        Display.getDefault().asyncExec(new Runnable() {
+	public void importArchitecture() {
+		Display.getDefault().asyncExec(new Runnable() {
         	public void run() {
         		Display display = Display.getDefault();
         	    Shell  shell = new Shell(display);
         	    shell.setSize(400, 400);
-        	    FileDialog fileDialog = new FileDialog(shell, SWT.SAVE);
-                fileDialog.setText("Save");
+        	    FileDialog fileDialog = new FileDialog(shell, SWT.OPEN);
+                fileDialog.setText("Open");
                 fileDialog.setFilterPath("C:/");
                 String[] filterExt = { "*.xml"};
                 fileDialog.setFilterExtensions(filterExt);
         		String selected = fileDialog.open();
         		if(selected != null){
-        			exportController.exportArchitecture(new File(selected));
+        			importController.importArchitecture(new File(selected));
         		}
         	}
-        });
+        });		
 	}
 	
 	class TypeOfFile extends FileFilter  
@@ -47,4 +47,5 @@ public class PluginExportController {
 			return ".xml files";  
 		}  
 	}
+
 }

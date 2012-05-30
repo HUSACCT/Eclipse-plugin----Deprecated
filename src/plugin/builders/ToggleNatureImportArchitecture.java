@@ -1,4 +1,4 @@
-package plugin.builder;
+package plugin.builders;
 
 import java.util.Iterator;
 import org.eclipse.core.resources.IProject;
@@ -8,7 +8,8 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
-import plugin.controller.PluginController;
+
+import plugin.controllers.PluginController;
 
 public class ToggleNatureImportArchitecture implements IObjectActionDelegate    {
 	private ISelection selection;

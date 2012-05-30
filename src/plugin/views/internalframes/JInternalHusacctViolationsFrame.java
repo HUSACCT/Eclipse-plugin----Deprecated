@@ -23,8 +23,8 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 
-import plugin.controller.PluginController;
-import plugin.controller.ViolationsViewController;
+import plugin.controllers.PluginController;
+import plugin.controllers.ViolationsViewController;
 
 
 public class JInternalHusacctViolationsFrame extends JInternalFrame {

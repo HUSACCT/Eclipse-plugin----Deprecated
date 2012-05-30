@@ -1,4 +1,4 @@
-package plugin.controller.resources;
+package plugin.controllers.resources;
 
 public interface IResetListener {
 	public void reset();

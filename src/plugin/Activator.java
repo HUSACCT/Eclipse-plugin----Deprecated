@@ -3,7 +3,7 @@ package plugin;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
-import plugin.controller.PluginController;
+import plugin.controllers.PluginController;
 
 /**
  * The activator class controls the plug-in life cycle

@@ -12,9 +12,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
-import plugin.controller.FrameInstanceController;
-import plugin.controller.PluginController;
-import plugin.controller.resources.IResetListener;
+import plugin.controllers.FrameInstanceController;
+import plugin.controllers.PluginController;
+import plugin.controllers.resources.IResetListener;
 import plugin.views.internalframes.JInternalHusacctNotAvailableFrame;
 
 public class GraphicsDefinedArchitectureView extends ViewPart implements IStateChangeListener, IResetListener {

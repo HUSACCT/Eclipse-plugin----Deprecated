@@ -1,4 +1,4 @@
-package plugintest.controller;
+package plugintest.controllers;
 
 import static org.junit.Assert.*;
 import husacct.ServiceProvider;
@@ -6,8 +6,9 @@ import husacct.control.ControlServiceImpl;
 import husacct.control.task.MainController;
 import org.junit.Before;
 import org.junit.Test;
-import plugin.controller.FrameInstanceController;
-import plugin.controller.PluginController;
+
+import plugin.controllers.FrameInstanceController;
+import plugin.controllers.PluginController;
 
 public class PluginControllerTest {
 	ServiceProvider serviceProvider;

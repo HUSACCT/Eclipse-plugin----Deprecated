@@ -1,8 +1,8 @@
-package plugin.controller;
+package plugin.controllers;
 
 import java.util.ArrayList;
 
-import plugin.controller.resources.IResetListener;
+import plugin.controllers.resources.IResetListener;
 
 public class ViewResetController {
 	
