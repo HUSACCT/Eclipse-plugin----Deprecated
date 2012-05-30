@@ -12,6 +12,7 @@ public class ValidateThreadController {
 	private static boolean validating = false;
 	
 	public static void validate(final JInternalFrame jInternalFrameValidate, MainController mainController){
+		logger.debug("validate gestart");
 		if(validating == false){
 			validating = true;
 			if(ServiceProvider.getInstance().getDefineService().isMapped()){
