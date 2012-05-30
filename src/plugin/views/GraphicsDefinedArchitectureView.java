@@ -8,20 +8,19 @@ import java.beans.PropertyVetoException;
 import java.util.List;
 import javax.swing.JInternalFrame;
 import javax.swing.JSplitPane;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
-
-import plugin.controller.FrameInstanceController;
-import plugin.controller.PluginController;
-import plugin.controller.resources.IResetListener;
+import plugin.controllers.FrameInstanceController;
+import plugin.controllers.PluginController;
+import plugin.controllers.resources.IResetListener;
 import plugin.views.internalframes.JInternalHusacctNotAvailableFrame;
 
 public class GraphicsDefinedArchitectureView extends ViewPart implements IStateChangeListener, IResetListener {
 	private Frame frame;
 	private JInternalHusacctNotAvailableFrame notAvailableScreen;
+	private JInternalFrame graphicsDefinedArchitecture;
 	private boolean isDefinedArchitectureFrameVisible;
 	
 	public GraphicsDefinedArchitectureView() {
@@ -32,6 +31,7 @@ public class GraphicsDefinedArchitectureView extends ViewPart implements IStateC
 	public void createPartControl(Composite parent) {
 		notAvailableScreen = new JInternalHusacctNotAvailableFrame(
 			"You have to define a architecture before this screen is available.");
+		graphicsDefinedArchitecture = FrameInstanceController.getGraphicsDefinedArchitecture();
 		Composite composite = new Composite(parent, SWT.EMBEDDED);	
 		frame = SWT_AWT.new_Frame(composite);
 		frame.add(notAvailableScreen.getRootPane(), BorderLayout.CENTER);
@@ -50,7 +50,7 @@ public class GraphicsDefinedArchitectureView extends ViewPart implements IStateC
 
 	public void changeState(List<States> states) {
 		if(states.contains(States.DEFINED) && !isDefinedArchitectureFrameVisible){
-			changeScreen(FrameInstanceController.getGraphicsDefinedArchitecture());
+			changeScreen(graphicsDefinedArchitecture);
 			isDefinedArchitectureFrameVisible = true;
 		}
 		else if(!states.contains(States.DEFINED) && isDefinedArchitectureFrameVisible){
@@ -76,6 +76,7 @@ public class GraphicsDefinedArchitectureView extends ViewPart implements IStateC
 
 	@Override
 	public void reset() {
+		graphicsDefinedArchitecture = FrameInstanceController.getGraphicsDefinedArchitecture();
 		changeScreen(notAvailableScreen);
 		isDefinedArchitectureFrameVisible = false;		
 	}
