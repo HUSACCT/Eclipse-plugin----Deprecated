@@ -1,10 +1,8 @@
-package plugintest;
+package plugintest.controller;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import plugintest.tests.PluginControllerTest;
-import plugintest.tests.StateControllerTest;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ 

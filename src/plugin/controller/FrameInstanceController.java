@@ -1,7 +1,6 @@
 package plugin.controller;
 
 import husacct.ServiceProvider;
-
 import javax.swing.JInternalFrame;
 
 public class FrameInstanceController {
