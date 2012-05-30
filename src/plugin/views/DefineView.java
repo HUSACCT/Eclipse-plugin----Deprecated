@@ -31,7 +31,8 @@ public class DefineView extends ViewPart implements IStateChangeListener, IReset
 	private Logger logger = Logger.getLogger(DefineView.class);
 	private JInternalHusacctNotAvailableFrame notAvailableScreen;
 	private boolean isDefineFrameVisible = false;
-
+	private Button buttonExport, buttonImport;
+	
 	public DefineView() {
 	}
 
@@ -53,7 +54,7 @@ public class DefineView extends ViewPart implements IStateChangeListener, IReset
 	private void createButtons(Frame frame){
 		Panel panel = new Panel();	
 		
-		Button buttonImport = new Button("Import Architecture");
+		buttonImport = new Button("Import Architecture");
 		buttonImport.addActionListener(new ActionListener() {		 
 	        public void actionPerformed(ActionEvent e)
 	        {
@@ -62,7 +63,8 @@ public class DefineView extends ViewPart implements IStateChangeListener, IReset
 	    }); 	
 		panel.add(buttonImport);
 		
-		Button buttonExport = new Button("Export Architecture");
+		buttonExport = new Button("Export Architecture");
+		buttonExport.setEnabled(false);
 		buttonExport.addActionListener(new ActionListener() {		 
 	        public void actionPerformed(ActionEvent e)
 	        {
@@ -99,10 +101,20 @@ public class DefineView extends ViewPart implements IStateChangeListener, IReset
 		if(states.contains(States.ANALYSED) && !isDefineFrameVisible){
 			changeScreen(FrameInstanceController.getDefineFrame());
 			isDefineFrameVisible = true;
+			buttonExport.setEnabled(false);
 		}
 		else if(!states.contains(States.ANALYSED) && isDefineFrameVisible){
 			changeScreenWithoutButtons(notAvailableScreen);
 			isDefineFrameVisible = false;
+			buttonExport.setEnabled(false);
+		}
+		else if(states.contains(States.DEFINED) && isDefineFrameVisible){
+			isDefineFrameVisible = true;
+			buttonExport.setEnabled(true);
+		}
+		else if(!states.contains(States.DEFINED) && isDefineFrameVisible){
+			isDefineFrameVisible = true;
+			buttonExport.setEnabled(false);
 		}
 	}
 
