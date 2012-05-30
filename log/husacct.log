@@ -7,3 +7,47 @@ INFO main plugin.controller.PluginController - Initializing Controllers
 INFO main plugin.controller.PluginController - Initializing Frames
 INFO main husacct.validate.presentation.BrowseViolations - Testing - fillChooseViolationsHistoryTableMethod() called
 INFO main husacct.validate.presentation.BrowseViolations - Testing - fillChooseViolationsHistoryTableMethod() called
+INFO main plugin.controller.PluginController - Initializing Controllers
+DEBUG main husacct.ServiceProvider - Creating new serviceprovider
+DEBUG main husacct.ServiceProvider - Resetting services
+DEBUG main husacct.control.ControlServiceImpl - Starting HUSACCT
+DEBUG main husacct.control.task.LocaleController - Unable to find locales dynamically. falling back to EN and NL
+DEBUG main husacct.control.task.MainController - Setting Mac OS X specific properties
+DEBUG main husacct.validate.domain.factory.ruletype.RuleTypesFactory - Warning no language specified in define component
+DEBUG main husacct.validate.domain.factory.ruletype.RuleTypesFactory - Warning no language specified in define component
+DEBUG main husacct.validate.domain.factory.ruletype.RuleTypesFactory - Warning no language specified in define component
+DEBUG main husacct.validate.domain.factory.ruletype.RuleTypesFactory - Warning no language specified in define component
+DEBUG main plugin.controller.PluginController - saving workspace
+DEBUG main husacct.control.task.WorkspaceController - Unable to save workspacedata for husacct.control.ControlServiceImpl: null
+DEBUG main husacct.common.services.ObservableService - Notifying: class husacct.control.task.StateController$1
+DEBUG main husacct.graphics.presentation.GraphicsFrame - Could not find the selected layout strategy "BASIC_LAYOUT".
+DEBUG main husacct.common.services.ObservableService - Notifying: class husacct.control.task.StateController$1
+DEBUG main husacct.graphics.presentation.GraphicsFrame - Could not find the selected layout strategy "BASIC_LAYOUT".
+ERROR main husacct.control.task.resources.HusacctResource - 
+INFO main plugin.controller.PluginController - Initializing Controllers
+DEBUG main husacct.common.services.ObservableService - Notifying: class husacct.control.task.StateController$1
+DEBUG main husacct.graphics.presentation.GraphicsFrame - Could not find the selected layout strategy "BASIC_LAYOUT".
+DEBUG main husacct.common.services.ObservableService - Notifying: class husacct.control.task.StateController$1
+DEBUG main husacct.graphics.presentation.GraphicsFrame - Could not find the selected layout strategy "BASIC_LAYOUT".
+INFO main plugin.controller.PluginController - Initializing Controllers
+DEBUG main husacct.common.services.ObservableService - Notifying: class husacct.control.task.StateController$1
+DEBUG main husacct.graphics.presentation.GraphicsFrame - Could not find the selected layout strategy "BASIC_LAYOUT".
+DEBUG main husacct.common.services.ObservableService - Notifying: class husacct.control.task.StateController$1
+DEBUG main husacct.graphics.presentation.GraphicsFrame - Could not find the selected layout strategy "BASIC_LAYOUT".
+INFO main plugin.controller.PluginController - Initializing Controllers
+DEBUG main husacct.common.services.ObservableService - Notifying: class husacct.control.task.StateController$1
+DEBUG main husacct.graphics.presentation.GraphicsFrame - Could not find the selected layout strategy "BASIC_LAYOUT".
+DEBUG main husacct.common.services.ObservableService - Notifying: class husacct.control.task.StateController$1
+DEBUG main husacct.graphics.presentation.GraphicsFrame - Could not find the selected layout strategy "BASIC_LAYOUT".
+DEBUG main husacct.control.task.MainController - Setting Mac OS X specific properties
+DEBUG main husacct.control.task.MainController - Setting Mac OS X specific properties
+INFO main plugin.controller.PluginController - Initializing Controllers
+DEBUG main husacct.common.services.ObservableService - Notifying: class husacct.control.task.StateController$1
+DEBUG main husacct.graphics.presentation.GraphicsFrame - Could not find the selected layout strategy "BASIC_LAYOUT".
+DEBUG main husacct.common.services.ObservableService - Notifying: class husacct.control.task.StateController$1
+DEBUG main husacct.graphics.presentation.GraphicsFrame - Could not find the selected layout strategy "BASIC_LAYOUT".
+INFO main plugin.controller.PluginController - Initializing Controllers
+DEBUG main husacct.common.services.ObservableService - Notifying: class husacct.control.task.StateController$1
+DEBUG main husacct.graphics.presentation.GraphicsFrame - Could not find the selected layout strategy "BASIC_LAYOUT".
+DEBUG main husacct.common.services.ObservableService - Notifying: class husacct.control.task.StateController$1
+DEBUG main husacct.graphics.presentation.GraphicsFrame - Could not find the selected layout strategy "BASIC_LAYOUT".
