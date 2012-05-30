@@ -21,7 +21,6 @@ public class ValidateThreadController {
 				 public void run() {
 					 ServiceProvider.getInstance().getValidateService().checkConformance();
 					 PluginController.getInstance().checkState();
-					 PluginController.getInstance().getViolationFrame().initiateViolationTable();
 				 }
 			};
 			
@@ -33,6 +32,7 @@ public class ValidateThreadController {
 						validateThread.join();
 						loadingdialog.dispose();
 						logger.debug("Monitor: validate finished");
+						PluginController.getInstance().getViolationFrame().initiateViolationTable();
 						if(!loadingdialog.isVisible()){
 							JOptionPane.showMessageDialog(jInternalFrameValidate, 
 							"Validation succeeded!\n" +
