@@ -11,8 +11,8 @@ import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
-import plugin.controller.FrameInstanceController;
-import plugin.controller.PluginController;
+import plugin.controllers.FrameInstanceController;
+import plugin.controllers.PluginController;
 import plugin.views.internalframes.JInternalHusacctNotAvailableFrame;
 
 public class AnalyseView extends ViewPart implements IStateChangeListener {

@@ -1,7 +1,6 @@
 package plugin.views.internalframes;
 
 import husacct.common.dto.ViolationDTO;
-
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
@@ -18,18 +17,14 @@ import javax.swing.JTextPane;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
-
-import plugin.controller.PluginController;
-import plugin.controller.ViolationsViewController;
-
+import plugin.controllers.PluginController;
+import plugin.controllers.ViolationsViewController;
 
 public class JInternalHusacctViolationsFrame extends JInternalFrame {
 	private static final long serialVersionUID = 1L;
-	
 	private PluginController pluginController = PluginController.getInstance();
 	private ArrayList<ViolationDTO> violationArrayList = new ArrayList<ViolationDTO>();
 	private JTable violationTable;
@@ -68,6 +63,7 @@ public class JInternalHusacctViolationsFrame extends JInternalFrame {
 			TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(dataModel);
 			violationTable.setRowSorter(sorter);
 			
+			violationTable.setToolTipText("Double click a violation to open the source");			
 			violationInformation.setText("Er zijn " + violationArrayList.size() + " violations gevonden.");
 			violationTable.repaint();
 		}
@@ -75,17 +71,20 @@ public class JInternalHusacctViolationsFrame extends JInternalFrame {
 		
 		violationTable.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if(violationTable.getValueAt(violationTable.getSelectedRow(), 2) != null){
-					int lineNumber = Integer.parseInt(violationTable.getValueAt(violationTable.getSelectedRow(), 2).toString());  
-					String readedPackageAndClassName = violationTable.getValueAt(violationTable.getSelectedRow(), 0).toString();  
-					String formattedPackageAndClassName = readedPackageAndClassName.replace('.' , '/'); 
-					String projectName = pluginController.getProjectName();
-					String entireClassPath = (projectName + "/src/" + formattedPackageAndClassName)+ ".java";
-
-					Path path = new Path(entireClassPath); 
-					IFile iFile = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
-
-					ViolationsViewController.openViolationWithEditor(iFile,lineNumber);
+				if(e.getClickCount() == 2){
+					if(violationTable.getValueAt(violationTable.getSelectedRow(), 2).toString() != ""){
+						int lineNumber = Integer.parseInt(violationTable.getValueAt(violationTable.getSelectedRow(), 2).toString());  
+						String readedPackageAndClassName = violationTable.getValueAt(violationTable.getSelectedRow(), 0).toString();  
+						String formattedPackageAndClassName = readedPackageAndClassName.replace('.' , '/'); 
+						String projectName = pluginController.getProjectName();
+						String entireClassPath = (projectName + "/src/" + formattedPackageAndClassName)+ ".java";
+					
+						Path path = new Path(entireClassPath); 
+						IFile iFile = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+							if(iFile.exists()){
+								ViolationsViewController.openViolationWithEditor(iFile,lineNumber);
+							}
+					}
 				}
 			}
 		});
@@ -104,7 +103,6 @@ public class JInternalHusacctViolationsFrame extends JInternalFrame {
 			public void actionPerformed(ActionEvent e)
 			{
 				pluginController.validate();
-				initiateViolationTable();
 			}
 		}); 
 		panel.add(buttonValidate);
@@ -144,24 +142,14 @@ public class JInternalHusacctViolationsFrame extends JInternalFrame {
 	    	this.data = data;
 	    }
 
-	    /*
-	     * Don't need to implement this method unless your table's
-	     * editable.
-	     */
 	    public boolean isCellEditable(int row, int col) {
-	        //Note that the data/cell address is constant,
-	        //no matter where the cell appears onscreen.
-	        if (col < 2) {
+	        if (col < 5) {
 	            return false;
 	        } else {
 	            return true;
 	        }
 	    }
 
-	    /*
-	     * Don't need to implement this method unless your table's
-	     * data can change.
-	     */
 	    public void setValueAt(Object value, int row, int col) {
 	        data[row][col] = value;
 	        fireTableCellUpdated(row, col);

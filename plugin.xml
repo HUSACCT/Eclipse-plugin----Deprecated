@@ -127,7 +127,7 @@
             </separator>
          </menu>
 		<action
-               class="plugin.builder.ToggleNatureSaveProject"
+               class="plugin.builders.ToggleNatureSaveProject"
                enablesFor="+"
                id="HUSACCT_Plugin.ToggleNatureSaveProject"
                label="Save Project"
@@ -135,7 +135,7 @@
                menubarPath="project.menu/group">
          </action> 
         <action
-               class="plugin.builder.ToggleNatureExportArchitecture"
+               class="plugin.builders.ToggleNatureExportArchitecture"
                enablesFor="+"
                id="HUSACCT_Plugin.ToggleNatureExportArchitecture"
                label="Export Architecture"
@@ -143,7 +143,7 @@
                menubarPath="project.menu/group">
          </action>
          <action
-               class="plugin.builder.ToggleNatureImportArchitecture"
+               class="plugin.builders.ToggleNatureImportArchitecture"
                enablesFor="+"
                id="HUSACCT_Plugin.ToggleNatureImportArchitecture"
                label="Import Architecture"
@@ -151,7 +151,7 @@
                menubarPath="project.menu/group">
          </action>
          <action
-               class="plugin.builder.ToggleNatureValidateProject"
+               class="plugin.builders.ToggleNatureValidateProject"
                enablesFor="+"
                id="HUSACCT_Plugin.ToggleNatureValidateProject"
                label="Validate Project"
@@ -159,7 +159,7 @@
                menubarPath="project.menu/group">
          </action>
          <action
-               class="plugin.builder.ToggleNatureAnalyseProject"
+               class="plugin.builders.ToggleNatureAnalyseProject"
                enablesFor="+"
                id="HUSACCT_Plugin.ToggleNatureAnalyseProject"
                label="Analyse Project"
@@ -168,16 +168,4 @@
          </action>
       </objectContribution>
    </extension>
-   <extension
-         id="xmlProblem"
-         name="XML Problem"
-         point="org.eclipse.core.resources.markers">
-      <super
-            type="org.eclipse.core.resources.problemmarker">
-      </super>
-      <persistent
-            value="true">
-      </persistent>
-   </extension>
-
 </plugin>

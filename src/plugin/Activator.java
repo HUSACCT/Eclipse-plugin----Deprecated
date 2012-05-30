@@ -3,6 +3,8 @@ package plugin;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import plugin.controllers.PluginController;
+
 /**
  * The activator class controls the plug-in life cycle
  */
@@ -13,6 +15,7 @@ public class Activator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static Activator plugin;
+	private PluginController pluginController = PluginController.getInstance();
 	
 	/**
 	 * The constructor
@@ -34,6 +37,7 @@ public class Activator extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext context) throws Exception {
+		pluginController.saveProject();
 		plugin = null;
 		super.stop(context);
 	}
