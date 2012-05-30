@@ -2,7 +2,6 @@ package plugintest;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-
 import plugintest.controllers.PluginControllerTest;
 import plugintest.controllers.StateControllerTest;
 
@@ -12,6 +11,7 @@ import plugintest.controllers.StateControllerTest;
 	PluginControllerTest.class,
 	StateControllerTest.class
 })
+
 public class PluginControllerTestSuite {
 
 }

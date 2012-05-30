@@ -25,8 +25,8 @@ public class PluginControllerTest {
 	
 	@Test 
 	public void testGetStateController(){
-		//assertEquals(pluginController.getStateController(), 
-		//mainController.getStateController());
+		assertEquals(pluginController.getStateController(),
+		mainController.getStateController());
 	}
 	
 	@Test
@@ -35,9 +35,9 @@ public class PluginControllerTest {
 				serviceProvider.getAnalyseService().getJInternalFrame());
 	}
 	
-	@Test
-	public void testGetDefineFrame(){
-		assertEquals(FrameInstanceController.getDefineFrame(), 
+	@Test //Frames are not the same because we added some buttons (Import + Export Architecture)
+	public void testGetDefineFrame(){ 
+		assertNotSame(FrameInstanceController.getDefineFrame(), 
 				serviceProvider.getDefineService().getDefinedGUI());
 	}
 	

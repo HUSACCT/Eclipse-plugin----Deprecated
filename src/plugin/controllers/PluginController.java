@@ -64,6 +64,10 @@ public class PluginController {
  		return project.toString().substring(2);
  	}
  	
+ 	public StateController getStateController(){
+ 		return stateController;
+ 	}
+ 	
 	public void setViolationFrame(JInternalHusacctViolationsFrame violationFrame){
 		JInternalViolationsFrame = violationFrame;
 	}

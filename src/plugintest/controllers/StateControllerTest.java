@@ -11,8 +11,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-public class StateControllerTest {
-	
+public class StateControllerTest { //With this test we are sure the statecontroller is not modified.
 	StateController stateController;
 	
 	@Before

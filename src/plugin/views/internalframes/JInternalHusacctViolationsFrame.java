@@ -1,7 +1,6 @@
 package plugin.views.internalframes;
 
 import husacct.common.dto.ViolationDTO;
-
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
@@ -18,18 +17,14 @@ import javax.swing.JTextPane;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
-
 import plugin.controllers.PluginController;
 import plugin.controllers.ViolationsViewController;
 
-
 public class JInternalHusacctViolationsFrame extends JInternalFrame {
 	private static final long serialVersionUID = 1L;
-	
 	private PluginController pluginController = PluginController.getInstance();
 	private ArrayList<ViolationDTO> violationArrayList = new ArrayList<ViolationDTO>();
 	private JTable violationTable;
@@ -89,18 +84,6 @@ public class JInternalHusacctViolationsFrame extends JInternalFrame {
 							if(iFile.exists()){
 								ViolationsViewController.openViolationWithEditor(iFile,lineNumber);
 							}
-//					else{
-//						Display.getDefault().asyncExec(new Runnable() {
-//				        	public void run() {
-//								Display display = Display.getDefault();
-//				        	    Shell  shell = new Shell(display);
-//								final Shell dialog = new Shell(shell, SWT.APPLICATION_MODAL | SWT.DIALOG_TRIM);
-//								dialog.setText("File does not exist");
-//								dialog.setSize(250, 150);
-//								dialog.open();
-//				        	}
-//						});
-//					}
 					}
 				}
 			}
@@ -159,13 +142,7 @@ public class JInternalHusacctViolationsFrame extends JInternalFrame {
 	    	this.data = data;
 	    }
 
-	    /*
-	     * Don't need to implement this method unless your table's
-	     * editable.
-	     */
 	    public boolean isCellEditable(int row, int col) {
-	        //Note that the data/cell address is constant,
-	        //no matter where the cell appears onscreen.
 	        if (col < 5) {
 	            return false;
 	        } else {
@@ -173,10 +150,6 @@ public class JInternalHusacctViolationsFrame extends JInternalFrame {
 	        }
 	    }
 
-	    /*
-	     * Don't need to implement this method unless your table's
-	     * data can change.
-	     */
 	    public void setValueAt(Object value, int row, int col) {
 	        data[row][col] = value;
 	        fireTableCellUpdated(row, col);
