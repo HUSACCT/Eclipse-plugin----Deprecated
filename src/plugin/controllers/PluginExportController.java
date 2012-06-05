@@ -1,8 +1,11 @@
 package plugin.controllers;
 
 import java.io.File;
+
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
+import org.apache.log4j.Logger;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
@@ -12,6 +15,7 @@ import husacct.control.task.ExportController;
 
 public class PluginExportController {
 	private ExportController exportController;
+	private static Logger logger = Logger.getLogger(AnalyseThreadController.class);
 	
 	public PluginExportController(ExportController exportController){
 		this.exportController = exportController;
@@ -45,12 +49,17 @@ public class PluginExportController {
 	        	    FileDialog fileDialog = new FileDialog(shell, SWT.SAVE);
 	                fileDialog.setText("Save");
 	                fileDialog.setFilterPath("C:/");
-	                //Nog even bewaren: String[] filterExt = { "*.xml", "*.html", "*.pdf"};
+	                //HTML werkt niet in de plugin String[] filterExt = { "*.xml", "*.html", "*.pdf"};
 	                String[] filterExt = { "*.xml", "*.pdf"};
 	                fileDialog.setFilterExtensions(filterExt);
 	        		String selected = fileDialog.open();
+	        		File selectedFile = new File(selected);
 	        		if(selected != null){
-		exportController.exportViolationsReport(new File(selected));
+	        			if(selectedFile.exists()){
+	        				logger.debug("File with selected name and path already exists");
+	        			}else{
+	        				exportController.exportViolationsReport(new File(selected));
+	        			}
 	        		}
 	        	}
 	        });
