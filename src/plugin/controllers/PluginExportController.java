@@ -36,6 +36,26 @@ public class PluginExportController {
         });
 	}
 	
+	public void exportViolations(){
+		 Display.getDefault().asyncExec(new Runnable() {
+	        	public void run() {
+	        		Display display = Display.getDefault();
+	        	    Shell  shell = new Shell(display);
+	        	    shell.setSize(400, 400);
+	        	    FileDialog fileDialog = new FileDialog(shell, SWT.SAVE);
+	                fileDialog.setText("Save");
+	                fileDialog.setFilterPath("C:/");
+	                //Nog even bewaren: String[] filterExt = { "*.xml", "*.html", "*.pdf"};
+	                String[] filterExt = { "*.xml", "*.pdf"};
+	                fileDialog.setFilterExtensions(filterExt);
+	        		String selected = fileDialog.open();
+	        		if(selected != null){
+		exportController.exportViolationsReport(new File(selected));
+	        		}
+	        	}
+	        });
+		}
+	
 	class TypeOfFile extends FileFilter  
 	{   
 		public boolean accept(File f)  

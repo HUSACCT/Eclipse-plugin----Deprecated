@@ -113,6 +113,10 @@ public class PluginController {
 		pluginExportController.exportArchitecture();
 	}
 	
+	public void exportViolations(){
+		pluginExportController.exportViolations();
+	}
+	
 	public void projectSelected(IProject project){
 		this.project = project;
 		File file = new File(project.getLocation().toString() + "\\" + "hussact.hu");
