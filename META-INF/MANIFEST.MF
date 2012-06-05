@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: PLUGIN
-Bundle-SymbolicName: PLUGIN;singleton:=true
+Bundle-Name: HUSACCT-PLUGIN
+Bundle-SymbolicName: HUSACCT-PLUGIN;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: lib/HUSACCT.jar,
  .
