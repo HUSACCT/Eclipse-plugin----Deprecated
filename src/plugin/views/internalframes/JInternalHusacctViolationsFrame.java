@@ -64,7 +64,7 @@ public class JInternalHusacctViolationsFrame extends JInternalFrame {
 			violationTable.setRowSorter(sorter);
 			
 			violationTable.setToolTipText("Double click a violation to open the source");			
-			violationInformation.setText("Er zijn " + violationArrayList.size() + " violations gevonden.");
+			violationInformation.setText("There are " + violationArrayList.size() + " violations found.");
 			violationTable.repaint();
 		}
 		violationTable.repaint();
@@ -96,7 +96,7 @@ public class JInternalHusacctViolationsFrame extends JInternalFrame {
 		panel.setBackground(Color.LIGHT_GRAY);
 		Button buttonValidate = new Button("Validate");
 		violationInformation = new JTextPane();
-		violationInformation.setText("Er zijn 0 violations gevonden");
+		violationInformation.setText("There are no violations found yet");
 		violationInformation.setBackground(Color.LIGHT_GRAY);
 		
 		buttonValidate.addActionListener(new ActionListener() {		 
