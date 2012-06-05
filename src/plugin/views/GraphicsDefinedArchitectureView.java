@@ -61,15 +61,7 @@ public class GraphicsDefinedArchitectureView extends ViewPart implements IStateC
 
 	public void changeScreen(JInternalFrame jInternalFrame){
 		frame.removeAll();
-		JSplitPane jSplitPane = new JSplitPane();
-		jSplitPane.removeAll();
-		jSplitPane.add(jInternalFrame, JSplitPane.TOP);
-		try {
-			jInternalFrame.setMaximum(true);
-		} catch (PropertyVetoException e) {
-			e.printStackTrace();
-		}
-		frame.add(jSplitPane, BorderLayout.CENTER);
+		frame.add(jInternalFrame.getRootPane(), BorderLayout.CENTER);
 		frame.validate();
 		frame.repaint();
 	}

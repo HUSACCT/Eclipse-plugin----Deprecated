@@ -113,6 +113,10 @@ public class PluginController {
 		pluginExportController.exportArchitecture();
 	}
 	
+	public void exportViolations(){
+		pluginExportController.exportViolations();
+	}
+	
 	public void projectSelected(IProject project){
 		this.project = project;
 		File file = new File(project.getLocation().toString() + "\\" + "hussact.hu");
@@ -126,9 +130,7 @@ public class PluginController {
 				pluginWorkspaceController.saveProject();
 			}		
 			if(file.exists()){
- 				//loading is not working in hussact corectly yet. A new project is created even if the project is saved 
-				//pluginWorkspaceController.loadProject(file);
- 				pluginWorkspaceController.createWorkspace(project, file);
+				pluginWorkspaceController.loadProject(file);
 				resetPlugin();				
 			}
  			else{

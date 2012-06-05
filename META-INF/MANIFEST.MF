@@ -1,19 +1,30 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: HUSACCT Plugin
-Bundle-SymbolicName: HUSACCT_Plugin;singleton:=true
-Bundle-Version: 1.0
+Bundle-Name: HUSACCT-PLUGIN
+Bundle-SymbolicName: HUSACCT-PLUGIN;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: lib/HUSACCT.jar,
+ .
 Bundle-Activator: plugin.Activator
-Bundle-Vendor: HUSACCT Project
+Export-Package: plugin,
+ plugin.actions,
+ plugin.builders,
+ plugin.controllers,
+ plugin.controllers.resources,
+ plugin.perspective,
+ plugin.views,
+ plugin.views.internalframes,
+ plugintest,
+ plugintest.controllers
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.eclipse.ui.ide;bundle-version="3.6.1",
  org.eclipse.jface.text,
- org.eclipse.ui.editors
+ org.eclipse.ui.editors,
+ org.eclipse.ui,
+ org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: lib/HUSACCT.jar,
- .
 Import-Package: org.eclipse.core.filesystem,
  org.eclipse.ui.ide
+Bundle-ActivationPolicy: lazy

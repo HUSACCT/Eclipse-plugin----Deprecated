@@ -98,22 +98,21 @@ public class DefineView extends ViewPart implements IStateChangeListener, IReset
 	
 	@Override
 	public void changeState(List<States> states) {		
-		if(states.contains(States.ANALYSED) && !isDefineFrameVisible){
-			changeScreen(FrameInstanceController.getDefineFrame());
-			isDefineFrameVisible = true;
-			buttonExport.setEnabled(false);
+		if(states.contains(States.ANALYSED)){
+			if(!isDefineFrameVisible){
+				changeScreen(FrameInstanceController.getDefineFrame());
+				isDefineFrameVisible = true;
+			}
+			if(states.contains(States.DEFINED)){
+				buttonExport.setEnabled(true);
+			}
+			else{
+				buttonExport.setEnabled(false);
+			}
 		}
 		else if(!states.contains(States.ANALYSED) && isDefineFrameVisible){
 			changeScreenWithoutButtons(notAvailableScreen);
 			isDefineFrameVisible = false;
-			buttonExport.setEnabled(false);
-		}
-		else if(states.contains(States.DEFINED) && isDefineFrameVisible){
-			isDefineFrameVisible = true;
-			buttonExport.setEnabled(true);
-		}
-		else if(!states.contains(States.DEFINED) && isDefineFrameVisible){
-			isDefineFrameVisible = true;
 			buttonExport.setEnabled(false);
 		}
 	}

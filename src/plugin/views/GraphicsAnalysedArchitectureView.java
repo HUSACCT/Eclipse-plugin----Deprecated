@@ -60,15 +60,7 @@ public class GraphicsAnalysedArchitectureView extends ViewPart implements IState
 
 	public void changeScreen(JInternalFrame jInternalFrame){
 		frame.removeAll();
-		JSplitPane jeSplitPane = new JSplitPane();
-		jeSplitPane.removeAll();
-		jeSplitPane.add(jInternalFrame, JSplitPane.TOP);
-		try {
-			jInternalFrame.setMaximum(true);
-		} catch (PropertyVetoException e) {
-			e.printStackTrace();
-		}
-		frame.add(jeSplitPane, BorderLayout.CENTER);
+		frame.add(jInternalFrame.getRootPane(), BorderLayout.CENTER);
 		frame.validate();
 		frame.repaint();
 	}
